@@ -24,6 +24,8 @@ hs_err_pid*
 
 # IntelliJ shit
 .idea/*
+out/
+*.iml
 
 # Spring shit
 target/*
