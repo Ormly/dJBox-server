@@ -1,16 +1,21 @@
 package org.pineapple.api;
 
-import org.pineapple.core.MediaLibrary;
+import org.pineapple.core.JukeBox;
+import org.pineapple.core.Song;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class LibraryController
 {
+    @Autowired
+    private JukeBox jb;
+
     @RequestMapping("/library")
-    public HashMap<Integer,String> songList(){
-        return MediaLibrary.getSongList();
+    public List<Song> songList(){
+        return jb.getAllSongs();
     }
 }

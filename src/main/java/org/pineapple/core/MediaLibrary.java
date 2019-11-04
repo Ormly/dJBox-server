@@ -1,15 +1,22 @@
 package org.pineapple.core;
 
-import java.util.HashMap;
+import org.pineapple.core.interfaces.IMediaLibrary;
+import org.pineapple.db.interfaces.DAO;
+import org.pineapple.db.SongDAO;
 
-public class MediaLibrary
+import java.util.List;
+
+public class MediaLibrary implements IMediaLibrary
 {
-    public static HashMap<Integer,String> songs = new HashMap<Integer,String>(){{
-        put(1,"Song1");
-        put(2,"Song2");
-        put(3,"song3");
-    }};
-    public static HashMap<Integer,String> getSongList(){
-        return songs;
+    private DAO<Song> persistence;
+    private String pathToMediaDir;
+
+    public MediaLibrary(String pathToMediaDir){
+        this.persistence = new SongDAO();
+        this.pathToMediaDir = pathToMediaDir; // can be used to initialize database with media directory content
+    }
+
+    public List<Song> getAllSongs(){
+        return this.persistence.getAll();
     }
 }
