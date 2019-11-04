@@ -10,16 +10,18 @@ import javafx.stage.Stage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class Main extends Application
 {
+    private ConfigurableApplicationContext context;
     /*
     Starts all Spring stuff (REST)
      */
     @Override
     public void init() throws Exception{
-        SpringApplication.run(Main.class);
+        this.context = SpringApplication.run(Main.class);
     }
 
     /*
@@ -41,5 +43,16 @@ public class Main extends Application
         primaryStage.setScene(new Scene(rootNode, 800, 600));
         primaryStage.centerOnScreen();
         primaryStage.show();
+    }
+
+    @Override
+    public void stop()
+    throws Exception
+    {
+        // End spring boot when JavaFX is closed
+        if(this.context != null){
+            this.context.close();
+        }
+        super.stop();
     }
 }
