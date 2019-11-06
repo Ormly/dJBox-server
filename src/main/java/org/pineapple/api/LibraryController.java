@@ -1,7 +1,7 @@
 package org.pineapple.api;
 
 import org.pineapple.core.JukeBox;
-import org.pineapple.core.Song;
+import org.pineapple.core.Media;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +15,7 @@ public class LibraryController
     private JukeBox jb;
 
     @RequestMapping("/library")
-    public List<Song> songList(){
+    public List<Media> songList(){
         return jb.getAllSongs();
     }
 }
