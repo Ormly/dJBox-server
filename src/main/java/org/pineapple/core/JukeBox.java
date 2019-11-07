@@ -17,7 +17,7 @@ public class JukeBox
         this.player = player;
     }
 
-    public List<Song> getAllSongs(){
+    public List<Media> getAllSongs(){
         return this.libraryProvider.getAllSongs();
     }
 }
