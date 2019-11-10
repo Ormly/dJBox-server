@@ -21,7 +21,9 @@ public class JukeBox
     public List<Song> getAllSongs(){
         return this.libraryProvider.getAllSongs();
     }
+
     public List<Song> getSongsFromQueue() { return this.playlist.getMedia(); }
+
     public boolean addSongToQueue(int id){
         Song s = this.libraryProvider.getSong(id);
         if(s != null)
