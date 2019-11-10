@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class LibraryController
+public class QueueController
 {
     @Autowired
     private JukeBox jb;
 
-    @RequestMapping("/library")
-    public List<Song> songList(){
-        return jb.getAllSongs();
+    @RequestMapping("/queue")
+    public List<Song> queue(){
+        return jb.getSongsFromQueue();
     }
+
 }
