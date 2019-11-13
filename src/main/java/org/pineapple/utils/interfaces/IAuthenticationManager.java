@@ -1,12 +1,14 @@
 package org.pineapple.utils.interfaces;
 
+import org.pineapple.core.AuthenticationFailedException;
+
 public interface IAuthenticationManager
 {
     /*
     Verifies userName and password are known and matched,
     and provides a security token to be used in subsequent requests.
      */
-    public boolean authenticate(String userName, String password, char[] token);
+    public String authenticate(String userName, String password) throws AuthenticationFailedException;
 
     /*
     Invalidates the security token of a logged in user.
