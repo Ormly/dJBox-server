@@ -3,18 +3,26 @@ This class implements a media queue that can be used as a playlist
  */
 package org.pineapple.core;
 
-import org.pineapple.core.interfaces.IMediaQueue;
+import org.pineapple.core.interfaces.MediaQueue;
 
-public class Playlist implements IMediaQueue
+import java.util.List;
+
+public class Playlist extends MediaQueue<Song>
 {
     @Override
-    public void addMedia(String pathToMedia)
+    public void pushMedia(Song obj)
     {
 
     }
 
     @Override
-    public String popNextMedia()
+    public Song popNextMedia()
+    {
+        return null;
+    }
+
+    @Override
+    public List<Song> getMedia()
     {
         return null;
     }

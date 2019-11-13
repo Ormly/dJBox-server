@@ -1,8 +1,8 @@
 package org.pineapple.db;
 /*
-This class implements access to database containing Media information
+This class implements access to database containing Song information
  */
-import org.pineapple.core.Media;
+import org.pineapple.core.Song;
 import org.pineapple.db.interfaces.DAO;
 
 import java.sql.Connection;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MediaDAO implements DAO<Media>
+public class SongDAO implements DAO<Song>
 {
     private Connection connection;
 
@@ -38,11 +38,11 @@ public class MediaDAO implements DAO<Media>
     }
 
     @Override
-    public Optional<Media> get(long id)
+    public Optional<Song> get(long id)
     {
         this.openConnection();
 
-        Media m = null;
+        Song m = null;
 
         try{
             Statement s = this.connection.createStatement();
@@ -53,13 +53,13 @@ public class MediaDAO implements DAO<Media>
                                               "AND s.song_id=" + (int)id +";");
 
             if(result.next()){
-                m = new Media(result.getInt("s.song_id"),
-                                result.getString("s.title"),
-                                result.getString("art.name"),
-                                result.getString("alb.name"),
-                                result.getInt("s.year"),
-                                result.getString("s.genre"),
-                                result.getString("s.location"));
+                m = new Song(result.getInt("s.song_id"),
+                             result.getString("s.title"),
+                             result.getString("art.name"),
+                             result.getString("alb.name"),
+                             result.getInt("s.year"),
+                             result.getString("s.genre"),
+                             result.getString("s.location"));
             }
         }
         catch(SQLException e){
@@ -74,10 +74,10 @@ public class MediaDAO implements DAO<Media>
     }
 
     @Override
-    public List<Media> getAll()
+    public List<Song> getAll()
     {
         this.openConnection();
-        List<Media> list = new ArrayList<>();
+        List<Song> list = new ArrayList<>();
 
         try{
             Statement s = this.connection.createStatement();
@@ -87,13 +87,13 @@ public class MediaDAO implements DAO<Media>
                                               "AND alb.album_id = s.album_id;");
 
             while(result.next()){
-                Media m = new Media(result.getInt("s.song_id"),
-                                    result.getString("s.title"),
-                                    result.getString("art.name"),
-                                    result.getString("alb.name"),
-                                    result.getInt("s.year"),
-                                    result.getString("s.genre"),
-                                    result.getString("s.location"));
+                Song m = new Song(result.getInt("s.song_id"),
+                                  result.getString("s.title"),
+                                  result.getString("art.name"),
+                                  result.getString("alb.name"),
+                                  result.getInt("s.year"),
+                                  result.getString("s.genre"),
+                                  result.getString("s.location"));
                 list.add(m);
             }
         }
@@ -108,20 +108,20 @@ public class MediaDAO implements DAO<Media>
     }
 
     @Override
-    public void save(Media media)
+    public void save(Song song)
     {
-        // save media to database
+        // save song to database
     }
 
     @Override
-    public void update(Media media, String[] params)
+    public void update(Song song, String[] params)
     {
-        // update media in database
+        // update song in database
     }
 
     @Override
-    public void delete(Media media)
+    public void delete(Song song)
     {
-        // delete media from database
+        // delete song from database
     }
 }
