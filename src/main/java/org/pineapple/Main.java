@@ -21,8 +21,9 @@ public class Main extends Application
 {
     private ConfigurableApplicationContext context;
 
-    /*
-    This lets Spring wire this object in different places around the application (e.g REST controllers)
+    /**
+     * This lets Spring wire this object in different places around the application (e.g REST controllers)
+     * @return
      */
     @Bean
     public JukeBox jukeBox()
@@ -31,8 +32,9 @@ public class Main extends Application
                            new JavaFXPlayer());
     }
 
-    /*
-    Starts all Spring stuff (REST)
+    /**
+     * Starts all Spring stuff (REST)
+     * @throws Exception
      */
     @Override
     public void init()
@@ -42,16 +44,19 @@ public class Main extends Application
         this.context = SpringApplication.run(Main.class);
     }
 
-    /*
-    Starts all JavaFX stuff
+    /**
+     *     Starts all JavaFX stuff
+     * @param args
      */
     public static void main(String[] args)
     {
         launch();
     }
 
-    /*
-    Starts all JavaFX stuff
+    /**
+     * Starts all JavaFX stuff
+     * @param primaryStage
+     * @throws Exception
      */
     @Override
     public void start(Stage primaryStage)
@@ -64,6 +69,10 @@ public class Main extends Application
         primaryStage.show();
     }
 
+    /**
+     * Kills Spring once JavaFX GUI has been closed.
+     * @throws Exception
+     */
     @Override
     public void stop()
     throws Exception

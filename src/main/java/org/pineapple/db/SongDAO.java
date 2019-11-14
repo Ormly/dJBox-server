@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A MySQl implementation for the Song table of the DAO interface. Used to perform queries on the Songs table.
+ */
 public class SongDAO implements DAO<Song>
 {
     private Connection connection;

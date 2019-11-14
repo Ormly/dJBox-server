@@ -14,6 +14,10 @@ public class LibraryController
     @Autowired
     private JukeBox jb;
 
+    /**
+     * Returns a json formatted list of songs currently available in the library.
+     * @return
+     */
     @RequestMapping("/library")
     public List<Song> songList()
     {

@@ -19,7 +19,6 @@ public class DBConnection
      *
      * @return Connection object
      */
-
     public static Connection getConnection()
 
     {

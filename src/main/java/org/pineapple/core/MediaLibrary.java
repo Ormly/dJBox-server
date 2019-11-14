@@ -7,6 +7,9 @@ import org.pineapple.db.SongDAO;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class implements the IMediaLibrary interface to provide Song objects to the Jukebox.
+ */
 public class MediaLibrary implements IMediaLibrary
 {
     private DAO<Song> persistence;

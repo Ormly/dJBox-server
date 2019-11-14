@@ -1,5 +1,8 @@
 package org.pineapple.core;
 
+/**
+ * This class represents a song. Duh.
+ */
 public class Song
 {
     private int id;

@@ -5,6 +5,9 @@ import org.pineapple.utils.interfaces.IAuthenticationManager;
 
 public class AuthenticationManager implements IAuthenticationManager
 {
+    /**
+     * This property provides this class with access to the persistence layer.
+     */
     private DAO<User> persistenceManager;
 
     public AuthenticationManager(DAO<User> persistenceManager)
@@ -12,6 +15,13 @@ public class AuthenticationManager implements IAuthenticationManager
         this.persistenceManager = persistenceManager;
     }
 
+    /**
+     * Authenticates a given userName and password pair with an existing user in the system.
+     * @param userName
+     * @param password
+     * @return A token to be included in the following requests.
+     * @throws AuthenticationFailedException
+     */
     @Override
     public String authenticate(String userName, String password)
     throws AuthenticationFailedException
@@ -31,6 +41,11 @@ public class AuthenticationManager implements IAuthenticationManager
         throw new AuthenticationFailedException("Authentication failed for user: " + userName);
     }
 
+    /**
+     * Handles user logOut event by invalidating the user's token.
+     * @param userName
+     * @return
+     */
     @Override
     public boolean logOut(String userName)
     {
@@ -38,12 +53,24 @@ public class AuthenticationManager implements IAuthenticationManager
         return false;
     }
 
+    /**
+     * Creates a new user and saves it to persistence.
+     * @param userName
+     * @param password
+     * @return
+     */
     @Override
     public boolean createUser(String userName, String password)
     {
         return false;
     }
 
+    /**
+     * Calculates the hash of a given password, in order to later compare it with the saved hash.
+     * (because we don't save passwords!!!).
+     * @param s
+     * @return
+     */
     public static String doHash256(String s)
     {
         // TODO: do this for real

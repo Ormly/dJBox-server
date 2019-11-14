@@ -7,18 +7,21 @@ public abstract class MediaQueue<T>
 {
     protected Queue<T> queue;
 
-    /*
-     Adds a media to the queue
+    /**
+     * Adds an object of type T to the queue.
+     * @param obj
      */
     public abstract void pushMedia(T obj);
 
-    /*
-    Removes the next media file from the queue and returns it
+    /**
+     * Removes the next media file from the queue and returns it
+     * @return
      */
     public abstract T popNextMedia();
 
-    /*
-    getsSongs from
+    /**
+     * Get a list of all objects currently in the queue
+     * @return
      */
     public abstract List<T> getMedia();
 }

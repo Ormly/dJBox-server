@@ -1,5 +1,8 @@
 package org.pineapple.core;
 
+/**
+ * Defines the data structure required to preform user authentication.
+ */
 public class AuthRequest
 {
     private String userName;

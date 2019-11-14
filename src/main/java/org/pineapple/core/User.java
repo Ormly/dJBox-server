@@ -1,5 +1,8 @@
 package org.pineapple.core;
 
+/**
+ * This class represents a user of the Jukebox
+ */
 public class User
 {
     private String userName;

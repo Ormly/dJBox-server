@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class inherits from MediaQueue abstract class, and implements is using a LinkedList.
+ */
 public class SongQueue extends MediaQueue<Song>
 {
     public SongQueue()

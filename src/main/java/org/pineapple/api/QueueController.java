@@ -14,6 +14,10 @@ public class QueueController
     @Autowired
     private JukeBox jb;
 
+    /**
+     * Returns a json formatted list of the songs currently in queue.
+     * @return
+     */
     @RequestMapping("/queue")
     public List<Song> queue()
     {

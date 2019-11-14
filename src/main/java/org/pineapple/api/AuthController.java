@@ -14,6 +14,17 @@ public class AuthController
     @Autowired
     private JukeBox jb;
 
+    /**
+     * Attempts to authentication an existing user. If username and password match,
+     * a valid token will be generated and returned to the caller.
+     * Otherwise, an HTTP error 401 UNAUTHORIZED is returned.
+     *
+     * @param req: A json formatted authentication request containing two key value pairs:
+     *           "userName": "username",
+     *           "password": "pwd1234"
+     * @return A json formatted auth response containing one key-value pair:
+     *           "token": "sometokenvalue"
+     */
     @PostMapping("/auth")
     public AuthResponse authenticate(@RequestBody AuthRequest req)
     {
