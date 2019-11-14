@@ -15,7 +15,8 @@ public class LibraryController
     private JukeBox jb;
 
     @RequestMapping("/library")
-    public List<Song> songList(){
+    public List<Song> songList()
+    {
         return jb.getAllSongs();
     }
 }

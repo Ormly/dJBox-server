@@ -15,7 +15,8 @@ public class QueueController
     private JukeBox jb;
 
     @RequestMapping("/queue")
-    public List<Song> queue(){
+    public List<Song> queue()
+    {
         return jb.getSongsFromQueue();
     }
 

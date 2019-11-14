@@ -23,11 +23,13 @@ public class User
         return passwordHash;
     }
 
-    public void setToken(String token){
+    public void setToken(String token)
+    {
         this.token = token;
     }
 
-    public String getToken(){
+    public String getToken()
+    {
         return this.token;
     }
 }

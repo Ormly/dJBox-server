@@ -25,7 +25,8 @@ public class Main extends Application
     This lets Spring wire this object in different places around the application (e.g REST controllers)
      */
     @Bean
-    public JukeBox jukeBox(){
+    public JukeBox jukeBox()
+    {
         return new JukeBox(new MediaLibrary("/dev/null"),
                            new JavaFXPlayer());
     }
@@ -34,7 +35,9 @@ public class Main extends Application
     Starts all Spring stuff (REST)
      */
     @Override
-    public void init() throws Exception{
+    public void init()
+    throws Exception
+    {
         // saving context so we can kill spring when application is closed
         this.context = SpringApplication.run(Main.class);
     }
@@ -42,7 +45,8 @@ public class Main extends Application
     /*
     Starts all JavaFX stuff
      */
-    public static void main(String[] args){
+    public static void main(String[] args)
+    {
         launch();
     }
 
@@ -65,7 +69,8 @@ public class Main extends Application
     throws Exception
     {
         // End spring boot when JavaFX is closed
-        if(this.context != null){
+        if(this.context != null)
+        {
             this.context.close();
         }
         super.stop();

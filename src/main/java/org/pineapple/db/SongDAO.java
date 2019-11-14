@@ -2,6 +2,7 @@ package org.pineapple.db;
 /*
 This class implements access to database containing Song information
  */
+
 import org.pineapple.core.Song;
 import org.pineapple.db.interfaces.DAO;
 
@@ -17,22 +18,26 @@ public class SongDAO implements DAO<Song>
 {
     private Connection connection;
 
-    private void openConnection(){
-        try{
+    private void openConnection()
+    {
+        try
+        {
             if(this.connection == null || this.connection.isClosed())
                 this.connection = DBConnection.getConnection();
-        }
-        catch(SQLException e){
+        } catch(SQLException e)
+        {
 
         }
     }
 
-    private void closeConnection(){
-        try{
+    private void closeConnection()
+    {
+        try
+        {
             if(this.connection != null)
                 this.connection.close();
-        }
-        catch(SQLException e){
+        } catch(SQLException e)
+        {
 
         }
     }
@@ -44,15 +49,18 @@ public class SongDAO implements DAO<Song>
 
         Song m = null;
 
-        try{
+        try
+        {
             Statement s = this.connection.createStatement();
-            ResultSet result = s.executeQuery("SELECT s.song_id, s.title, art.name, alb.name, s.year, s.genre, s.location\n" +
-                                              "FROM song s, artist art, album alb\n" +
-                                              "WHERE s.artist_id = art.artist_id\n" +
-                                              "AND alb.album_id = s.album_id\n" +
-                                              "AND s.song_id=" + (int)id +";");
+            ResultSet result = s.executeQuery(
+                    "SELECT s.song_id, s.title, art.name, alb.name, s.year, s.genre, s.location\n" +
+                    "FROM song s, artist art, album alb\n" +
+                    "WHERE s.artist_id = art.artist_id\n" +
+                    "AND alb.album_id = s.album_id\n" +
+                    "AND s.song_id=" + (int) id + ";");
 
-            if(result.next()){
+            if(result.next())
+            {
                 m = new Song(result.getInt("s.song_id"),
                              result.getString("s.title"),
                              result.getString("art.name"),
@@ -61,11 +69,10 @@ public class SongDAO implements DAO<Song>
                              result.getString("s.genre"),
                              result.getString("s.location"));
             }
-        }
-        catch(SQLException e){
+        } catch(SQLException e)
+        {
 
-        }
-        finally
+        } finally
         {
             this.closeConnection();
         }
@@ -79,14 +86,17 @@ public class SongDAO implements DAO<Song>
         this.openConnection();
         List<Song> list = new ArrayList<>();
 
-        try{
+        try
+        {
             Statement s = this.connection.createStatement();
-            ResultSet result = s.executeQuery("SELECT s.song_id, s.title, art.name, alb.name, s.year, s.genre, s.location\n" +
-                                              "FROM song s, artist art, album alb\n" +
-                                              "WHERE s.artist_id = art.artist_id\n" +
-                                              "AND alb.album_id = s.album_id;");
+            ResultSet result = s.executeQuery(
+                    "SELECT s.song_id, s.title, art.name, alb.name, s.year, s.genre, s.location\n" +
+                    "FROM song s, artist art, album alb\n" +
+                    "WHERE s.artist_id = art.artist_id\n" +
+                    "AND alb.album_id = s.album_id;");
 
-            while(result.next()){
+            while(result.next())
+            {
                 Song m = new Song(result.getInt("s.song_id"),
                                   result.getString("s.title"),
                                   result.getString("art.name"),
@@ -96,11 +106,10 @@ public class SongDAO implements DAO<Song>
                                   result.getString("s.location"));
                 list.add(m);
             }
-        }
-        catch(SQLException e){
+        } catch(SQLException e)
+        {
 
-        }
-        finally
+        } finally
         {
             this.closeConnection();
         }

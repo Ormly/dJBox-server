@@ -15,7 +15,8 @@ public class AuthController
     private JukeBox jb;
 
     @PostMapping("/auth")
-    public AuthResponse authenticate(@RequestBody AuthRequest req){
+    public AuthResponse authenticate(@RequestBody AuthRequest req)
+    {
         return new AuthResponse(jb.doAuthentication(req.getUserName(), req.getPassword()));
 
     }

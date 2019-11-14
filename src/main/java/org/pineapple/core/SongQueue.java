@@ -8,7 +8,8 @@ import java.util.List;
 
 public class SongQueue extends MediaQueue<Song>
 {
-    public SongQueue(){
+    public SongQueue()
+    {
         this.queue = new LinkedList<>();
     }
 
@@ -28,7 +29,8 @@ public class SongQueue extends MediaQueue<Song>
     public List<Song> getMedia()
     {
         List<Song> list = new ArrayList<>();
-        for(Song s: this.queue){
+        for(Song s : this.queue)
+        {
             list.add(s);
         }
 

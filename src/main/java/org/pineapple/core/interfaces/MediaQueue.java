@@ -6,6 +6,7 @@ import java.util.Queue;
 public abstract class MediaQueue<T>
 {
     protected Queue<T> queue;
+
     /*
      Adds a media to the queue
      */

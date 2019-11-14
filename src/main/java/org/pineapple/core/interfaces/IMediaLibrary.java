@@ -7,5 +7,6 @@ import java.util.List;
 public interface IMediaLibrary
 {
     public List<Song> getAllSongs();
+
     public Song getSong(int id);
 }

@@ -15,20 +15,23 @@ public class JukeBox
     private MediaQueue playlist;
     private IAuthenticationManager authenticationManager;
 
-    public JukeBox(IMediaLibrary library, IPlayer player){
+    public JukeBox(IMediaLibrary library, IPlayer player)
+    {
         this.libraryProvider = library;
         this.player = player;
         this.authenticationManager = new AuthenticationManager(new UserDAO());
         this.playlist = new SongQueue();
     }
 
-    public List<Song> getAllSongs(){
+    public List<Song> getAllSongs()
+    {
         return this.libraryProvider.getAllSongs();
     }
 
     public List<Song> getSongsFromQueue() { return this.playlist.getMedia(); }
 
-    public boolean addSongToQueue(int id){
+    public boolean addSongToQueue(int id)
+    {
         Song s = this.libraryProvider.getSong(id);
         if(s != null)
             this.playlist.pushMedia(s);
@@ -36,7 +39,8 @@ public class JukeBox
         return s != null;
     }
 
-    public String doAuthentication(String userName, String password){
-        return authenticationManager.authenticate(userName,password);
+    public String doAuthentication(String userName, String password)
+    {
+        return authenticationManager.authenticate(userName, password);
     }
 }

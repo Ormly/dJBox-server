@@ -7,7 +7,8 @@ public class AuthenticationManager implements IAuthenticationManager
 {
     private DAO<User> persistenceManager;
 
-    public AuthenticationManager(DAO<User> persistenceManager){
+    public AuthenticationManager(DAO<User> persistenceManager)
+    {
         this.persistenceManager = persistenceManager;
     }
 
@@ -17,7 +18,8 @@ public class AuthenticationManager implements IAuthenticationManager
     {
         // TODO: get user by user name from persistence, create hash from given password, compare
         User u = new User("ioncicala", "ksinggrorh44fm45o6l6dova");
-        if(userName.equals(u.getUserName()) && doHash256(password).equals(u.getPasswordHash())){
+        if(userName.equals(u.getUserName()) && doHash256(password).equals(u.getPasswordHash()))
+        {
             // User is successfully authenticated
             // 1. generate token
             // 2. update token in User object and save to persistence
@@ -42,7 +44,8 @@ public class AuthenticationManager implements IAuthenticationManager
         return false;
     }
 
-    public static String doHash256(String s){
+    public static String doHash256(String s)
+    {
         // TODO: do this for real
         return "ksinggrorh44fm45o6l6dova";
     }
