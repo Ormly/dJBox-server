@@ -5,6 +5,9 @@ package org.pineapple.core;
 
 import org.pineapple.core.interfaces.IPlayer;
 
+/**
+ * This class implements the interface IPlayer using the JavaFX Media library.
+ */
 public class JavaFXPlayer implements IPlayer
 {
     @Override

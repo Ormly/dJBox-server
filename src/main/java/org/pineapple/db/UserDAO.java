@@ -9,6 +9,9 @@ import org.pineapple.db.interfaces.DAO;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A MySQl implementation for the User table of the DAO interface. Used to perform queries on the Users table.
+ */
 public class UserDAO implements DAO<User>
 {
     @Override

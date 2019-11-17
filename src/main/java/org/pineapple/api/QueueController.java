@@ -9,18 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class LibraryController
+public class QueueController
 {
     @Autowired
     private JukeBox jb;
 
     /**
-     * Returns a json formatted list of songs currently available in the library.
+     * Returns a json formatted list of the songs currently in queue.
      * @return
      */
-    @RequestMapping("/library")
-    public List<Song> songList()
+    @RequestMapping("/queue")
+    public List<Song> queue()
     {
-        return jb.getAllSongs();
+        return jb.getSongsFromQueue();
     }
+
 }

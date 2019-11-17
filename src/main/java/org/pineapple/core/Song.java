@@ -1,6 +1,9 @@
 package org.pineapple.core;
 
-public class Media
+/**
+ * This class represents a song. Duh.
+ */
+public class Song
 {
     private int id;
     private String title;
@@ -10,7 +13,7 @@ public class Media
     private String genre;
     private String pathToFile;
 
-    public Media(int id, String title, String artist, String album, int year, String genre, String pathToFile)
+    public Song(int id, String title, String artist, String album, int year, String genre, String pathToFile)
     {
         this.id = id;
         this.title = title;
