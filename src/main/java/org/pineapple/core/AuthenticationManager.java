@@ -1,8 +1,10 @@
 package org.pineapple.core;
 
 import org.pineapple.db.UserDAO;
-import org.pineapple.db.interfaces.DAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
+import javax.xml.bind.DatatypeConverter;
+import java.security.MessageDigest;
+import java.util.UUID;
 
 public class AuthenticationManager implements IAuthenticationManager
 {
@@ -27,15 +29,21 @@ public class AuthenticationManager implements IAuthenticationManager
     public String authenticate(String userName, String password)
     throws AuthenticationFailedException
     {
-        // TODO: get user by user name from persistence, create hash from given password, compare
-        User u = new User("ioncicala", "ksinggrorh44fm45o6l6dova");
-        if(userName.equals(u.getUserName()) && doHash256(password).equals(u.getPasswordHash()))
+        //check if user exists in DB
+        if(persistenceManager.get(userName).isPresent())
         {
-            // User is successfully authenticated
-            // 1. generate token
-            // 2. update token in User object and save to persistence
-            // 3. return token
-            return "a1b2c3d4e5";
+            User u = persistenceManager.get(userName).get();
+
+            //if userName and passHash are equal, generate a token
+            if(userName.equals(u.getUserName()) && getHash256(password).equals(u.getPasswordHash()))
+            {
+                UUID token = UUID.randomUUID();
+                u.setToken(token.toString());
+                persistenceManager.save(u);
+
+                //return token
+                return token.toString();
+            }
         }
 
         // Authentication failed
@@ -51,7 +59,14 @@ public class AuthenticationManager implements IAuthenticationManager
     public boolean logOut(String userName)
     {
         // TODO: get User from persistence, invalidate its token (delete it??), save back to persistence
-        return false;
+        //check if user exists in DB
+        if(persistenceManager.get(userName).isPresent())
+        {
+            User u = persistenceManager.get(userName).get();
+
+        }
+
+            return false;
     }
 
     /**
@@ -72,9 +87,18 @@ public class AuthenticationManager implements IAuthenticationManager
      * @param s
      * @return
      */
-    public static String doHash256(String s)
+    public static String getHash256(String s)
     {
-        // TODO: do this for real
-        return "ksinggrorh44fm45o6l6dova";
+        try
+        {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(s.getBytes("UTF-8"));
+            return DatatypeConverter.printHexBinary(hash).toString().toLowerCase();
+
+        } catch(Exception e) {
+
+            throw new RuntimeException("Error authenticating", e);
+
+        }
     }
 }
