@@ -20,6 +20,11 @@ public class UserDAO implements DAO<User>
         return Optional.empty();
     }
 
+    public Optional<User> get(String id)
+    {
+        return Optional.empty();
+    }
+
     @Override
     public List<User> getAll()
     {

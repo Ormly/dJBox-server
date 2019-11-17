@@ -1,5 +1,6 @@
 package org.pineapple.core;
 
+import org.pineapple.db.UserDAO;
 import org.pineapple.db.interfaces.DAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
 
@@ -8,11 +9,11 @@ public class AuthenticationManager implements IAuthenticationManager
     /**
      * This property provides this class with access to the persistence layer.
      */
-    private DAO<User> persistenceManager;
+    private UserDAO persistenceManager;
 
-    public AuthenticationManager(DAO<User> persistenceManager)
+    public AuthenticationManager()
     {
-        this.persistenceManager = persistenceManager;
+        this.persistenceManager = new UserDAO();
     }
 
     /**
