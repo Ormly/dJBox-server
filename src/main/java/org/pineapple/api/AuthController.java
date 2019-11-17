@@ -28,6 +28,7 @@ public class AuthController
     @PostMapping("/auth")
     public AuthResponse authenticate(@RequestBody AuthRequest req)
     {
+        // TODO: move token response from body to header!
         return new AuthResponse(jb.doAuthentication(req.getUserName(), req.getPassword()));
 
     }

@@ -19,7 +19,7 @@ public class JukeBox
     {
         this.libraryProvider = library;
         this.player = player;
-        this.authenticationManager = new AuthenticationManager(new UserDAO());
+        this.authenticationManager = new AuthenticationManager();
         this.playlist = new SongQueue();
     }
 
@@ -29,7 +29,7 @@ public class JukeBox
      */
     public List<Song> getAllSongs()
     {
-        return this.libraryProvider.getAllSongs();
+        return this.libraryProvider.getAllMedia();
     }
 
     /**
@@ -46,7 +46,7 @@ public class JukeBox
      */
     public boolean addSongToQueue(int id)
     {
-        Song s = this.libraryProvider.getSong(id);
+        Song s = this.libraryProvider.getMedia(id);
         if(s != null)
             this.playlist.pushMedia(s);
 
