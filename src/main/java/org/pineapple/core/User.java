@@ -8,12 +8,14 @@ public class User
     private String userName;
     private String passwordHash;
     private Token token;
+    private long userID;
 
-    public User(String userName, String passwordHash)
+    public User(String userName, String passwordHash, long userID)
     {
         this.userName = userName;
         this.passwordHash = passwordHash;
         this.token = null;
+        this.userID = userID;
     }
 
     public String getUserName()
@@ -34,5 +36,10 @@ public class User
     public String getToken()
     {
         return this.token.getToken();
+    }
+
+    public long getUserID()
+    {
+        return userID;
     }
 }
