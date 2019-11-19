@@ -3,42 +3,40 @@ package org.pineapple.db;
  * This class implements access to database containing Token information
  */
 
-import ch.qos.logback.core.subst.Token;
-import org.pineapple.core.User;
+import org.pineapple.core.Token;
 import org.pineapple.db.interfaces.DAO;
-
 import java.util.List;
 import java.util.Optional;
 
-public class TokenDAO implements DAO<User>
+public class TokenDAO implements DAO<Token>
 {
 
     @Override
-    public Optional<User> get(long id)
+    public Optional<Token> get(long id)
     {
         return Optional.empty();
     }
 
     @Override
-    public List<User> getAll()
+    public List<Token> getAll()
     {
         return null;
     }
 
     @Override
-    public void save(User user)
+    public void save(Token token)
     {
 
     }
 
     @Override
-    public void update(User user, String[] params)
+    public void update(Token token, String[] params)
     {
 
     }
 
     @Override
-    public void delete(User user)
+    public void delete(Token token)
     {
 
     }

@@ -8,7 +8,7 @@ public class User
     private String userName;
     private String passwordHash;
     private Token token;
-    private long userID;
+    private static long userID;
 
     public User(String userName, String passwordHash, long userID)
     {

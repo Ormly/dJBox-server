@@ -16,6 +16,7 @@ import java.util.Optional;
  */
 public class UserDAO implements DAO<User>
 {
+    //TODO: update when Tim generates a new connection class
     private Connection c;
 
     @Override
@@ -38,8 +39,9 @@ public class UserDAO implements DAO<User>
             if(rs.next())
             {
                 u = new User(rs.getString("email"),
-                             rs.getString("password"));
-                u.setToken(rs.getString("sessionkey"));
+                             rs.getString("password"),
+                             rs.getLong("user_id"));
+                //u.setToken(rs.getString("sessionkey"));
             }
 
             this.c.close();
@@ -71,8 +73,9 @@ public class UserDAO implements DAO<User>
             if(rs.next())
             {
                 u = new User(rs.getString("email"),
-                             rs.getString("password"));
-                u.setToken(rs.getString("sessionkey"));
+                             rs.getString("password"),
+                             rs.getLong("user_id"));
+                //u.setToken(rs.getString("sessionkey"));
             }
 
             this.c.close();
@@ -97,14 +100,15 @@ public class UserDAO implements DAO<User>
 
             Statement s = this.c.createStatement();
             ResultSet rs = s.executeQuery(
-                    "SELECT u.email, u.password, u.sessionkey\n" +
+                    "SELECT u.user_id, u.email, u.password, u.sessionkey\n" +
                     "FROM user u;");
 
             while (rs.next())
             {
                 User u = new User(rs.getString("email"),
-                                  rs.getString("password"));
-                u.setToken(rs.getString("sessionkey"));
+                                  rs.getString("password"),
+                                  rs.getLong("user_id"));
+                //u.setToken(rs.getString("sessionkey"));
 
                 userList.add(u);
             }
@@ -118,7 +122,6 @@ public class UserDAO implements DAO<User>
         return userList;
     }
 
-    //TODO: generate ID for users?
     @Override
     public void save(User user)
     {
@@ -129,7 +132,7 @@ public class UserDAO implements DAO<User>
                 c = DBConnection.getConnection();
 
             PreparedStatement ps = this.c.prepareStatement(
-                    "INSERT INTO user (user_id,email,role_id,password,sessionkey)" +
+                    "INSERT INTO user (user_id, email, role_id, password, sessionkey)" +
                     "VALUES (?,?,2,?,?)");
             ps.setString(1, user.getUserName());
             //ps.setLong(2, user.);
