@@ -6,10 +6,7 @@ package org.pineapple.db;
 import org.pineapple.core.User;
 import org.pineapple.db.interfaces.DAO;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,25 +23,36 @@ public class UserDAO implements DAO<User>
     {
         User u = null;
 
-       /* try
+        try
         {
             if(this.c == null || this.c.isClosed())
                 c = DBConnection.getConnection();
 
-            Statement s = this.c.createStatement();
-            ResultSet rs = s.executeQuery(
-                    "SELECT u.email, u.firstname, u.lastname, u.password, u.sessionkey\n" +
-                         "FROM users u\n" +
-                         "WHERE u.sessionkey=" + (int) id + ";");
+            PreparedStatement ps = this.c.prepareStatement("SELECT u.user_id, u.email, u.password, u.sessionkey\n" +
+                                                           "FROM user u\n" +
+                                                           "WHERE u.user_id=?;");
+
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next())
+            {
+                u = new User(rs.getString("email"),
+                             rs.getString("password"));
+                u.setToken(rs.getString("sessionkey"));
+            }
+
+            this.c.close();
 
         } catch(SQLException e) {
 
-        } */
+        }
        return Optional.ofNullable(u);
 
     }
 
-    public Optional<User> get(String id)
+    //TODO: whitelisting? || limit input chars
+    public Optional<User> get(String email)
     {
         User u = null;
 
@@ -53,15 +61,18 @@ public class UserDAO implements DAO<User>
             if(this.c == null || this.c.isClosed())
                 c = DBConnection.getConnection();
 
-            Statement s = this.c.createStatement();
-            ResultSet rs = s.executeQuery(
-                    "SELECT u.email, u.password, u.sessionkey\n" +
-                         "FROM users u\n" +
-                         "WHERE u.sessionkey=" + id + ";");
+            PreparedStatement ps = this.c.prepareStatement("SELECT u.user_id, u.email, u.password, u.sessionkey\n" +
+                                                           "FROM user u\n" +
+                                                           "WHERE u.email=?;");
 
-            if(rs.next()) {
-                u = new User(rs.getString("u.email"),
-                             rs.getString("u.password"));
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next())
+            {
+                u = new User(rs.getString("email"),
+                             rs.getString("password"));
+                u.setToken(rs.getString("sessionkey"));
             }
 
             this.c.close();
@@ -87,12 +98,13 @@ public class UserDAO implements DAO<User>
             Statement s = this.c.createStatement();
             ResultSet rs = s.executeQuery(
                     "SELECT u.email, u.password, u.sessionkey\n" +
-                    "FROM users u;");
+                    "FROM user u;");
 
             while (rs.next())
             {
-                User u = new User(rs.getString("u.email"),
-                                  rs.getString("u.password"));
+                User u = new User(rs.getString("email"),
+                                  rs.getString("password"));
+                u.setToken(rs.getString("sessionkey"));
 
                 userList.add(u);
             }
@@ -106,10 +118,26 @@ public class UserDAO implements DAO<User>
         return userList;
     }
 
+    //TODO: generate ID for users?
     @Override
     public void save(User user)
     {
 
+        try
+        {
+            if(this.c == null || this.c.isClosed())
+                c = DBConnection.getConnection();
+
+            PreparedStatement ps = this.c.prepareStatement(
+                    "INSERT INTO user (user_id,email,role_id,password,sessionkey)" +
+                    "VALUES (?,?,2,?,?)");
+            ps.setString(1, user.getUserName());
+            //ps.setLong(2, user.);
+
+        } catch(SQLException e)
+        {
+
+        }
     }
 
     @Override

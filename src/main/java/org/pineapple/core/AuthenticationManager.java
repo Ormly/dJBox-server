@@ -3,6 +3,7 @@ package org.pineapple.core;
 import org.pineapple.db.UserDAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
 import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.UUID;
 
@@ -63,7 +64,10 @@ public class AuthenticationManager implements IAuthenticationManager
         if(persistenceManager.get(userName).isPresent())
         {
             User u = persistenceManager.get(userName).get();
+            u.setToken("");
+            persistenceManager.save(u);
 
+            return true;
         }
 
             return false;
@@ -92,7 +96,7 @@ public class AuthenticationManager implements IAuthenticationManager
         try
         {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(s.getBytes("UTF-8"));
+            byte[] hash = digest.digest(s.getBytes(StandardCharsets.UTF_8));
             return DatatypeConverter.printHexBinary(hash).toString().toLowerCase();
 
         } catch(Exception e) {
