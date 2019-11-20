@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public class UserDAO implements DAO<User>
 {
-    //TODO: update when Tim generates a new connection class
+    //TODO: update when new conection class is created
     private Connection c;
 
     @Override
