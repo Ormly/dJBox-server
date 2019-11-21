@@ -26,7 +26,7 @@ public class SongDAO implements DAO<Song>
         try
         {
             if(this.connection == null || this.connection.isClosed())
-                this.connection = DBConnection.getConnection();
+                this.connection = DBConnection.getConnection(DBConnection.Database.MEDIA);
         } catch(SQLException e)
         {
 

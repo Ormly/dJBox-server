@@ -16,8 +16,32 @@ import java.util.Optional;
  */
 public class UserDAO implements DAO<User>
 {
-    //TODO: update when new conection class is created
     private Connection c;
+
+    private void openConnection()
+    {
+        try
+        {
+            if(this.c == null || this.c.isClosed())
+                this.c = DBConnection.getConnection(DBConnection.Database.AUTHENTICATION);
+        } catch(SQLException e)
+        {
+
+        }
+    }
+
+    private void closeConnection()
+    {
+        try
+        {
+            if(this.c != null)
+                this.c.close();
+        } catch(SQLException e)
+        {
+
+        }
+    }
+
 
     @Override
     public Optional<User> get(long id)
@@ -26,10 +50,9 @@ public class UserDAO implements DAO<User>
 
         try
         {
-            if(this.c == null || this.c.isClosed())
-                c = DBConnection.getConnection();
+            openConnection();
 
-            PreparedStatement ps = this.c.prepareStatement("SELECT u.user_id, u.email, u.password, u.sessionkey\n" +
+            PreparedStatement ps = this.c.prepareStatement("SELECT u.user_id, u.email, u.password\n" +
                                                            "FROM user u\n" +
                                                            "WHERE u.user_id=?;");
 
@@ -40,11 +63,10 @@ public class UserDAO implements DAO<User>
             {
                 u = new User(rs.getString("email"),
                              rs.getString("password"),
-                             rs.getLong("user_id"));
-                //u.setToken(rs.getString("sessionkey"));
+                             rs.getInt("user_id"));
             }
 
-            this.c.close();
+            closeConnection();
 
         } catch(SQLException e) {
 
@@ -53,17 +75,16 @@ public class UserDAO implements DAO<User>
 
     }
 
-    //TODO: whitelisting? || limit input chars
     public Optional<User> get(String email)
     {
         User u = null;
 
+        openConnection();
+
        try
         {
-            if(this.c == null || this.c.isClosed())
-                c = DBConnection.getConnection();
 
-            PreparedStatement ps = this.c.prepareStatement("SELECT u.user_id, u.email, u.password, u.sessionkey\n" +
+            PreparedStatement ps = this.c.prepareStatement("SELECT u.user_id, u.email, u.password\n" +
                                                            "FROM user u\n" +
                                                            "WHERE u.email=?;");
 
@@ -74,11 +95,10 @@ public class UserDAO implements DAO<User>
             {
                 u = new User(rs.getString("email"),
                              rs.getString("password"),
-                             rs.getLong("user_id"));
-                //u.setToken(rs.getString("sessionkey"));
+                             rs.getInt("user_id"));
             }
 
-            this.c.close();
+            closeConnection();
 
         } catch(SQLException e)
        {
@@ -93,30 +113,27 @@ public class UserDAO implements DAO<User>
     {
         List<User> userList = new ArrayList<>();
 
+        openConnection();
+
         try
         {
-            if(this.c == null || this.c.isClosed())
-                c = DBConnection.getConnection();
-
             Statement s = this.c.createStatement();
             ResultSet rs = s.executeQuery(
-                    "SELECT u.user_id, u.email, u.password, u.sessionkey\n" +
+                    "SELECT u.user_id, u.email, u.password\n" +
                     "FROM user u;");
 
             while (rs.next())
             {
                 User u = new User(rs.getString("email"),
                                   rs.getString("password"),
-                                  rs.getLong("user_id"));
-                //u.setToken(rs.getString("sessionkey"));
-
+                                  rs.getInt("user_id"));
                 userList.add(u);
             }
 
-            this.c.close();
+            closeConnection();
 
-        } catch(SQLException e) {
-
+        } catch(SQLException e)
+        {
         }
 
         return userList;
@@ -126,16 +143,20 @@ public class UserDAO implements DAO<User>
     public void save(User user)
     {
 
+        openConnection();
+
         try
         {
-            if(this.c == null || this.c.isClosed())
-                c = DBConnection.getConnection();
-
             PreparedStatement ps = this.c.prepareStatement(
-                    "INSERT INTO user (user_id, email, role_id, password, sessionkey)" +
-                    "VALUES (?,?,2,?,?)");
-            ps.setString(1, user.getUserName());
-            //ps.setLong(2, user.);
+                    "INSERT INTO user (user_id, email, role_id, password)" +
+                    "VALUES (?,?,2,?)");
+            ps.setInt(1, user.getUserID());
+            ps.setString(2, user.getUserName());
+            ps.setString(4, user.getPasswordHash());
+
+            ps.execute();
+
+            closeConnection();
 
         } catch(SQLException e)
         {
@@ -146,12 +167,49 @@ public class UserDAO implements DAO<User>
     @Override
     public void update(User user, String[] params)
     {
+        openConnection();
 
+        try
+        {
+            PreparedStatement ps = this.c.prepareStatement(
+                    "INSERT INTO user (user_id, email, role_id, password)" +
+                    "VALUES (?,?,2,?)");
+            ps.setInt(1, user.getUserID());
+            ps.setString(2, user.getUserName());
+            ps.setString(4, user.getPasswordHash());
+
+            ps.executeUpdate();
+
+            closeConnection();
+
+        } catch(SQLException e)
+        {
+
+        }
     }
 
     @Override
     public void delete(User user)
     {
+        openConnection();
 
+        try
+        {
+            PreparedStatement ps = this.c.prepareStatement(
+                    "DELETE FROM user\n" +
+                    "WHERE user_id = ?\n" +
+                    "AND email = ?;");
+
+            ps.setInt(1, user.getUserID());
+            ps.setString(2, user.getUserName());
+
+            ps.execute();
+
+            closeConnection();
+
+        } catch(SQLException e)
+        {
+
+        }
     }
 }

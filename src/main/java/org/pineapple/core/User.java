@@ -8,9 +8,9 @@ public class User
     private String userName;
     private String passwordHash;
     private Token token;
-    private static long userID;
+    private static int userID;
 
-    public User(String userName, String passwordHash, long userID)
+    public User(String userName, String passwordHash, int userID)
     {
         this.userName = userName;
         this.passwordHash = passwordHash;
@@ -38,7 +38,7 @@ public class User
         return this.token.getToken();
     }
 
-    public long getUserID()
+    public int getUserID()
     {
         return userID;
     }
