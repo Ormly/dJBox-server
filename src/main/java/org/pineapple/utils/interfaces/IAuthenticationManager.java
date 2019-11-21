@@ -1,6 +1,6 @@
 package org.pineapple.utils.interfaces;
 
-import org.pineapple.core.AuthenticationFailedException;
+import org.pineapple.core.exceptions.AuthenticationFailedException;
 
 public interface IAuthenticationManager
 {

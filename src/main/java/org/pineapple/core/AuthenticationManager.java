@@ -1,5 +1,6 @@
 package org.pineapple.core;
 
+import org.pineapple.core.exceptions.AuthenticationFailedException;
 import org.pineapple.db.UserDAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
 import javax.xml.bind.DatatypeConverter;

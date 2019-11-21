@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 public class AuthController
 {
@@ -26,10 +29,11 @@ public class AuthController
      *           "token": "sometokenvalue"
      */
     @PostMapping("/auth")
-    public AuthResponse authenticate(@RequestBody AuthRequest req)
+    public void authenticate(@RequestBody AuthRequest req, HttpServletResponse response)
     {
         // TODO: move token response from body to header!
-        return new AuthResponse(jb.doAuthentication(req.getUserName(), req.getPassword()));
-
+        String token = jb.doAuthentication(req.getUserName(), req.getPassword());
+        response.setHeader("token", token);
+        response.setStatus(200);
     }
 }

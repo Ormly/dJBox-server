@@ -1,6 +1,6 @@
 package org.pineapple.api.advices;
 
-import org.pineapple.core.exceptions.AuthenticationFailedException;
+import org.pineapple.core.exceptions.UserNotAuthenticatedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class AuthenticationFailedAdvice
+public class UserNotAuthenticatedAdvice
 {
     @ResponseBody
-    @ExceptionHandler(AuthenticationFailedException.class)
+    @ExceptionHandler(UserNotAuthenticatedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    String authenticationFailedHandler(AuthenticationFailedException ex) {
-        return ex.getMessage();
-    }
+    String userNotAuthenticatedHandler(UserNotAuthenticatedException ex) {return ex.getMessage();}
 }

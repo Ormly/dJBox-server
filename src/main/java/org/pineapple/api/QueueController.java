@@ -3,8 +3,7 @@ package org.pineapple.api;
 import org.pineapple.core.JukeBox;
 import org.pineapple.core.Song;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,4 +23,11 @@ public class QueueController
         return jb.getSongsFromQueue();
     }
 
+    @GetMapping("queue/add/{songID}")
+    public void addToQueue(@PathVariable int songID, @RequestHeader("token") String token){
+        // TODO: verify token
+        System.out.println("token: " + token);
+        System.out.println("adding song with id: " +  String.valueOf(songID));
+        this.jb.addSongToQueue(songID);
+    }
 }
