@@ -48,15 +48,15 @@ public class UserDAO implements DAO<User>
     {
         User u = null;
 
+        openConnection();
+
         try
         {
-            openConnection();
-
             PreparedStatement ps = this.c.prepareStatement("SELECT u.user_id, u.email, u.password\n" +
                                                            "FROM user u\n" +
                                                            "WHERE u.user_id=?;");
 
-            ps.setLong(1, id);
+            ps.setInt(1, (int)id);
             ResultSet rs = ps.executeQuery();
 
             if(rs.next())
@@ -149,7 +149,7 @@ public class UserDAO implements DAO<User>
         {
             PreparedStatement ps = this.c.prepareStatement(
                     "INSERT INTO user (user_id, email, role_id, password)" +
-                    "VALUES (?,?,2,?)");
+                    "VALUES (?,?,2,?);");
             ps.setInt(1, user.getUserID());
             ps.setString(2, user.getUserName());
             ps.setString(4, user.getPasswordHash());
@@ -197,8 +197,7 @@ public class UserDAO implements DAO<User>
         {
             PreparedStatement ps = this.c.prepareStatement(
                     "DELETE FROM user\n" +
-                    "WHERE user_id = ?\n" +
-                    "AND email = ?;");
+                    "WHERE user_id = ? AND email = ?;");
 
             ps.setInt(1, user.getUserID());
             ps.setString(2, user.getUserName());
