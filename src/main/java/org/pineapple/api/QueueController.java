@@ -15,19 +15,29 @@ public class QueueController
 
     /**
      * Returns a json formatted list of the songs currently in queue.
+     *
      * @return
      */
     @RequestMapping("/queue")
-    public List<Song> queue()
+    public List<Song> queue(@RequestHeader("token") String token)
     {
+        // throws an exception if token invalid
+        this.jb.validateToke(token);
         return jb.getSongsFromQueue();
     }
 
+    /**
+     * Attempts to add song with songID to queue
+     * @param songID
+     * @param token
+     */
     @GetMapping("queue/add/{songID}")
-    public void addToQueue(@PathVariable int songID, @RequestHeader("token") String token){
-        // TODO: verify token
-        System.out.println("token: " + token);
-        System.out.println("adding song with id: " +  String.valueOf(songID));
+    public void addToQueue(@PathVariable int songID, @RequestHeader("token") String token)
+    {
+        // throws an exception if the token is invalid
+        this.jb.validateToke(token);
+
+        // throws an exception if song is not in library
         this.jb.addSongToQueue(songID);
     }
 }

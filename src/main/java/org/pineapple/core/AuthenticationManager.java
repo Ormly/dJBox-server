@@ -1,6 +1,7 @@
 package org.pineapple.core;
 
 import org.pineapple.core.exceptions.AuthenticationFailedException;
+import org.pineapple.core.exceptions.UserNotAuthenticatedException;
 import org.pineapple.db.UserDAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
 import javax.xml.bind.DatatypeConverter;
@@ -104,6 +105,18 @@ public class AuthenticationManager implements IAuthenticationManager
         //save the new user
         persistenceManager.save(user);
         return true;
+    }
+
+    /**
+     * Throws a UserNotAuthenticatedException if the provided token is invalid.
+     * @param token
+     * @throws UserNotAuthenticatedException
+     */
+    @Override
+    public void validateToke(String token)
+    throws UserNotAuthenticatedException
+    {
+        // look for a user with the given token. If not found, throw a UserNotAuthenticated exception.
     }
 
     /**

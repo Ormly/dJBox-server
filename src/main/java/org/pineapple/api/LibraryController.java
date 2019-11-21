@@ -3,6 +3,7 @@ package org.pineapple.api;
 import org.pineapple.core.JukeBox;
 import org.pineapple.core.Song;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +20,10 @@ public class LibraryController
      * @return
      */
     @RequestMapping("/library")
-    public List<Song> songList()
+    public List<Song> songList(@RequestHeader("token") String token)
     {
+        // throws an exception if token is invalid
+        this.jb.validateToke(token);
         return jb.getAllSongs();
     }
 }

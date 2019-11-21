@@ -1,5 +1,6 @@
 package org.pineapple.core;
 
+import org.pineapple.core.exceptions.SongNotFoundException;
 import org.pineapple.core.interfaces.IMediaLibrary;
 import org.pineapple.core.interfaces.MediaQueue;
 import org.pineapple.core.interfaces.IPlayer;
@@ -25,6 +26,7 @@ public class JukeBox
 
     /**
      * Returns a list of Song objects that are currently available in the library.
+     *
      * @return
      */
     public List<Song> getAllSongs()
@@ -34,6 +36,7 @@ public class JukeBox
 
     /**
      * Returns a list of Song objects currently available in the queue
+     *
      * @return
      */
     public List<Song> getSongsFromQueue() { return this.playlist.getMedia(); }
@@ -41,10 +44,11 @@ public class JukeBox
     /**
      * Adds the song with id from the media library to the song queue.
      * Returns false if no song with the given id was found in the library.
+     *
      * @param id
      * @return
      */
-    public boolean addSongToQueue(int id)
+    public boolean addSongToQueue(int id) throws SongNotFoundException
     {
         Song s = this.libraryProvider.getMedia(id);
         if(s != null)
@@ -55,6 +59,7 @@ public class JukeBox
 
     /**
      * Exposes user authentication to upper layer.
+     *
      * @param userName
      * @param password
      * @return
@@ -62,5 +67,23 @@ public class JukeBox
     public String doAuthentication(String userName, String password)
     {
         return authenticationManager.authenticate(userName, password);
+    }
+
+    /**
+     * log out user with the give token
+     * @param token
+     */
+    public void logOutToken(String token)
+    {
+        this.authenticationManager.logOut(token);
+    }
+
+    /**
+     * check if token valid
+     * @param token
+     */
+    public void validateToke(String token)
+    {
+        this.authenticationManager.validateToke(token);
     }
 }
