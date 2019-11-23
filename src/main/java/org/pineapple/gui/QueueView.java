@@ -1,4 +1,4 @@
-package org.pineapple;
+package org.pineapple.gui;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;

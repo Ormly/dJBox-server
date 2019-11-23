@@ -1,7 +1,8 @@
-package org.pineapple;
+package org.pineapple.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.pineapple.api.LibraryController;
 import org.pineapple.core.JukeBox;
 import org.pineapple.core.Media;
 
@@ -19,16 +20,17 @@ public class LibraryModel
     /**
      * Actual JukeBox, through which we connect the design to the logic
      */
-    private JukeBox jukeBox;
+    //private JukeBox jukeBox;
+    private LibraryController controller;
 
     /**
      * Constructor for the model
-     * @param jukeBox connects a JukeBox object to the Model
+     * @param controller connects a JukeBox object to the Model
      */
-    public LibraryModel(JukeBox jukeBox)
+    public LibraryModel(LibraryController controller)
     {
-        this.jukeBox = jukeBox;
-        this.data = FXCollections.observableArrayList(jukeBox.getAllSongs());;
+        this.controller = controller;
+        this.data = FXCollections.observableArrayList(controller.songList());;
 
     }
 
@@ -37,7 +39,7 @@ public class LibraryModel
      */
     public void updateLibrary()
     {
-        data = FXCollections.observableArrayList(jukeBox.getAllSongs());
+        data = FXCollections.observableArrayList(controller.songList());
     }
 
     /**
