@@ -6,6 +6,7 @@ import org.pineapple.utils.interfaces.IAuthenticationManager;
 import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Optional;
 import java.util.UUID;
 
 public class AuthenticationManager implements IAuthenticationManager
@@ -33,20 +34,21 @@ public class AuthenticationManager implements IAuthenticationManager
     public String authenticate(String userName, String password)
     throws AuthenticationFailedException
     {
+        Optional<User> u = this.persistenceManager.get(userName);
         //check if user exists in DB
-        if(persistenceManager.get(userName).isPresent())
+        if(u.isPresent())
         {
-            User u = persistenceManager.get(userName).get();
+            User user = u.get();
 
             //if userName and passHash are equal, generate a token
-            if(userName.equals(u.getUserName()) && getHash256(password).equals(u.getPasswordHash()))
+            if(userName.equals(user.getUserName()) && getHash256(password).equals(user.getPasswordHash()))
             {
                 /*note the token will be stored in the token table and is only
                   connected with the user in the user class*/
                 //generate token
                 Token token = new Token(UUID.randomUUID());
                 //save token in user class
-                u.setToken(token.toString());
+                user.setToken(token.toString());
                 //store token in DB
                 persistenceTokenManager.save(token);
                 //return token
@@ -66,14 +68,15 @@ public class AuthenticationManager implements IAuthenticationManager
     @Override
     public boolean logOut(String userName)
     {
+        Optional<User> u = this.persistenceManager.get(userName);
         //check if user exists in DB
-        if(persistenceManager.get(userName).isPresent())
+        if(u.isPresent())
         {
-            User u = persistenceManager.get(userName).get();
+            User user = u.get();
             //search for the token in the DB and clear it
-            persistenceTokenManager.delete(new Token(UUID.fromString(u.getToken())));
+            persistenceTokenManager.delete(new Token(UUID.fromString(user.getToken())));
             //clear the token in the user class
-            u.setToken("");
+            user.setToken("");
             return true;
         }
 
@@ -91,8 +94,9 @@ public class AuthenticationManager implements IAuthenticationManager
     {
         User user = new User(userName, password);
 
+        Optional<User> u = this.persistenceManager.get(userName);
         //if user already exists
-        if(persistenceManager.get(userName).isPresent())
+        if(u.isPresent())
             return false;
 
         //save the new user
