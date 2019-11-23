@@ -1,4 +1,4 @@
-package org.pineapple;
+package org.pineapple.gui;
 
 public class QueueModel
 {

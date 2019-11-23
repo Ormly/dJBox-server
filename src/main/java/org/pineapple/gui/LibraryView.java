@@ -1,7 +1,6 @@
-package org.pineapple;
+package org.pineapple.gui;
 
 
-import javafx.beans.Observable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
