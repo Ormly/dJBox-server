@@ -8,14 +8,12 @@ public class User
     private String userName;
     private String passwordHash;
     private Token token;
-    //private static int userID;
 
     public User(String userName, String passwordHash)
     {
         this.userName = userName;
         this.passwordHash = passwordHash;
         this.token = null;
-        //this.userID = userID;
     }
 
     public String getUserName()
@@ -38,8 +36,4 @@ public class User
         return this.token.getToken();
     }
 
-    /*public int getUserID()
-    {
-        return userID;
-    }*/
 }

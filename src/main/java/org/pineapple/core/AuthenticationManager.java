@@ -15,12 +15,10 @@ public class AuthenticationManager implements IAuthenticationManager
      * This property provides this class with access to the persistence layer.
      */
     private UserDAO persistenceManager;
-    private TokenDAO persistenceTokenManager;
 
     public AuthenticationManager()
     {
         this.persistenceManager = new UserDAO();
-        this.persistenceTokenManager = new TokenDAO();
     }
 
     /**
@@ -50,7 +48,7 @@ public class AuthenticationManager implements IAuthenticationManager
                 //save token in user class
                 user.setToken(token.toString());
                 //store token in DB
-                persistenceTokenManager.save(token);
+                persistenceManager.update(token);
                 //return token
                 return token.toString();
             }
