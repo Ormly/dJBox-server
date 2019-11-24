@@ -11,17 +11,31 @@ import java.util.List;
 
 public class JukeBox
 {
+    private static JukeBox instance;
+
     private IMediaLibrary libraryProvider;
     private IPlayer player;
     private MediaQueue playlist;
     private IAuthenticationManager authenticationManager;
 
-    public JukeBox(IMediaLibrary library, IPlayer player)
+    private JukeBox()
     {
-        this.libraryProvider = library;
-        this.player = player;
+        this.libraryProvider = new MediaLibrary("/dev/null");
+        this.player = new JavaFXPlayer();
         this.authenticationManager = new AuthenticationManager();
         this.playlist = new SongQueue();
+    }
+
+    /**
+     * Returns the one and only allowed instance of the JukeBox. Lazy instantiation.
+     * @return
+     */
+    public static JukeBox getInstance(){
+        if(instance == null){
+            instance = new JukeBox();
+        }
+
+        return instance;
     }
 
     /**

@@ -10,9 +10,6 @@ import java.util.List;
 @RestController
 public class QueueController
 {
-    @Autowired
-    private JukeBox jb;
-
     /**
      * Returns a json formatted list of the songs currently in queue.
      *
@@ -22,8 +19,8 @@ public class QueueController
     public List<Song> queue(@RequestHeader("token") String token)
     {
         // throws an exception if token invalid
-        this.jb.validateToke(token);
-        return jb.getSongsFromQueue();
+        JukeBox.getInstance().validateToke(token);
+        return JukeBox.getInstance().getSongsFromQueue();
     }
 
     /**
@@ -35,9 +32,9 @@ public class QueueController
     public void addToQueue(@PathVariable int songID, @RequestHeader("token") String token)
     {
         // throws an exception if the token is invalid
-        this.jb.validateToke(token);
+        JukeBox.getInstance().validateToke(token);
 
         // throws an exception if song is not in library
-        this.jb.addSongToQueue(songID);
+        JukeBox.getInstance().addSongToQueue(songID);
     }
 }
