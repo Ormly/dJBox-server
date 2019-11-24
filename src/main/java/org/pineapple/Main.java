@@ -22,17 +22,6 @@ public class Main extends Application
     private ConfigurableApplicationContext context;
 
     /**
-     * This lets Spring wire this object in different places around the application (e.g REST controllers)
-     * @return
-     */
-    @Bean
-    public JukeBox jukeBox()
-    {
-        return new JukeBox(new MediaLibrary("/dev/null"),
-                           new JavaFXPlayer());
-    }
-
-    /**
      * Starts all Spring stuff (REST)
      * @throws Exception
      */

@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class AuthController
 {
-    @Autowired
-    private JukeBox jb;
-
     /**
      * Attempts to authentication an existing user. If username and password match,
      * a valid token will be generated and returned to the caller.
@@ -30,7 +27,7 @@ public class AuthController
     public void authenticate(@RequestBody AuthRequest req, HttpServletResponse response)
     {
         // Throws an exception if authentication failed
-        String token = jb.doAuthentication(req.getUserName(), req.getPassword());
+        String token = JukeBox.getInstance().doAuthentication(req.getUserName(), req.getPassword());
 
         // if successful returns token in the response header
         response.setHeader("token", token);
@@ -46,9 +43,9 @@ public class AuthController
     public void logOut(@RequestHeader("token") String token)
     {
         // throws an exception if token is invalid
-        this.jb.validateToke(token);
+        JukeBox.getInstance().validateToke(token);
 
         // invalidates the given token
-        this.jb.logOutToken(token);
+        JukeBox.getInstance().logOutToken(token);
     }
 }

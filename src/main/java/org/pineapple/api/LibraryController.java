@@ -12,9 +12,6 @@ import java.util.List;
 @RestController
 public class LibraryController
 {
-    @Autowired
-    private JukeBox jb;
-
     /**
      * Returns a json formatted list of songs currently available in the library.
      * @return
@@ -23,7 +20,7 @@ public class LibraryController
     public List<Song> songList(@RequestHeader("token") String token)
     {
         // throws an exception if token is invalid
-        this.jb.validateToke(token);
-        return jb.getAllSongs();
+        JukeBox.getInstance().validateToke(token);
+        return JukeBox.getInstance().getAllSongs();
     }
 }
