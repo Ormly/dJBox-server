@@ -1,6 +1,5 @@
 package org.pineapple.core;
 
-import org.pineapple.db.TokenDAO;
 import org.pineapple.db.UserDAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
 import javax.xml.bind.DatatypeConverter;
@@ -48,7 +47,7 @@ public class AuthenticationManager implements IAuthenticationManager
                 //save token in user class
                 user.setToken(token.toString());
                 //store token in DB
-                persistenceManager.update(token);
+                persistenceManager.update(user);
                 //return token
                 return token.toString();
             }
@@ -60,21 +59,20 @@ public class AuthenticationManager implements IAuthenticationManager
 
     /**
      * Handles user logOut event by invalidating the user's token.
-     * @param userName
+     * @param userToken
      * @return
      */
     @Override
-    public boolean logOut(String userName)
+    public boolean logOut(String userToken)
     {
-        Optional<User> u = this.persistenceManager.get(userName);
+        Optional<User> u = this.persistenceManager.getByToken(new Token(UUID.fromString(userToken)));
         //check if user exists in DB
         if(u.isPresent())
         {
             User user = u.get();
+            user.setToken(null);
             //search for the token in the DB and clear it
-            persistenceTokenManager.delete(new Token(UUID.fromString(user.getToken())));
-            //clear the token in the user class
-            user.setToken("");
+            persistenceManager.update(user);
             return true;
         }
 

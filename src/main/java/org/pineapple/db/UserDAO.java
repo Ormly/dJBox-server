@@ -187,7 +187,7 @@ public class UserDAO implements DAO<User>
     }
 
     @Override
-    public void update(User user, String[] params)
+    public void update(User user)
     {
         openConnection();
 
