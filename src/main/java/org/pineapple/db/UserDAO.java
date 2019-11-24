@@ -53,7 +53,7 @@ public class UserDAO implements DAO<User>
         return Optional.empty();
     }
 
-    public Optional<User> getByToken(Token token){
+    public Optional<User> getByToken(String token){
         User u = null;
 
         openConnection();
@@ -65,7 +65,7 @@ public class UserDAO implements DAO<User>
                                                            "FROM user u\n" +
                                                            "WHERE u.token=?;");
 
-            ps.setString(1, token.getToken());
+            ps.setString(1, token);
             ResultSet rs = ps.executeQuery();
 
             if(rs.next())
@@ -73,7 +73,7 @@ public class UserDAO implements DAO<User>
                 u = new User(rs.getString("email"),
                              rs.getString("password"));
 
-                u.setToken(token.getToken());
+                u.setToken(token);
             }
 
             closeConnection();

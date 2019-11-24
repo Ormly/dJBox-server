@@ -1,4 +1,4 @@
-package org.pineapple.core;
+package org.pineapple.core.exceptions;
 
 public class AuthenticationFailedException extends RuntimeException
 {

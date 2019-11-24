@@ -1,6 +1,7 @@
 package org.pineapple.utils.interfaces;
 
-import org.pineapple.core.AuthenticationFailedException;
+import org.pineapple.core.exceptions.AuthenticationFailedException;
+import org.pineapple.core.exceptions.UserNotAuthenticatedException;
 
 public interface IAuthenticationManager
 {
@@ -19,10 +20,10 @@ public interface IAuthenticationManager
 
     /**
      * Invalidates the security token of a logged in user.
-     * @param userName
+     * @param userToken
      * @return
      */
-    public boolean logOut(String userName);
+    public boolean logOut(String userToken);
 
     /**
      * Creates a new user in the system.
@@ -31,4 +32,12 @@ public interface IAuthenticationManager
      * @return
      */
     public boolean createUser(String userName, String password);
+
+    /**
+     * Throws an exception if the given does not belong to a logged in user.
+     * @param token
+     * @throws UserNotAuthenticatedException
+     */
+    public void validateToke(String token) throws UserNotAuthenticatedException;
+
 }

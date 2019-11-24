@@ -1,5 +1,7 @@
 package org.pineapple.core;
 
+import org.pineapple.core.exceptions.AuthenticationFailedException;
+import org.pineapple.core.exceptions.UserNotAuthenticatedException;
 import org.pineapple.db.UserDAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
 import javax.xml.bind.DatatypeConverter;
@@ -70,7 +72,7 @@ public class AuthenticationManager implements IAuthenticationManager
     @Override
     public boolean logOut(String userToken)
     {
-        Optional<User> u = this.persistenceManager.getByToken(new Token(UUID.fromString(userToken)));
+        Optional<User> u = this.persistenceManager.getByToken(userToken);
         //check if user exists in DB
         if(u.isPresent())
         {
@@ -81,7 +83,7 @@ public class AuthenticationManager implements IAuthenticationManager
             return true;
         }
 
-            return false;
+        throw new UserNotAuthenticatedException();
     }
 
     /**
@@ -103,6 +105,23 @@ public class AuthenticationManager implements IAuthenticationManager
         //save the new user
         persistenceManager.save(user);
         return true;
+    }
+
+    /**
+     * Throws a UserNotAuthenticatedException if the provided token is invalid.
+     * @param token
+     * @throws UserNotAuthenticatedException
+     */
+    @Override
+    public void validateToke(String token)
+    throws UserNotAuthenticatedException
+    {
+        Optional<User> o = this.persistenceManager.getByToken(token);
+
+        // no user was found with the given token
+        if(o.isEmpty())
+            throw new UserNotAuthenticatedException();
+
     }
 
     /**
