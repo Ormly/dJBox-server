@@ -62,8 +62,7 @@ public class UserDAO implements DAO<User>
             if(rs.next())
             {
                 u = new User(rs.getString("email"),
-                             rs.getString("password"),
-                             rs.getInt("user_id"));
+                             rs.getString("password"));
             }
 
             closeConnection();
@@ -94,8 +93,7 @@ public class UserDAO implements DAO<User>
             if(rs.next())
             {
                 u = new User(rs.getString("email"),
-                             rs.getString("password"),
-                             rs.getInt("user_id"));
+                             rs.getString("password"));
             }
 
             closeConnection();
@@ -125,8 +123,7 @@ public class UserDAO implements DAO<User>
             while (rs.next())
             {
                 User u = new User(rs.getString("email"),
-                                  rs.getString("password"),
-                                  rs.getInt("user_id"));
+                                  rs.getString("password"));
                 userList.add(u);
             }
 
@@ -148,11 +145,10 @@ public class UserDAO implements DAO<User>
         try
         {
             PreparedStatement ps = this.c.prepareStatement(
-                    "INSERT INTO user (user_id, email, role_id, password)" +
-                    "VALUES (?,?,2,?);");
-            ps.setInt(1, user.getUserID());
-            ps.setString(2, user.getUserName());
-            ps.setString(4, user.getPasswordHash());
+                    "INSERT INTO user (email, role_id, password)" +
+                    "VALUES (?,2,?);");
+            ps.setString(1, user.getUserName());
+            ps.setString(3, user.getPasswordHash());
 
             ps.execute();
 
@@ -172,11 +168,10 @@ public class UserDAO implements DAO<User>
         try
         {
             PreparedStatement ps = this.c.prepareStatement(
-                    "INSERT INTO user (user_id, email, role_id, password)" +
-                    "VALUES (?,?,2,?)");
-            ps.setInt(1, user.getUserID());
-            ps.setString(2, user.getUserName());
-            ps.setString(4, user.getPasswordHash());
+                    "INSERT INTO user (email, role_id, password)" +
+                    "VALUES (?,2,?)");
+            ps.setString(1, user.getUserName());
+            ps.setString(3, user.getPasswordHash());
 
             ps.executeUpdate();
 
@@ -197,10 +192,9 @@ public class UserDAO implements DAO<User>
         {
             PreparedStatement ps = this.c.prepareStatement(
                     "DELETE FROM user\n" +
-                    "WHERE user_id = ? AND email = ?;");
+                    "WHERE email = ?;");
 
-            ps.setInt(1, user.getUserID());
-            ps.setString(2, user.getUserName());
+            ps.setString(1, user.getUserName());
 
             ps.execute();
 
