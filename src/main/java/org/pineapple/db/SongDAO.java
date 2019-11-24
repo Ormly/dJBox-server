@@ -126,7 +126,7 @@ public class SongDAO implements DAO<Song>
     }
 
     @Override
-    public void update(Song song, String[] params)
+    public void update(Song song)
     {
         // update song in database
     }

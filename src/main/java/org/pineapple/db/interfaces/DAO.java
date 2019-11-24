@@ -37,9 +37,8 @@ public interface DAO<T>
      * Updates an existing object of type T in the database.
      * The new values are given as an array of Strings
      * @param t
-     * @param params
      */
-    void update(T t, String[] params);
+    void update(T t);
 
     /**
      * Removes the given object of type T from the databse.

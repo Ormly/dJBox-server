@@ -23,4 +23,10 @@ public class Token
     {
         this.token = UUID.fromString(token);
     }
+
+    @Override
+    public String toString()
+    {
+        return this.getToken();
+    }
 }

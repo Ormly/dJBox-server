@@ -3,13 +3,17 @@ This class implements access to database containing User information
  */
 package org.pineapple.db;
 
+import jdk.jshell.spi.ExecutionControl;
+import org.pineapple.core.Token;
 import org.pineapple.core.User;
 import org.pineapple.db.interfaces.DAO;
 
+import javax.swing.text.html.Option;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * A MySQl implementation for the User table of the DAO interface. Used to perform queries on the Users table.
@@ -46,32 +50,40 @@ public class UserDAO implements DAO<User>
     @Override
     public Optional<User> get(long id)
     {
+        return Optional.empty();
+    }
+
+    public Optional<User> getByToken(Token token){
         User u = null;
 
         openConnection();
 
         try
         {
-            PreparedStatement ps = this.c.prepareStatement("SELECT u.user_id, u.email, u.password\n" +
-                                                           "FROM user u\n" +
-                                                           "WHERE u.user_id=?;");
 
-            ps.setInt(1, (int)id);
+            PreparedStatement ps = this.c.prepareStatement("SELECT u.email, u.password, u.token\n" +
+                                                           "FROM user u\n" +
+                                                           "WHERE u.token=?;");
+
+            ps.setString(1, token.getToken());
             ResultSet rs = ps.executeQuery();
 
             if(rs.next())
             {
                 u = new User(rs.getString("email"),
                              rs.getString("password"));
+
+                u.setToken(token.getToken());
             }
 
             closeConnection();
 
-        } catch(SQLException e) {
+        } catch(SQLException e)
+        {
 
         }
-       return Optional.ofNullable(u);
 
+        return Optional.ofNullable(u);
     }
 
     public Optional<User> get(String email)
@@ -83,7 +95,7 @@ public class UserDAO implements DAO<User>
        try
         {
 
-            PreparedStatement ps = this.c.prepareStatement("SELECT u.user_id, u.email, u.password\n" +
+            PreparedStatement ps = this.c.prepareStatement("SELECT u.email, u.password, u.token\n" +
                                                            "FROM user u\n" +
                                                            "WHERE u.email=?;");
 
@@ -94,6 +106,15 @@ public class UserDAO implements DAO<User>
             {
                 u = new User(rs.getString("email"),
                              rs.getString("password"));
+
+
+                String strToken = rs.getString("token");
+
+                // if user already has a token, set it. default is null.
+                if (strToken != null){
+                    Token t = new Token(UUID.fromString(strToken));
+                    u.setToken(t.toString());
+                }
             }
 
             closeConnection();
@@ -117,13 +138,20 @@ public class UserDAO implements DAO<User>
         {
             Statement s = this.c.createStatement();
             ResultSet rs = s.executeQuery(
-                    "SELECT u.user_id, u.email, u.password\n" +
+                    "SELECT u.email, u.password, u.token\n" +
                     "FROM user u;");
 
             while (rs.next())
             {
                 User u = new User(rs.getString("email"),
                                   rs.getString("password"));
+
+                String strToken = rs.getString("token");
+                if(strToken != null){
+                    Token t = new Token(UUID.fromString(strToken));
+                    u.setToken(t.getToken());
+                }
+
                 userList.add(u);
             }
 
@@ -161,17 +189,19 @@ public class UserDAO implements DAO<User>
     }
 
     @Override
-    public void update(User user, String[] params)
+    public void update(User user)
     {
         openConnection();
 
         try
         {
             PreparedStatement ps = this.c.prepareStatement(
-                    "INSERT INTO user (email, role_id, password)" +
-                    "VALUES (?,2,?)");
-            ps.setString(1, user.getUserName());
-            ps.setString(3, user.getPasswordHash());
+                    "UPDATE user SET role_id=?, password=?, token=? " +
+                         "WHERE email=?");
+            ps.setInt(1,2);
+            ps.setString(2, user.getPasswordHash());
+            ps.setString(3, user.getToken());
+            ps.setString(4, user.getUserName());
 
             ps.executeUpdate();
 
@@ -179,7 +209,8 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-
+            System.out.println("Failed executing query!");
+            System.out.println(e.getMessage());
         }
     }
 

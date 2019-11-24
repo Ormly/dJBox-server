@@ -1,6 +1,5 @@
 package org.pineapple.core;
 
-import org.pineapple.db.TokenDAO;
 import org.pineapple.db.UserDAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
 import javax.xml.bind.DatatypeConverter;
@@ -15,12 +14,10 @@ public class AuthenticationManager implements IAuthenticationManager
      * This property provides this class with access to the persistence layer.
      */
     private UserDAO persistenceManager;
-    private TokenDAO persistenceTokenManager;
 
     public AuthenticationManager()
     {
         this.persistenceManager = new UserDAO();
-        this.persistenceTokenManager = new TokenDAO();
     }
 
     /**
@@ -41,18 +38,23 @@ public class AuthenticationManager implements IAuthenticationManager
             User user = u.get();
 
             //if userName and passHash are equal, generate a token
-            if(userName.equals(user.getUserName()) && getHash256(password).equals(user.getPasswordHash()))
+            if(userName.toLowerCase().equals(
+                    user.getUserName().toLowerCase())
+               && getHash256(password).toLowerCase().equals(
+                       user.getPasswordHash().toLowerCase()))
             {
-                /*note the token will be stored in the token table and is only
-                  connected with the user in the user class*/
+
                 //generate token
                 Token token = new Token(UUID.randomUUID());
+
                 //save token in user class
-                user.setToken(token.toString());
+                user.setToken(token.getToken());
+
                 //store token in DB
-                persistenceTokenManager.save(token);
+                persistenceManager.update(user);
+
                 //return token
-                return token.toString();
+                return token.getToken();
             }
         }
 
@@ -62,21 +64,20 @@ public class AuthenticationManager implements IAuthenticationManager
 
     /**
      * Handles user logOut event by invalidating the user's token.
-     * @param userName
+     * @param userToken
      * @return
      */
     @Override
-    public boolean logOut(String userName)
+    public boolean logOut(String userToken)
     {
-        Optional<User> u = this.persistenceManager.get(userName);
+        Optional<User> u = this.persistenceManager.getByToken(new Token(UUID.fromString(userToken)));
         //check if user exists in DB
         if(u.isPresent())
         {
             User user = u.get();
+            user.setToken(null);
             //search for the token in the DB and clear it
-            persistenceTokenManager.delete(new Token(UUID.fromString(user.getToken())));
-            //clear the token in the user class
-            user.setToken("");
+            persistenceManager.update(user);
             return true;
         }
 
@@ -113,7 +114,6 @@ public class AuthenticationManager implements IAuthenticationManager
     public static String getHash256(String s)
     {
         byte[] hash = null;
-
         try
         {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -123,6 +123,6 @@ public class AuthenticationManager implements IAuthenticationManager
         {
         }
 
-        return DatatypeConverter.printHexBinary(hash).toString().toLowerCase();
+        return DatatypeConverter.printHexBinary(hash).toLowerCase();
     }
 }
