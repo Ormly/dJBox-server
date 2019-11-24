@@ -73,7 +73,7 @@ public class UserDAO implements DAO<User>
                 u = new User(rs.getString("email"),
                              rs.getString("password"));
 
-                u.setToken(token.toString());
+                u.setToken(token.getToken());
             }
 
             closeConnection();
@@ -107,11 +107,13 @@ public class UserDAO implements DAO<User>
                 u = new User(rs.getString("email"),
                              rs.getString("password"));
 
-                try{
-                    Token t = new Token(UUID.fromString(rs.getString("token")));
+
+                String strToken = rs.getString("token");
+
+                // if user already has a token, set it. default is null.
+                if (strToken != null){
+                    Token t = new Token(UUID.fromString(strToken));
                     u.setToken(t.toString());
-                }catch(IllegalArgumentException e){
-                    // don't do anything because token in User is by default null
                 }
             }
 
@@ -143,11 +145,11 @@ public class UserDAO implements DAO<User>
             {
                 User u = new User(rs.getString("email"),
                                   rs.getString("password"));
-                try{
-                    Token t = new Token(UUID.fromString(rs.getString("token")));
-                    u.setToken(t.toString());
-                }catch(IllegalArgumentException e){
-                    // don't do anything because token in User is by default null
+
+                String strToken = rs.getString("token");
+                if(strToken != null){
+                    Token t = new Token(UUID.fromString(strToken));
+                    u.setToken(t.getToken());
                 }
 
                 userList.add(u);
@@ -194,11 +196,12 @@ public class UserDAO implements DAO<User>
         try
         {
             PreparedStatement ps = this.c.prepareStatement(
-                    "INSERT INTO user (email, role_id, password, token)" +
-                    "VALUES (?,2,?,?)");
-            ps.setString(1, user.getUserName());
-            ps.setString(3, user.getPasswordHash());
-            ps.setString(4, user.getToken());
+                    "UPDATE user SET role_id=?, password=?, token=? " +
+                         "WHERE email=?");
+            ps.setInt(1,2);
+            ps.setString(2, user.getPasswordHash());
+            ps.setString(3, user.getToken());
+            ps.setString(4, user.getUserName());
 
             ps.executeUpdate();
 
@@ -206,7 +209,8 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-
+            System.out.println("Failed executing query!");
+            System.out.println(e.getMessage());
         }
     }
 

@@ -1,5 +1,7 @@
 package org.pineapple.core;
 
+import java.util.UUID;
+
 /**
  * This class represents a user of the Jukebox
  */
@@ -28,12 +30,19 @@ public class User
 
     public void setToken(String token)
     {
-        this.token.setToken(token);
+        if(token != null)
+            this.token = new Token(UUID.fromString(token));
+        else
+            this.token = null;
     }
 
     public String getToken()
     {
-        return this.token.getToken();
+        if(token != null)
+            return this.token.getToken();
+        else
+            return null;
+
     }
 
 }

@@ -38,18 +38,23 @@ public class AuthenticationManager implements IAuthenticationManager
             User user = u.get();
 
             //if userName and passHash are equal, generate a token
-            if(userName.equals(user.getUserName()) && getHash256(password).equals(user.getPasswordHash()))
+            if(userName.toLowerCase().equals(
+                    user.getUserName().toLowerCase())
+               && getHash256(password).toLowerCase().equals(
+                       user.getPasswordHash().toLowerCase()))
             {
-                /*note the token will be stored in the token table and is only
-                  connected with the user in the user class*/
+
                 //generate token
                 Token token = new Token(UUID.randomUUID());
+
                 //save token in user class
-                user.setToken(token.toString());
+                user.setToken(token.getToken());
+
                 //store token in DB
                 persistenceManager.update(user);
+
                 //return token
-                return token.toString();
+                return token.getToken();
             }
         }
 
@@ -109,7 +114,6 @@ public class AuthenticationManager implements IAuthenticationManager
     public static String getHash256(String s)
     {
         byte[] hash = null;
-
         try
         {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -119,6 +123,6 @@ public class AuthenticationManager implements IAuthenticationManager
         {
         }
 
-        return DatatypeConverter.printHexBinary(hash).toString().toLowerCase();
+        return DatatypeConverter.printHexBinary(hash).toLowerCase();
     }
 }
