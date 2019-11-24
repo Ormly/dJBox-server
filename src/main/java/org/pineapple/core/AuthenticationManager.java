@@ -72,7 +72,7 @@ public class AuthenticationManager implements IAuthenticationManager
     @Override
     public boolean logOut(String userToken)
     {
-        Optional<User> u = this.persistenceManager.getByToken(new Token(UUID.fromString(userToken)));
+        Optional<User> u = this.persistenceManager.getByToken(userToken);
         //check if user exists in DB
         if(u.isPresent())
         {
@@ -83,7 +83,7 @@ public class AuthenticationManager implements IAuthenticationManager
             return true;
         }
 
-            return false;
+        throw new UserNotAuthenticatedException();
     }
 
     /**
@@ -116,7 +116,12 @@ public class AuthenticationManager implements IAuthenticationManager
     public void validateToke(String token)
     throws UserNotAuthenticatedException
     {
-        // look for a user with the given token. If not found, throw a UserNotAuthenticated exception.
+        Optional<User> o = this.persistenceManager.getByToken(token);
+
+        // no user was found with the given token
+        if(o.isEmpty())
+            throw new UserNotAuthenticatedException();
+
     }
 
     /**
