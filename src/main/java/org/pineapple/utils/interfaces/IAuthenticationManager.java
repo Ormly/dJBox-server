@@ -13,6 +13,7 @@ public interface IAuthenticationManager
      * @return
      * @throws AuthenticationFailedException
      */
+
     public String authenticate(String userName, String password)
     throws AuthenticationFailedException;
 

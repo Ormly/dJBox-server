@@ -8,23 +8,38 @@ import java.sql.SQLException;
 
 public class DBConnection
 {
-    public static final String URL = "jdbc:mysql://localhost:3306/djbox_song_library";
+    public enum Database
+    {
+        MEDIA, AUTHENTICATION
+    }
 
-    public static final String USER = "djbox_media";
-
-    public static final String PASS = "1234";
+    private static final String PASS = "1234";
 
     /**
      * Get a connection to database
      *
      * @return Connection object
      */
-    public static Connection getConnection()
+    public static Connection getConnection(Database database)
 
     {
+        String URL = "";
+        String USER = "";
 
         try
         {
+
+            switch(database)
+            {
+                case MEDIA:
+                    URL = "jdbc:mysql://localhost:3306/djbox_song_library";
+                    USER = "djbox_media";
+                    break;
+                case AUTHENTICATION:
+                    URL = "jdbc:mysql://localhost:3306/djbox_authentication";
+                    USER = "djbox_authentication";
+                    break;
+            }
 
             DriverManager.registerDriver(new Driver());
 

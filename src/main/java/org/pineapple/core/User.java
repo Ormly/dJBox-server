@@ -7,13 +7,15 @@ public class User
 {
     private String userName;
     private String passwordHash;
-    private String token;
+    private Token token;
+    //private static int userID;
 
     public User(String userName, String passwordHash)
     {
         this.userName = userName;
         this.passwordHash = passwordHash;
-        this.token = "";
+        this.token = null;
+        //this.userID = userID;
     }
 
     public String getUserName()
@@ -28,11 +30,16 @@ public class User
 
     public void setToken(String token)
     {
-        this.token = token;
+        this.token.setToken(token);
     }
 
     public String getToken()
     {
-        return this.token;
+        return this.token.getToken();
     }
+
+    /*public int getUserID()
+    {
+        return userID;
+    }*/
 }
