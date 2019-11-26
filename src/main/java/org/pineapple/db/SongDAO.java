@@ -137,6 +137,46 @@ public class SongDAO implements DAO<Song>
             artID.setString(1, song.getArtist());
             albID.setString(1, song.getAlbum());
 
+            // If the artist isn't already in the table insert it
+            if(!artID.execute())
+            {
+                ps = this.connection.prepareStatement(
+                  "INSERT INTO artist (name) VALUES (?);"
+                );
+                ps.setString(1,song.getArtist());
+                ps.executeUpdate();
+            }
+
+            // if the album isn't already in the table insert it
+            if(!albID.execute())
+            {
+                ps = this.connection.prepareStatement(
+                        "INSERT INTO album (name) VALUES (?);"
+                );
+                ps.setString(1,song.getAlbum());
+                ps.executeUpdate();
+            }
+
+            // Insert song
+            ps = this.connection.prepareStatement(
+                    "INSERT INTO song (song_id, title, artist_id, album_id, genre, year, location)" +
+                            "VALUES (" +
+                            "?,?," +
+                            "(SELECT artist_id FROM artist WHERE name=?)," +
+                            "(SELECT album_id FROM album WHERE name=?)," +
+                            "?,?,?);");
+
+            ps.setInt(1, song.getId());
+            ps.setString(2, song.getTitle());
+            ps.setString(3, song.getArtist());
+            ps.setString(4, song.getAlbum());
+            ps.setString(5, song.getGenre());
+            ps.setInt(6, song.getYear());
+            ps.setString(7, song.getPathToFile());
+
+            ps.executeUpdate();
+
+            /*
             //if song is from an existing artist, part of an existing album
             if(artID.execute() && albID.execute())
             {
@@ -204,6 +244,7 @@ public class SongDAO implements DAO<Song>
             }
 
             ps.execute();
+            */
 
             this.closeConnection();
 
@@ -247,15 +288,11 @@ public class SongDAO implements DAO<Song>
         try
         {
             PreparedStatement ps = this.connection.prepareStatement(
-                    "DELETE song, artist, album" +
-                    "FROM song" +
-                        "INNER JOIN artist ON artist.artist_id=song.artist_id" +
-                        "INNER JOIN album ON album.album_id=song.album_id" +
-                    "WHERE song.id=?");
+                    "DELETE song WHERE song.id=?");
 
             ps.setInt(1, song.getId());
 
-            ps.execute();
+            ps.executeUpdate();
 
             this.closeConnection();
 
