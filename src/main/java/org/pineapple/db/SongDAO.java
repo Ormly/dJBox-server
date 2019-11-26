@@ -203,6 +203,10 @@ public class SongDAO implements DAO<Song>
                 ps.setString(8, song.getPathToFile());
             }
 
+            ps.execute();
+
+            this.closeConnection();
+
         } catch(SQLException e)
         {
 
@@ -212,12 +216,51 @@ public class SongDAO implements DAO<Song>
     @Override
     public void update(Song song)
     {
-        // update song in database
+        this.openConnection();
+        try
+        {
+            PreparedStatement ps1 = this.connection.prepareStatement(
+                    "UPDATE song SET title=?, genre=?, year=?, location=?" +
+                    "WHERE song_id=?;");
+
+            ps1.setString(1, song.getTitle());
+            ps1.setString(2, song.getGenre());
+            ps1.setInt(3, song.getYear());
+            ps1.setString(4, song.getPathToFile());
+            ps1.setInt(5, song.getId());
+
+            ps1.executeUpdate();
+
+            this.closeConnection();
+
+        } catch(SQLException e)
+        {
+        }
     }
 
     @Override
     public void delete(Song song)
     {
         // delete song from database
+        this.openConnection();
+
+        try
+        {
+            PreparedStatement ps = this.connection.prepareStatement(
+                    "DELETE song, artist, album" +
+                    "FROM song" +
+                        "INNER JOIN artist ON artist.artist_id=song.artist_id" +
+                        "INNER JOIN album ON album.album_id=song.album_id" +
+                    "WHERE song.id=?");
+
+            ps.setInt(1, song.getId());
+
+            ps.execute();
+
+            this.closeConnection();
+
+        } catch(SQLException e)
+        {
+        }
     }
 }
