@@ -1,11 +1,13 @@
 package org.pineapple.core.interfaces;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
 public abstract class MediaQueue<T>
 {
     protected Queue<T> queue;
+    protected List<Runnable> onQueueChangedCallbacks = new ArrayList<>();
 
     /**
      * Adds an object of type T to the queue.
@@ -24,4 +26,15 @@ public abstract class MediaQueue<T>
      * @return
      */
     public abstract List<T> getMedia();
+
+    public void setOnQueueChanged(Runnable callback){
+
+        this.onQueueChangedCallbacks.add(callback);
+    }
+
+    protected void invokeCallbacks(){
+        for(Runnable r:this.onQueueChangedCallbacks){
+            r.run();
+        }
+    }
 }

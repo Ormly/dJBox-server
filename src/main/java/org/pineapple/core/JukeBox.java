@@ -24,6 +24,7 @@ public class JukeBox
         this.player = new JavaFXPlayer();
         this.authenticationManager = new AuthenticationManager();
         this.playlist = new SongQueue();
+        this.playlist.setOnQueueChanged(() -> this.onQueueChanged());
     }
 
     /**
@@ -36,6 +37,14 @@ public class JukeBox
         }
 
         return instance;
+    }
+
+    private void onQueueChanged(){
+        System.out.println("Queue has changed!");
+    }
+
+    public void setOnQueueChanged(Runnable callback){
+        this.playlist.setOnQueueChanged(callback);
     }
 
     /**

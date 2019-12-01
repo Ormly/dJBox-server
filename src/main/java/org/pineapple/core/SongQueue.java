@@ -20,12 +20,16 @@ public class SongQueue extends MediaQueue<Song>
     public void pushMedia(Song obj)
     {
         this.queue.add(obj);
+        this.invokeCallbacks();
     }
 
     @Override
     public Song popNextMedia()
     {
-        return this.queue.remove();
+        Song s = this.queue.remove();
+        this.invokeCallbacks();
+
+        return s;
     }
 
     @Override
