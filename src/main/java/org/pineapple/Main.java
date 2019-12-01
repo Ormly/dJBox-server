@@ -5,16 +5,13 @@ package org.pineapple;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import org.pineapple.core.JavaFXPlayer;
-import org.pineapple.core.JukeBox;
-import org.pineapple.core.MediaLibrary;
+import org.pineapple.gui.GUIModel;
+import org.pineapple.gui.GUIView;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Main extends Application
@@ -51,9 +48,15 @@ public class Main extends Application
     public void start(Stage primaryStage)
     throws Exception
     {
-        AnchorPane rootNode = new AnchorPane();
+        Scene scene1;
 
-        primaryStage.setScene(new Scene(rootNode, 800, 600));
+        GUIModel guiModel = new GUIModel();
+        GUIView guiView = new GUIView(guiModel);
+
+        scene1 = new Scene(guiView.getScene(), 800, 600);
+
+
+        primaryStage.setScene(scene1);
         primaryStage.centerOnScreen();
         primaryStage.show();
     }
