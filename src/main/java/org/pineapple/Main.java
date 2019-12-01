@@ -5,13 +5,10 @@ package org.pineapple;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import org.pineapple.gui.GUIModel;
 import org.pineapple.gui.GUIView;
-import org.pineapple.gui.QueueModel;
-import org.pineapple.gui.QueueView;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -51,18 +48,11 @@ public class Main extends Application
     public void start(Stage primaryStage)
     throws Exception
     {
-        Scene scene1, scene2;
-        Button changeSceneButtonQueue = new Button("Library");
-        Button changeSceneButtonLibrary = new Button("Queue");
+        Scene scene1;
 
         GUIModel guiModel = new GUIModel();
-        GUIView guiView = new GUIView(guiModel, changeSceneButtonLibrary);
+        GUIView guiView = new GUIView(guiModel);
 
-        //QueueModel queueModel = new QueueModel();
-        //QueueView queueView = new QueueView(queueModel, changeSceneButtonQueue);
-
-
-        //scene2 = new Scene(queueView.getScene(), 800, 600);
         scene1 = new Scene(guiView.getScene(), 800, 600);
 
 

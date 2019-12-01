@@ -38,19 +38,16 @@ public class GUIView
     private Label albumName = new Label("");
 
     private Button addSongButton = new Button("Add Song");
-    private Button changeToQueue;
 
     private TextField searchField;
 
     /**
      * Constructor for the LibraryView
      * @param model attaches a model to get required functionality
-     * @param changeToQueue this button changes the scenes, so it is initialized in the main but is included in the design here
      */
-    public GUIView(GUIModel model, Button changeToQueue)
+    public GUIView(GUIModel model)
     {
         this.model = model;
-        this.changeToQueue = changeToQueue;
         configurePane();
     }
 
@@ -101,15 +98,6 @@ public class GUIView
         scene.add(libraryTable, 0, 1, 9, 17);
         scene.add(queueTable, 14, 1, 19, 17);
         scene.add(addSongButton, 10, 16, 3, 1);
-
-        //scene.add(imageView, 7, 4, 10, 15);
-        /*
-        scene.add(songName, 13, 13, 4, 1);
-        scene.add(artistName, 13, 14, 4, 1);
-        scene.add(albumName, 13, 15, 4, 1);
-
-        scene.add(changeToQueue, 18, 0, 2, 1);
-*/
     }
 
     /**
