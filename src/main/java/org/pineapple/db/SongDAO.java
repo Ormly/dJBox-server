@@ -116,7 +116,7 @@ public class SongDAO implements DAO<Song>
         {
             this.closeConnection();
         }
-        return list;    // implement get all songs from database
+        return list;
     }
 
     @Override
@@ -159,20 +159,19 @@ public class SongDAO implements DAO<Song>
 
             // Insert song
             ps = this.connection.prepareStatement(
-                    "INSERT INTO song (song_id, title, artist_id, album_id, genre, year, location)" +
+                    "INSERT INTO song (title, artist_id, album_id, genre, year, location)" +
                             "VALUES (" +
-                            "?,?," +
+                            "?," +
                             "(SELECT artist_id FROM artist WHERE name=?)," +
                             "(SELECT album_id FROM album WHERE name=?)," +
                             "?,?,?);");
 
-            ps.setInt(1, song.getId());
-            ps.setString(2, song.getTitle());
-            ps.setString(3, song.getArtist());
-            ps.setString(4, song.getAlbum());
-            ps.setString(5, song.getGenre());
-            ps.setInt(6, song.getYear());
-            ps.setString(7, song.getPathToFile());
+            ps.setString(1, song.getTitle());
+            ps.setString(2, song.getArtist());
+            ps.setString(3, song.getAlbum());
+            ps.setString(4, song.getGenre());
+            ps.setInt(5, song.getYear());
+            ps.setString(6, song.getPathToFile());
 
             ps.executeUpdate();
 
