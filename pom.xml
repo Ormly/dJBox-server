@@ -89,10 +89,18 @@
 			<artifactId>guava</artifactId>
 			<version>20.0</version>
 		</dependency>
-        <dependency>
+
+		<dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
+
+		<!--MP3 ID tags-->
+		<dependency>
+			<groupId>net.sf.javamusictag</groupId>
+			<artifactId>jid3lib</artifactId>
+			<version>0.5.4</version>
+		</dependency>
 
     </dependencies>
 
