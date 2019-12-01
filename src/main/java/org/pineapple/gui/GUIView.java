@@ -14,18 +14,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import org.pineapple.core.Media;
+import org.pineapple.core.Song;
 
 
 /**
  * The LibraryView is responsible for creating and filling the actual scene that will be displayed in the windows
  * It also binds even handlers for to buttons
  */
-public class LibraryView
+public class GUIView
 {
     private GridPane scene;
-    private TableView table;
-    private LibraryModel model;
+    private TableView libraryTable;
+    private TableView queueTable;
+    private GUIModel model;
     private Image image;
 
     private TableColumn songCol;
@@ -46,7 +47,7 @@ public class LibraryView
      * @param model attaches a model to get required functionality
      * @param changeToQueue this button changes the scenes, so it is initialized in the main but is included in the design here
      */
-    public LibraryView(LibraryModel model, Button changeToQueue)
+    public GUIView(GUIModel model, Button changeToQueue)
     {
         this.model = model;
         this.changeToQueue = changeToQueue;
@@ -96,17 +97,19 @@ public class LibraryView
         scene.setVgap(8);
         scene.setPadding(new Insets(7));
 
-        scene.add(searchField, 0, 0, 8, 1);
-        scene.add(table, 0, 1, 8, 19);
+        scene.add(searchField, 0, 0, 9, 1);
+        scene.add(libraryTable, 0, 1, 9, 17);
+        scene.add(queueTable, 14, 1, 19, 17);
+        scene.add(addSongButton, 10, 16, 3, 1);
 
         //scene.add(imageView, 7, 4, 10, 15);
-
+        /*
         scene.add(songName, 13, 13, 4, 1);
         scene.add(artistName, 13, 14, 4, 1);
         scene.add(albumName, 13, 15, 4, 1);
-        scene.add(addSongButton, 13, 16, 2, 1);
-        scene.add(changeToQueue, 18, 0, 2, 1);
 
+        scene.add(changeToQueue, 18, 0, 2, 1);
+*/
     }
 
     /**
@@ -115,18 +118,33 @@ public class LibraryView
      */
     public void setUpTable()
     {
-        table = new TableView();
+        libraryTable = new TableView();
         TableColumn songCol = new TableColumn("Song");
         songCol.setCellValueFactory(
-                new PropertyValueFactory<Media, String>("title"));
+                new PropertyValueFactory<Song, String>("title"));
         TableColumn artistCol = new TableColumn("Artist");
         artistCol.setCellValueFactory(
-                new PropertyValueFactory<Media, String>("artist"));
+                new PropertyValueFactory<Song, String>("artist"));
         TableColumn albumCol = new TableColumn("Album");
         albumCol.setCellValueFactory(
-                new PropertyValueFactory<Media, String>("album"));
-        table.setItems(model.getData());
-        table.getColumns().addAll(songCol, artistCol, albumCol);
+                new PropertyValueFactory<Song, String>("album"));
+        libraryTable.setItems(model.getLibray());
+        libraryTable.getColumns().addAll(songCol, artistCol, albumCol);
+
+        queueTable = new TableView();
+        TableColumn songColQueue = new TableColumn("Song");
+        songCol.setCellValueFactory(
+                new PropertyValueFactory<Song, String>("title"));
+        TableColumn artistColQueue = new TableColumn("Artist");
+        artistCol.setCellValueFactory(
+                new PropertyValueFactory<Song, String>("artist"));
+        TableColumn albumColQueue = new TableColumn("Album");
+        albumCol.setCellValueFactory(
+                new PropertyValueFactory<Song, String>("album"));
+        queueTable.setItems(model.getQueue());
+        queueTable.getColumns().addAll(songColQueue, artistColQueue, albumColQueue);
+
+
     }
 
     /**
@@ -136,12 +154,12 @@ public class LibraryView
     {
         addSongButton.setOnAction(e -> System.out.println("Text from button"));
 
-        table.setOnMouseClicked((MouseEvent event) -> {
+        libraryTable.setOnMouseClicked((MouseEvent event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
                 try
                 {
-                    int index = table.getSelectionModel().getSelectedIndex();
-                    Media object = (Media)table.getItems().get(index);
+                    int index = libraryTable.getSelectionModel().getSelectedIndex();
+                    Song object = (Song) libraryTable.getItems().get(index);
 
                     songName.setText(object.getTitle());
                     artistName.setText(object.getArtist());

@@ -8,18 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import org.pineapple.api.LibraryController;
-import org.pineapple.core.JavaFXPlayer;
-import org.pineapple.core.JukeBox;
-import org.pineapple.core.MediaLibrary;
-import org.pineapple.gui.LibraryModel;
-import org.pineapple.gui.LibraryView;
+import org.pineapple.gui.GUIModel;
+import org.pineapple.gui.GUIView;
 import org.pineapple.gui.QueueModel;
 import org.pineapple.gui.QueueView;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Main extends Application
@@ -60,20 +55,16 @@ public class Main extends Application
         Button changeSceneButtonQueue = new Button("Library");
         Button changeSceneButtonLibrary = new Button("Queue");
 
-        LibraryController libraryController = new LibraryController();
-        LibraryModel libraryModel = new LibraryModel(libraryController);
-        LibraryView libraryView = new LibraryView(libraryModel, changeSceneButtonLibrary);
+        GUIModel guiModel = new GUIModel();
+        GUIView guiView = new GUIView(guiModel, changeSceneButtonLibrary);
 
-        QueueModel queueModel = new QueueModel();
-        QueueView queueView = new QueueView(queueModel, changeSceneButtonQueue);
+        //QueueModel queueModel = new QueueModel();
+        //QueueView queueView = new QueueView(queueModel, changeSceneButtonQueue);
 
 
-        scene2 = new Scene(queueView.getScene(), 800, 600);
-        scene1 = new Scene(libraryView.getScene(), 800, 600);
+        //scene2 = new Scene(queueView.getScene(), 800, 600);
+        scene1 = new Scene(guiView.getScene(), 800, 600);
 
-        //Changing between different windows should be done atleast in main, because both scenes are known here
-        changeSceneButtonQueue.setOnAction(e -> primaryStage.setScene(scene1));
-        changeSceneButtonLibrary.setOnAction(e -> primaryStage.setScene(scene2));
 
         primaryStage.setScene(scene1);
         primaryStage.centerOnScreen();
