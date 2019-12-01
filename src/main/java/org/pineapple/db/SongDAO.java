@@ -6,10 +6,7 @@ This class implements access to database containing Song information
 import org.pineapple.core.Song;
 import org.pineapple.db.interfaces.DAO;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -54,13 +51,16 @@ public class SongDAO implements DAO<Song>
 
         try
         {
-            Statement s = this.connection.createStatement();
-            ResultSet result = s.executeQuery(
+            //changed to a prepared statement since we're passing a parameter
+            PreparedStatement p = this.connection.prepareStatement(
                     "SELECT s.song_id, s.title, art.name, alb.name, s.year, s.genre, s.location\n" +
                     "FROM song s, artist art, album alb\n" +
                     "WHERE s.artist_id = art.artist_id\n" +
                     "AND alb.album_id = s.album_id\n" +
-                    "AND s.song_id=" + (int) id + ";");
+                    "AND s.song_id=?;");
+
+            p.setInt(1, (int) id);
+            ResultSet result = p.executeQuery();
 
             if(result.next())
             {
@@ -116,24 +116,117 @@ public class SongDAO implements DAO<Song>
         {
             this.closeConnection();
         }
-        return list;    // implement get all songs from database
+        return list;
     }
 
     @Override
     public void save(Song song)
     {
         // save song to database
+        this.openConnection();
+
+        try
+        {
+            PreparedStatement ps;
+
+            PreparedStatement artID = this.connection.prepareStatement(
+                    "SELECT EXISTS(SELECT 1 FROM artist WHERE name=?");
+            PreparedStatement albID = this.connection.prepareStatement(
+                    "SELECT EXISTS(SELECT 1 FROM album WHERE name=?)");
+
+            artID.setString(1, song.getArtist());
+            albID.setString(1, song.getAlbum());
+
+            // If the artist isn't already in the table insert it
+            if(!artID.execute())
+            {
+                ps = this.connection.prepareStatement(
+                  "INSERT INTO artist (name) VALUES (?);"
+                );
+                ps.setString(1,song.getArtist());
+                ps.executeUpdate();
+            }
+
+            // if the album isn't already in the table insert it
+            if(!albID.execute())
+            {
+                ps = this.connection.prepareStatement(
+                        "INSERT INTO album (name) VALUES (?);"
+                );
+                ps.setString(1,song.getAlbum());
+                ps.executeUpdate();
+            }
+
+            // Insert song
+            ps = this.connection.prepareStatement(
+                    "INSERT INTO song (title, artist_id, album_id, genre, year, location)" +
+                            "VALUES (" +
+                            "?," +
+                            "(SELECT artist_id FROM artist WHERE name=?)," +
+                            "(SELECT album_id FROM album WHERE name=?)," +
+                            "?,?,?);");
+
+            ps.setString(1, song.getTitle());
+            ps.setString(2, song.getArtist());
+            ps.setString(3, song.getAlbum());
+            ps.setString(4, song.getGenre());
+            ps.setInt(5, song.getYear());
+            ps.setString(6, song.getPathToFile());
+
+            ps.executeUpdate();
+
+            this.closeConnection();
+
+        } catch(SQLException e)
+        {
+
+        }
     }
 
     @Override
     public void update(Song song)
     {
-        // update song in database
+        this.openConnection();
+        try
+        {
+            PreparedStatement ps1 = this.connection.prepareStatement(
+                    "UPDATE song SET title=?, genre=?, year=?, location=?" +
+                    "WHERE song_id=?;");
+
+            ps1.setString(1, song.getTitle());
+            ps1.setString(2, song.getGenre());
+            ps1.setInt(3, song.getYear());
+            ps1.setString(4, song.getPathToFile());
+            ps1.setInt(5, song.getId());
+
+            ps1.executeUpdate();
+
+            this.closeConnection();
+
+        } catch(SQLException e)
+        {
+        }
     }
 
     @Override
     public void delete(Song song)
     {
         // delete song from database
+        this.openConnection();
+
+        try
+        {
+            PreparedStatement ps = this.connection.prepareStatement(
+                    "DELETE song WHERE song.id=?");
+
+            ps.setInt(1, song.getId());
+
+            ps.executeUpdate();
+
+            this.closeConnection();
+
+        } catch(SQLException e)
+        {
+        }
     }
 }

@@ -24,6 +24,17 @@ public class Song
         this.pathToFile = pathToFile;
     }
 
+    public Song(String title, String artist, String album, int year, String genre, String pathToFile)
+    {
+        this.id = 0;
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.year = year;
+        this.genre = genre;
+        this.pathToFile = pathToFile;
+    }
+
     public String getTitle()
     {
         return title;
