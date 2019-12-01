@@ -45,7 +45,7 @@ public class GUIModel
     public void updateQueue()
     {
         System.out.println("updateQueue called!");
-        queue.removeAll();
+        queue.clear();
         queue.addAll(jukeBox.getSongsFromQueue());
 //        queue = FXCollections.observableArrayList(jukeBox.getSongsFromQueue());
     }
