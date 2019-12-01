@@ -1,7 +1,6 @@
 package org.pineapple.core;
 
 import org.pineapple.core.interfaces.IMediaLibrary;
-import org.pineapple.db.UserDAO;
 import org.pineapple.db.interfaces.DAO;
 import org.pineapple.db.SongDAO;
 

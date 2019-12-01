@@ -38,6 +38,10 @@ public class JukeBox
         return instance;
     }
 
+    public void setOnQueueChanged(Runnable callback){
+        this.playlist.setOnQueueChanged(callback);
+    }
+
     /**
      * Returns a list of Song objects that are currently available in the library.
      *

@@ -121,13 +121,13 @@ public class GUIView
 
         queueTable = new TableView();
         TableColumn songColQueue = new TableColumn("Song");
-        songCol.setCellValueFactory(
+        songColQueue.setCellValueFactory(
                 new PropertyValueFactory<Song, String>("title"));
         TableColumn artistColQueue = new TableColumn("Artist");
-        artistCol.setCellValueFactory(
+        artistColQueue.setCellValueFactory(
                 new PropertyValueFactory<Song, String>("artist"));
         TableColumn albumColQueue = new TableColumn("Album");
-        albumCol.setCellValueFactory(
+        albumColQueue.setCellValueFactory(
                 new PropertyValueFactory<Song, String>("album"));
         queueTable.setItems(model.getQueue());
         queueTable.getColumns().addAll(songColQueue, artistColQueue, albumColQueue);

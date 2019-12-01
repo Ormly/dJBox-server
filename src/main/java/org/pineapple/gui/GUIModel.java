@@ -31,7 +31,7 @@ public class GUIModel
 
         this.libray = FXCollections.observableArrayList(jukeBox.getAllSongs());
         this.queue = FXCollections.observableArrayList(jukeBox.getSongsFromQueue());
-
+        this.jukeBox.setOnQueueChanged(() -> this.updateQueue());
     }
 
     /**
@@ -44,7 +44,10 @@ public class GUIModel
 
     public void updateQueue()
     {
-        queue = FXCollections.observableArrayList(jukeBox.getSongsFromQueue());
+        System.out.println("updateQueue called!");
+        queue.clear();
+        queue.addAll(jukeBox.getSongsFromQueue());
+//        queue = FXCollections.observableArrayList(jukeBox.getSongsFromQueue());
     }
 
     /**

@@ -24,4 +24,6 @@ public interface IPlayer
      * @return
      */
     public boolean isStopped();
+
+    public void setOnSongEnd(Runnable callback);
 }
