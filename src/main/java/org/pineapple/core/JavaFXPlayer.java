@@ -7,6 +7,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import org.pineapple.core.interfaces.IPlayer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,21 +17,42 @@ import java.util.List;
 public class JavaFXPlayer implements IPlayer
 {
     private List<Runnable> onSongEndCallbacks = new ArrayList<>();
+    private Runnable onSongEndCallback;
     private MediaPlayer player;
 
     public JavaFXPlayer(){
-
+        this.onSongEndCallback = () -> onSongEng();
     }
 
-//    private void createPlayerForSong(String pathToFile)
-//    {
-//        this.player = new MediaPlayer(new Media())
-//    }
+    /**
+     * Creates a new MediaPlayer object and sets it as the current player.
+     * @param pathToFile
+     */
+    private void createPlayerForSong(String pathToFile)
+    {
+        this.player = new MediaPlayer(new Media(new File(pathToFile).toURI().toString()));
+        this.player.setOnEndOfMedia(this.onSongEndCallback);
+    }
 
+    /**
+     * Gets called when song end and invokes all callbacks currently registered with JavaFXPlayer
+     */
+    private void onSongEng()
+    {
+        for(Runnable r: this.onSongEndCallbacks){
+            r.run();
+        }
+    }
+
+    /**
+     * Plays the media file with given path
+     * @param pathToFile
+     */
     @Override
     public void play(String pathToFile)
     {
-
+        this.createPlayerForSong(pathToFile);
+        this.player.play();
     }
 
     @Override
