@@ -69,4 +69,16 @@ public class Song
     {
         return year;
     }
+
+    /**
+     * Compare two Song objects by comparing artist and album names
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        Song s = (Song) obj;
+        return this.artist.equals(s.artist) && this.album.equals(s.album);
+    }
 }
