@@ -129,8 +129,6 @@ public class SongDAO implements DAO<Song>
         {
             PreparedStatement ps;
 
-            //TODO: check if it already exists, if yes throw an error -> we don't want duplicates!
-
             PreparedStatement artID = this.connection.prepareStatement(
                     "SELECT 1 FROM artist WHERE name=?");
             PreparedStatement albID = this.connection.prepareStatement(
@@ -162,21 +160,14 @@ public class SongDAO implements DAO<Song>
             }
 
             // Insert song
-            /**
-             * ps = this.connection.prepareStatement(
+
+             ps = this.connection.prepareStatement(
                     "INSERT INTO song (title, artist_id, album_id, genre, year, location)" +
                             "VALUES (" +
                             "?," +
                             "(SELECT artist_id FROM artist WHERE name=?)," +
                             "(SELECT album_id FROM album WHERE name=?)," +
-                            "?,?,?)" +
-                            "WHERE NOT EXISTS " +
-                                "(SELECT title, artist_id, album_id, genre, year, location" +
-                                " FROM song" +
-                                " WHERE title=? AND" +
-                                " artist_id=(SELECT artist_id FROM artist WHERE name=?) AND" +
-                                " album_id=(SELECT album_id FROM album WHERE name=?) AND" +
-                                " genre=? AND year=? AND location=?);");
+                            "?,?,?)");
 
             ps.setString(1, song.getTitle());
             ps.setString(2, song.getArtist());
@@ -184,14 +175,8 @@ public class SongDAO implements DAO<Song>
             ps.setString(4, song.getGenre());
             ps.setInt(5, song.getYear());
             ps.setString(6, song.getPathToFile());
-            ps.setString(7, song.getTitle());
-            ps.setString(8, song.getArtist());
-            ps.setString(9, song.getAlbum());
-            ps.setString(10, song.getGenre());
-            ps.setInt(11, song.getYear());
-            ps.setString(12, song.getPathToFile());
 
-            ps.executeUpdate(); */
+            ps.executeUpdate();
 
             this.closeConnection();
 
