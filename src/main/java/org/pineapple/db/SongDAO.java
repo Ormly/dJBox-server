@@ -26,7 +26,7 @@ public class SongDAO implements DAO<Song>
                 this.connection = DBConnection.getConnection(DBConnection.Database.MEDIA);
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -38,7 +38,7 @@ public class SongDAO implements DAO<Song>
                 this.connection.close();
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -74,7 +74,7 @@ public class SongDAO implements DAO<Song>
             }
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         } finally
         {
             this.closeConnection();
@@ -111,7 +111,7 @@ public class SongDAO implements DAO<Song>
             }
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         } finally
         {
             this.closeConnection();
@@ -130,41 +130,44 @@ public class SongDAO implements DAO<Song>
             PreparedStatement ps;
 
             PreparedStatement artID = this.connection.prepareStatement(
-                    "SELECT EXISTS(SELECT 1 FROM artist WHERE name=?");
+                    "SELECT 1 FROM artist WHERE name=?");
             PreparedStatement albID = this.connection.prepareStatement(
-                    "SELECT EXISTS(SELECT 1 FROM album WHERE name=?)");
+                    "SELECT 1 FROM album WHERE name=?");
 
             artID.setString(1, song.getArtist());
             albID.setString(1, song.getAlbum());
 
             // If the artist isn't already in the table insert it
-            if(!artID.execute())
+            if(!artID.executeQuery().next())
             {
                 ps = this.connection.prepareStatement(
                   "INSERT INTO artist (name) VALUES (?);"
                 );
                 ps.setString(1,song.getArtist());
                 ps.executeUpdate();
+                System.out.println("Artist inserted");
             }
 
             // if the album isn't already in the table insert it
-            if(!albID.execute())
+            if(!albID.executeQuery().next())
             {
                 ps = this.connection.prepareStatement(
                         "INSERT INTO album (name) VALUES (?);"
                 );
                 ps.setString(1,song.getAlbum());
                 ps.executeUpdate();
+                System.out.println("Album inserted");
             }
 
             // Insert song
-            ps = this.connection.prepareStatement(
+
+             ps = this.connection.prepareStatement(
                     "INSERT INTO song (title, artist_id, album_id, genre, year, location)" +
                             "VALUES (" +
                             "?," +
                             "(SELECT artist_id FROM artist WHERE name=?)," +
                             "(SELECT album_id FROM album WHERE name=?)," +
-                            "?,?,?);");
+                            "?,?,?)");
 
             ps.setString(1, song.getTitle());
             ps.setString(2, song.getArtist());
@@ -179,7 +182,7 @@ public class SongDAO implements DAO<Song>
 
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -205,6 +208,7 @@ public class SongDAO implements DAO<Song>
 
         } catch(SQLException e)
         {
+            e.printStackTrace();
         }
     }
 
@@ -227,6 +231,7 @@ public class SongDAO implements DAO<Song>
 
         } catch(SQLException e)
         {
+            e.printStackTrace();
         }
     }
 }
