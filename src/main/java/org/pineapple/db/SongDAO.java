@@ -26,7 +26,7 @@ public class SongDAO implements DAO<Song>
                 this.connection = DBConnection.getConnection(DBConnection.Database.MEDIA);
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -38,7 +38,7 @@ public class SongDAO implements DAO<Song>
                 this.connection.close();
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -74,7 +74,7 @@ public class SongDAO implements DAO<Song>
             }
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         } finally
         {
             this.closeConnection();
@@ -111,7 +111,7 @@ public class SongDAO implements DAO<Song>
             }
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         } finally
         {
             this.closeConnection();
@@ -145,6 +145,7 @@ public class SongDAO implements DAO<Song>
                 );
                 ps.setString(1,song.getArtist());
                 ps.executeUpdate();
+                System.out.println("Artist inserted");
             }
 
             // if the album isn't already in the table insert it
@@ -155,6 +156,7 @@ public class SongDAO implements DAO<Song>
                 );
                 ps.setString(1,song.getAlbum());
                 ps.executeUpdate();
+                System.out.println("Album inserted");
             }
 
             // Insert song
@@ -179,7 +181,7 @@ public class SongDAO implements DAO<Song>
 
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -205,6 +207,7 @@ public class SongDAO implements DAO<Song>
 
         } catch(SQLException e)
         {
+            e.printStackTrace();
         }
     }
 
@@ -227,6 +230,7 @@ public class SongDAO implements DAO<Song>
 
         } catch(SQLException e)
         {
+            e.printStackTrace();
         }
     }
 }
