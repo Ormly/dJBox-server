@@ -129,16 +129,18 @@ public class SongDAO implements DAO<Song>
         {
             PreparedStatement ps;
 
+            //TODO: check if it already exists, if yes throw an error -> we don't want duplicates!
+
             PreparedStatement artID = this.connection.prepareStatement(
-                    "SELECT EXISTS(SELECT 1 FROM artist WHERE name=?");
+                    "SELECT 1 FROM artist WHERE name=?");
             PreparedStatement albID = this.connection.prepareStatement(
-                    "SELECT EXISTS(SELECT 1 FROM album WHERE name=?)");
+                    "SELECT 1 FROM album WHERE name=?");
 
             artID.setString(1, song.getArtist());
             albID.setString(1, song.getAlbum());
 
             // If the artist isn't already in the table insert it
-            if(!artID.execute())
+            if(!artID.executeQuery().next())
             {
                 ps = this.connection.prepareStatement(
                   "INSERT INTO artist (name) VALUES (?);"
@@ -149,7 +151,7 @@ public class SongDAO implements DAO<Song>
             }
 
             // if the album isn't already in the table insert it
-            if(!albID.execute())
+            if(!albID.executeQuery().next())
             {
                 ps = this.connection.prepareStatement(
                         "INSERT INTO album (name) VALUES (?);"
