@@ -6,7 +6,6 @@ import org.pineapple.core.interfaces.IMediaLibrary;
 import org.pineapple.db.interfaces.DAO;
 import org.pineapple.db.SongDAO;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -37,71 +36,116 @@ public class MediaLibrary implements IMediaLibrary
         MediaLibrary.isInstantiated = true;
     }
 
-    private void init(){
+    /**
+     * Initializes the library with the media files found in "pathToMediaDir"
+     */
+    private void init()
+    {
 
-        List<String>  pathsToMediaFiles = new ArrayList<>();
+        List<String> pathsToMediaFiles = new ArrayList<>();
 
         //find all mp3 files in media directory
-        try{
+        try
+        {
             Files.find(Paths.get(pathToMediaDir),
                        Integer.MAX_VALUE,
                        (filePath, fileAttr) -> fileAttr.isRegularFile() && filePath.toString().endsWith(".mp3"))
                     .forEach((x) -> pathsToMediaFiles.add(x.toString()));
-        }
-        catch(IOException ex){
+        } catch(IOException ex)
+        {
             System.out.println("Error traversing media directory.");
             System.out.println(ex.getMessage());
         }
 
-        // save all Song objects to persistence
-        for(String path:pathsToMediaFiles){
-            
-            this.persistence.save(this.createSongFromPath(path));
+        this.clearStaleSongsFromPersistence(pathsToMediaFiles);
+        this.addAllSongsToLibrary(pathsToMediaFiles);
+    }
+
+    private void clearStaleSongsFromPersistence(List<String> paths){
+        List<Song> songsInPersistence = this.persistence.getAll();
+
+        for(Song s: songsInPersistence){
+            if(!paths.contains(s.getPathToFile())){
+                this.persistence.delete(s);
+            }
         }
     }
 
     /**
      * Extracts the IDv1 tag from the MP3 file in path and returns a Song object representing it.
+     * Returns null if data could not be extracted.
      * @param path
      * @return Song
      */
-    private Song createSongFromPath(String path){
+    private Song createSongFromPath(String path)
+    {
         MP3File music = null;
+        Song s = null;
+        try
+        {
+            music = new MP3File(path);
 
-        try{
-            music = new MP3File(new File(path).toURI().toString());
-        }
-        catch(Exception e){
+            ID3v1 tag = music.getID3v1Tag();
+
+            s = new Song(tag.getTitle(),
+                              tag.getArtist(),
+                              tag.getAlbum(),
+                              Integer.valueOf(tag.getYear()),
+                              tag.getSongGenre(),
+                              path);
+
+        } catch(Exception e)
+        {
             System.out.println("Error reading mp3 file");
             System.out.println(e.getMessage());
         }
 
-        ID3v1 tag = music.getID3v1Tag();
-
-        Song s = new Song(tag.getTitle(),
-                          tag.getArtist(),
-                          tag.getAlbum(),
-                          Integer.valueOf(tag.getYear()),
-                          tag.getSongGenre(),
-                          path);
-
         return s;
     }
 
-    private boolean isSongInLibrary(Song song){
-        for(Song s: this.persistence.getAll()){
-            if(s.equals(song))
-                return true;
-        }
-
-        return false;
+    /**
+     * Can be used to add a media file with path to the library.
+     * @param path
+     */
+    public void addSongToLibrary(String path)
+    {
+        this.addAllSongsToLibrary(new ArrayList<>(List.of(path)));
     }
 
+    /**
+     * Can be used to add a list of media files to the media library
+     * @param paths = a list of media file paths
+     */
+    public void addAllSongsToLibrary(List<String> paths)
+    {
+        List<Song> currentLibrary = this.getAllMedia();
+
+        for(String path : paths)
+        {
+            Song s = this.createSongFromPath(path);
+            System.out.println("checking if: " + s.getTitle() + " is in library");
+            if(!currentLibrary.contains(s))
+            {
+                System.out.println("it's not! adding.");
+                this.persistence.save(s);
+            }
+        }
+    }
+
+    /**
+     * Gets a list of all songs in currenly in the library.
+     * @return List<Song>
+     */
     public List<Song> getAllMedia()
     {
         return this.persistence.getAll();
     }
 
+    /**
+     * Gets a song with id from the media library
+     * @param id
+     * @return
+     */
     @Override
     public Song getMedia(int id)
     {
