@@ -16,7 +16,7 @@ import java.util.List;
 public class MedialibraryTest
 {
     static private Connection c;
-    static MediaLibrary lib = new MediaLibrary("media_test");
+    static MediaLibrary lib = new MediaLibrary("/dev/null");
     static SongDAO dao = new SongDAO();
     static List<Song> cleanUpList = new ArrayList<>();
 
