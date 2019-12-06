@@ -111,5 +111,7 @@ public class SongDAOTest
             cleanUpStatement.executeUpdate("DELETE FROM song WHERE song_id="+s.getId()+";");
         }
 
+        c.close();
+
     }
 }

@@ -30,7 +30,8 @@ public class MediaLibrary implements IMediaLibrary
             throw new UnsupportedOperationException("MediaLibrary can only be instantiated once!");
 
         this.persistence = new SongDAO();
-        this.pathToMediaDir = pathToMediaDir; // can be used to initialize database with media directory content
+        this.pathToMediaDir = pathToMediaDir;
+
         this.init();
 
         MediaLibrary.isInstantiated = true;
@@ -41,7 +42,13 @@ public class MediaLibrary implements IMediaLibrary
      */
     private void init()
     {
+        List<String> pathsToMediaFiles = this.findAllSongsInMediaDir();
+        this.clearStaleSongsFromPersistence(pathsToMediaFiles);
+        this.addAllSongsToLibrary(pathsToMediaFiles);
+    }
 
+    private List<String> findAllSongsInMediaDir()
+    {
         List<String> pathsToMediaFiles = new ArrayList<>();
 
         //find all mp3 files in media directory
@@ -57,8 +64,7 @@ public class MediaLibrary implements IMediaLibrary
             System.out.println(ex.getMessage());
         }
 
-        this.clearStaleSongsFromPersistence(pathsToMediaFiles);
-        this.addAllSongsToLibrary(pathsToMediaFiles);
+        return pathsToMediaFiles;
     }
 
     private void clearStaleSongsFromPersistence(List<String> paths){
@@ -96,7 +102,7 @@ public class MediaLibrary implements IMediaLibrary
 
         } catch(Exception e)
         {
-            System.out.println("Error reading mp3 file");
+            System.out.println("Error reading mp3 file" + path);
             System.out.println(e.getMessage());
         }
 
@@ -109,6 +115,7 @@ public class MediaLibrary implements IMediaLibrary
      */
     public void addSongToLibrary(String path)
     {
+        // TODO: first copy the file over to media directory
         this.addAllSongsToLibrary(new ArrayList<>(List.of(path)));
     }
 
