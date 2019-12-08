@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.pineapple.core.JukeBox;
 import org.pineapple.gui.GUIModel;
 import org.pineapple.gui.GUIView;
 import org.springframework.boot.SpringApplication;
@@ -37,6 +38,7 @@ public class Main extends Application
     public static void main(String[] args)
     {
         launch();
+        JukeBox.getInstance(); // just to instantiate the jukebox
     }
 
     /**

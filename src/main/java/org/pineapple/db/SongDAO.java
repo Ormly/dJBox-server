@@ -221,7 +221,7 @@ public class SongDAO implements DAO<Song>
         try
         {
             PreparedStatement ps = this.connection.prepareStatement(
-                    "DELETE song WHERE song.id=?");
+                    "DELETE FROM song WHERE song_id=?;");
 
             ps.setInt(1, song.getId());
 

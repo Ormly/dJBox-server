@@ -20,7 +20,7 @@ public class JukeBox
 
     private JukeBox()
     {
-        this.libraryProvider = new MediaLibrary("/dev/null");
+        this.libraryProvider = new MediaLibrary("media");
         this.player = new JavaFXPlayer();
         this.authenticationManager = new AuthenticationManager();
         this.playlist = new SongQueue();
