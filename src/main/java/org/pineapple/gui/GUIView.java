@@ -2,6 +2,7 @@ package org.pineapple.gui;
 
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,10 +12,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.pineapple.core.Song;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 /**
@@ -23,21 +30,24 @@ import org.pineapple.core.Song;
  */
 public class GUIView
 {
-    private GridPane scene;
+    private BorderPane scene;
     private TableView libraryTable;
     private TableView queueTable;
     private GUIModel model;
     private Image image;
+    private Stage stage;
 
-    private TableColumn songCol;
-    private TableColumn artistCol;
-    private TableColumn albumCol;
+    private FileChooser fileChooser;
 
     private Label songName = new Label("");
     private Label artistName = new Label("");
     private Label albumName = new Label("");
 
     private Button addSongButton = new Button("Add Song");
+    private Button authorButton = new Button("Authors");
+    private Button settingsButton = new Button("Settings");
+    private Button removeSongButton = new Button("Remove Song");
+    private Song selectedSong;
 
     private TextField searchField;
 
@@ -45,9 +55,10 @@ public class GUIView
      * Constructor for the LibraryView
      * @param model attaches a model to get required functionality
      */
-    public GUIView(GUIModel model)
+    public GUIView(GUIModel model, Stage stage)
     {
         this.model = model;
+        this.stage = stage;
         configurePane();
     }
 
@@ -55,7 +66,7 @@ public class GUIView
      *
      * @return the scene
      */
-    public GridPane getScene()
+    public BorderPane getScene()
     {
         return scene;
     }
@@ -67,38 +78,48 @@ public class GUIView
     {
         setUpTable();
         configureListeners();
+        Label libraryLabel = new Label("Available Songs:");
+        Label queueLabel = new Label("Songs in Queue:");
+        libraryLabel.setFont(new Font("Arial", 17));
+        queueLabel.setFont(new Font("Arial", 17));
+
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("MP3 file", "*.mp3"));
         searchField = new TextField("search");
-        image = new Image("file:album_cover.jpg", 150, 150, false, false);
-        ImageView imageView = new ImageView();
-        imageView.setImage(image);
+        image = new Image("https://lastfm.freetls.fastly.net/i/u/770x0/54010ae7c4fa4c96a1e1872a051d9ecc.jpg", 200, 200, false, false);
+        ImageView imageView = new ImageView(image);
+
+        songName.setFont(new Font("Arial", 20));
+        albumName.setFont(new Font("Arial", 14));
+        artistName.setFont(new Font("Arial", 17));
+
+        scene = new BorderPane();
+        VBox leftSide = new VBox(searchField, libraryLabel, libraryTable, removeSongButton);
+        leftSide.setSpacing(20);
+        leftSide.setPadding(new Insets(10));
+        leftSide.setMinWidth(400);
+
+        VBox center = new VBox(imageView, songName, artistName, albumName, addSongButton);
+        center.setAlignment(Pos.CENTER);
+        center.setSpacing(20);
+        center.setPadding(new Insets(10));
+        center.setMinWidth(400);
+
+        HBox buttons = new HBox(settingsButton, authorButton);
+        buttons.setSpacing(10);
+        buttons.setAlignment(Pos.BASELINE_RIGHT);
+        VBox rightSide = new VBox(buttons, queueLabel, queueTable);
+        rightSide.setSpacing(20);
+        rightSide.setPadding(new Insets(10));
+        rightSide.setMinWidth(400);
+
+        scene.setRight(rightSide);
+        scene.setLeft(leftSide);
+        scene.setCenter(center);
 
 
-        scene = new GridPane();
-
-        for (int i = 0; i < 20; i++)
-        {
-            ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(100.0 / 20);
-            scene.getColumnConstraints().add(colConst);
-        }
-
-        for (int i = 0; i < 20; i++)
-        {
-            RowConstraints rowConst = new RowConstraints();
-            rowConst.setPercentHeight(100.0 / 20);
-            scene.getRowConstraints().add(rowConst);
-        }
-
-
-        scene.setHgap(8);
-        scene.setVgap(8);
-        scene.setPadding(new Insets(7));
-
-        scene.add(searchField, 0, 0, 9, 1);
-        scene.add(libraryTable, 0, 1, 9, 17);
-        scene.add(queueTable, 14, 1, 19, 17);
-        scene.add(addSongButton, 10, 16, 3, 1);
-    }
+      }
 
     /**
      * Sets up the table with the songs from the database
@@ -140,18 +161,19 @@ public class GUIView
      */
     public void configureListeners()
     {
-        addSongButton.setOnAction(e -> System.out.println("Text from button"));
+        addSongButton.setOnAction(e -> model.chooseFile(stage, fileChooser));
+        removeSongButton.setOnAction(e -> model.removeSong(selectedSong));
 
         libraryTable.setOnMouseClicked((MouseEvent event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
                 try
                 {
                     int index = libraryTable.getSelectionModel().getSelectedIndex();
-                    Song object = (Song) libraryTable.getItems().get(index);
+                    selectedSong = (Song) libraryTable.getItems().get(index);
 
-                    songName.setText(object.getTitle());
-                    artistName.setText(object.getArtist());
-                    albumName.setText(object.getAlbum());
+                    songName.setText(selectedSong.getTitle());
+                    artistName.setText(selectedSong.getArtist());
+                    albumName.setText(selectedSong.getAlbum());
                 } catch (IndexOutOfBoundsException e)
                 {
 

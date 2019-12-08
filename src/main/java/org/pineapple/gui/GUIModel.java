@@ -2,8 +2,15 @@ package org.pineapple.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.pineapple.core.JukeBox;
 import org.pineapple.core.Song;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * LibraryModel contains all the functionality that is somehow connected to the outside world
@@ -61,5 +68,34 @@ public class GUIModel
 
     public ObservableList<Song> getQueue() {
         return queue;
+    }
+
+    public void chooseFile(Stage stage, FileChooser fileChooser)
+    {
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        try
+        {
+            Files.copy(selectedFile.toPath(), Paths.get("C:\\Users\\Public\\Music\\" + selectedFile.getName()));
+        }
+        catch (IOException ex)
+        {
+            //ex.printStackTrace();
+        }
+        catch (NullPointerException ex)
+        {
+            System.out.println("No file chosen");
+        }
+    }
+
+    public void removeSong(Song songToRemove)
+    {
+        try
+        {
+            System.out.println(songToRemove.getTitle());
+        } catch (NullPointerException e)
+        {
+            System.out.println("No song selected");
+        }
+
     }
 }
