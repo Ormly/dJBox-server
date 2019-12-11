@@ -2,9 +2,11 @@ package org.pineapple.api;
 
 import org.pineapple.core.JukeBox;
 import org.pineapple.core.Song;
+import org.pineapple.core.SongResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,11 +18,17 @@ public class QueueController
      * @return
      */
     @RequestMapping("/queue")
-    public List<Song> queue(@RequestHeader("token") String token)
+    public List<SongResponse> queue(@RequestHeader("token") String token)
     {
         // throws an exception if token invalid
         JukeBox.getInstance().validateToke(token);
-        return JukeBox.getInstance().getSongsFromQueue();
+
+        // List<Song> => List<SongResponse>
+        List<Song> songs = JukeBox.getInstance().getAllSongs();
+        List<SongResponse> responses = new ArrayList<>();
+        songs.forEach((song) -> responses.add(new SongResponse(song)));
+
+        return responses;
     }
 
     /**
