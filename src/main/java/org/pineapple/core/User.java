@@ -7,20 +7,20 @@ import java.util.UUID;
  */
 public class User
 {
-    private String userName;
+    private String userEmail;
     private String passwordHash;
     private Token token;
 
-    public User(String userName, String passwordHash)
+    public User(String userEmail, String passwordHash)
     {
-        this.userName = userName;
+        this.userEmail = userEmail;
         this.passwordHash = passwordHash;
         this.token = null;
     }
 
     public String getUserName()
     {
-        return userName;
+        return userEmail;
     }
 
     public String getPasswordHash()

@@ -23,7 +23,7 @@ public class AuthController
     public void authenticate(@RequestBody AuthRequest req, HttpServletResponse response)
     {
         // Throws an exception if authentication failed
-        String token = JukeBox.getInstance().doAuthentication(req.getUserName(), req.getPassword());
+        String token = JukeBox.getInstance().doAuthentication(req.getUserEmail(), req.getPassword());
 
         // if successful returns token in the response header
         response.setHeader("token", token);

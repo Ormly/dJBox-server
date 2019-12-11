@@ -5,18 +5,18 @@ package org.pineapple.core;
  */
 public class AuthRequest
 {
-    private String userName;
+    private String userEmail;
     private String password;
 
-    public AuthRequest(String userName, String password)
+    public AuthRequest(String userEmail, String password)
     {
-        this.userName = userName;
+        this.userEmail = userEmail;
         this.password = password;
     }
 
-    public String getUserName()
+    public String getUserEmail()
     {
-        return userName;
+        return userEmail;
     }
 
     public String getPassword()
