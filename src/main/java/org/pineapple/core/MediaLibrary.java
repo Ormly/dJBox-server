@@ -2,6 +2,7 @@ package org.pineapple.core;
 
 import org.farng.mp3.MP3File;
 import org.farng.mp3.id3.ID3v1;
+import org.pineapple.core.exceptions.SongNotFoundException;
 import org.pineapple.core.interfaces.IMediaLibrary;
 import org.pineapple.db.interfaces.DAO;
 import org.pineapple.db.SongDAO;
@@ -154,12 +155,12 @@ public class MediaLibrary implements IMediaLibrary
      * @return
      */
     @Override
-    public Song getMedia(int id)
+    public Song getMedia(int id) throws SongNotFoundException
     {
-        Optional<Song> s = this.persistence.get((int) id);
+        Optional<Song> s = this.persistence.get(id);
         if(s.isPresent())
             return s.get();
         else
-            return null;
+            throw new SongNotFoundException(id);
     }
 }

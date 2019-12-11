@@ -1,12 +1,8 @@
 package org.pineapple.api;
 
 import org.pineapple.core.AuthRequest;
-import org.pineapple.core.AuthResponse;
 import org.pineapple.core.JukeBox;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -27,7 +23,7 @@ public class AuthController
     public void authenticate(@RequestBody AuthRequest req, HttpServletResponse response)
     {
         // Throws an exception if authentication failed
-        String token = JukeBox.getInstance().doAuthentication(req.getUserName(), req.getPassword());
+        String token = JukeBox.getInstance().doAuthentication(req.getUserEmail(), req.getPassword());
 
         // if successful returns token in the response header
         response.setHeader("token", token);
