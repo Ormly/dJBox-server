@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.pineapple.core.exceptions.SongNotFoundException;
 import org.pineapple.db.DBConnection;
 import org.pineapple.db.SongDAO;
 
@@ -104,6 +105,12 @@ public class MedialibraryTest
 
         Assertions.assertEquals(lib.getMedia(hopefullyNewSong.getId()).getTitle(),
                                 newSong.getTitle());
+    }
+
+    @Test
+    void getSongWithBadID()
+    {
+        Assertions.assertThrows(SongNotFoundException.class, () -> lib.getMedia(Integer.MAX_VALUE));
     }
 
     @AfterAll

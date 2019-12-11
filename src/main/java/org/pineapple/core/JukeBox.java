@@ -61,18 +61,15 @@ public class JukeBox
 
     /**
      * Adds the song with id from the media library to the song queue.
-     * Returns false if no song with the given id was found in the library.
-     *
+     * A SongNotFoundException is thrown if song is not found
      * @param id
      * @return
      */
-    public boolean addSongToQueue(int id) throws SongNotFoundException
+    public void addSongToQueue(int id) throws SongNotFoundException
     {
         Song s = this.libraryProvider.getMedia(id);
-        if(s != null)
-            this.playlist.pushMedia(s);
 
-        return s != null;
+        this.playlist.pushMedia(s);
     }
 
     /**
