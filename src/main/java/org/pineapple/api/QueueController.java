@@ -24,7 +24,7 @@ public class QueueController
         JukeBox.getInstance().validateToke(token);
 
         // List<Song> => List<SongResponse>
-        List<Song> songs = JukeBox.getInstance().getAllSongs();
+        List<Song> songs = JukeBox.getInstance().getSongsFromQueue();
         List<SongResponse> responses = new ArrayList<>();
         songs.forEach((song) -> responses.add(new SongResponse(song)));
 
