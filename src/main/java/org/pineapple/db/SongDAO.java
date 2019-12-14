@@ -42,6 +42,12 @@ public class SongDAO implements DAO<Song>
         }
     }
 
+    /**
+     * Extracts the song that corresponds to the id passed.
+     * Returns null if data could not be extracted.
+     * @param id
+     * @return Song
+     */
     @Override
     public Optional<Song> get(long id)
     {
@@ -83,6 +89,10 @@ public class SongDAO implements DAO<Song>
         return Optional.ofNullable(m);
     }
 
+    /**
+     * Extracts all song entries in the DB
+     * Returns empty list if data could not be extracted.
+     */
     @Override
     public List<Song> getAll()
     {
@@ -119,6 +129,11 @@ public class SongDAO implements DAO<Song>
         return list;
     }
 
+    /**
+     * Saves a song into the DB, if no artist or album entries exist yet,
+     * it generates those too
+     * @param song
+     */
     @Override
     public void save(Song song)
     {
@@ -186,6 +201,10 @@ public class SongDAO implements DAO<Song>
         }
     }
 
+    /**
+     * Updates a song entry in the DB
+     * @param song
+     */
     @Override
     public void update(Song song)
     {
@@ -212,6 +231,10 @@ public class SongDAO implements DAO<Song>
         }
     }
 
+    /**
+     * Deletes a song in the DB
+     * @param song
+     */
     @Override
     public void delete(Song song)
     {

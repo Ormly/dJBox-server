@@ -46,13 +46,18 @@ public class UserDAO implements DAO<User>
         }
     }
 
-
     @Override
     public Optional<User> get(long id)
     {
         return Optional.empty();
     }
 
+    /**
+     * Extracts the user that corresponds to the token passed.
+     * Returns null if data could not be extracted.
+     * @param token
+     * @return User
+     */
     public Optional<User> getByToken(String token){
         User u = null;
 
@@ -86,6 +91,12 @@ public class UserDAO implements DAO<User>
         return Optional.ofNullable(u);
     }
 
+    /**
+     * Extracts the user that corresponds to the email passed.
+     * Returns null if data could not be extracted.
+     * @param email
+     * @return User
+     */
     public Optional<User> get(String email)
     {
         User u = null;
@@ -127,6 +138,10 @@ public class UserDAO implements DAO<User>
        return Optional.ofNullable(u);
     }
 
+    /**
+     * Extracts the list of users stored in the DB.
+     * Returns empty list if data could not be extracted.
+     */
     @Override
     public List<User> getAll()
     {
@@ -165,10 +180,15 @@ public class UserDAO implements DAO<User>
         return userList;
     }
 
+    /**
+     * Saves the passed user into the DB.
+     * @param user
+     */
     @Override
     public void save(User user)
     {
 
+        //NOTE: save method doesn't save the token
         openConnection();
 
         try
@@ -189,6 +209,10 @@ public class UserDAO implements DAO<User>
         }
     }
 
+    /**
+     * Updates the user in the DB.
+     * @param user
+     */
     @Override
     public void update(User user)
     {
@@ -214,6 +238,10 @@ public class UserDAO implements DAO<User>
         }
     }
 
+    /**
+     * Removes the user entry in the DB
+     * @param user
+     */
     @Override
     public void delete(User user)
     {

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 
 import org.pineapple.core.User;
 
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
