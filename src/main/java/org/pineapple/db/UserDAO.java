@@ -30,7 +30,7 @@ public class UserDAO implements DAO<User>
                 this.c = DBConnection.getConnection(DBConnection.Database.AUTHENTICATION);
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -42,7 +42,7 @@ public class UserDAO implements DAO<User>
                 this.c.close();
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -80,7 +80,7 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
 
         return Optional.ofNullable(u);
@@ -121,7 +121,7 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
        {
-
+           e.printStackTrace();
        }
 
        return Optional.ofNullable(u);
@@ -159,6 +159,7 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
+            e.printStackTrace();
         }
 
         return userList;
@@ -176,7 +177,7 @@ public class UserDAO implements DAO<User>
                     "INSERT INTO user (email, role_id, password)" +
                     "VALUES (?,2,?);");
             ps.setString(1, user.getUserName());
-            ps.setString(3, user.getPasswordHash());
+            ps.setString(2, user.getPasswordHash());
 
             ps.execute();
 
@@ -184,7 +185,7 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -209,8 +210,7 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-            System.out.println("Failed executing query!");
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -233,7 +233,7 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 }
