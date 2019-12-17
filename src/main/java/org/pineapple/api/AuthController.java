@@ -31,6 +31,26 @@ public class AuthController
     }
 
     /**
+     * Attempts to register a new  user. No token will be generated and
+     * the newly registered user must log in afterwards. If the registration
+     * is not possible, an HTTP error 400 BAD REQUEST is returned.
+     *
+     * @param req: A json formatted registration request containing two key value pairs:
+     *             "userEmail": "username",
+     *             "password": "pwd1234"
+     * @return
+     */
+    @PostMapping("/auth/register")
+    public void register(@RequestBody AuthRequest req, HttpServletResponse response)
+    {
+        // Throws an exception if registration failed
+        JukeBox.getInstance().doRegistration(req.getUserEmail(), req.getPassword());
+
+        // if successful
+        response.setStatus(200);
+    }
+
+    /**
      * Logs out the user with the given token
      *
      * @param token
