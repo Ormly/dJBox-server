@@ -70,12 +70,26 @@ public class GUIModel
         return queue;
     }
 
+    /**
+     * Opens the file chooser, where a song (.mp3) will be selected, added to the local directory and to the database
+     * @param stage needs to be passed to use the file chooser
+     * @param fileChooser Chooses the which will be added to the library
+     */
     public void chooseFile(Stage stage, FileChooser fileChooser)
     {
         File selectedFile = fileChooser.showOpenDialog(stage);
         try
         {
+            //Copy the selected song to the directory where all the songs are stored
             Files.copy(selectedFile.toPath(), Paths.get("C:\\Users\\Public\\Music\\" + selectedFile.getName()));
+
+            //add the song to the db
+            jukeBox.addSong("C:\\Users\\Public\\Music\\" + selectedFile.getName());
+
+            //Update the library table with new contents
+            libray.clear();
+            libray.addAll(jukeBox.getAllSongs());
+
         }
         catch (IOException ex)
         {
@@ -87,12 +101,25 @@ public class GUIModel
         }
     }
 
+    /**
+     * Selected song from the library is deleted from the db and directory
+     * @param songToRemove specifies which song to delete
+     */
     public void removeSong(Song songToRemove)
     {
         try
         {
-            System.out.println(songToRemove.getTitle());
-        } catch (NullPointerException e)
+            //delete the song locally
+            Files.deleteIfExists(Paths.get(songToRemove.getPathToFile()));
+
+            //delete the song from the database
+            jukeBox.deleteSong(songToRemove);
+
+            //update the library table
+            libray.clear();
+            libray.addAll(jukeBox.getAllSongs());
+
+        } catch (NullPointerException | IOException e)
         {
             System.out.println("No song selected");
         }

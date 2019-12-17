@@ -120,6 +120,11 @@ public class MediaLibrary implements IMediaLibrary
         this.addAllSongsToLibrary(new ArrayList<>(List.of(path)));
     }
 
+    public void deleteSongFromLibrary(Song songToDelete)
+    {
+        persistence.delete(songToDelete);
+    }
+
     /**
      * Can be used to add a list of media files to the media library
      * @param paths = a list of media file paths

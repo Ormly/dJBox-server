@@ -20,6 +20,8 @@ import org.pineapple.core.Song;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -54,9 +56,9 @@ public class GUIView
     /**
      * Constructor for the LibraryView
      * @param model attaches a model to get required functionality
+     * @param stage required by the file chooser
      */
-    public GUIView(GUIModel model, Stage stage)
-    {
+    public GUIView(GUIModel model, Stage stage) throws UnknownHostException {
         this.model = model;
         this.stage = stage;
         configurePane();
@@ -74,12 +76,13 @@ public class GUIView
     /**
      * Configures the pane, by specifying all the nodes and borders
      */
-    public void configurePane()
-    {
+    public void configurePane() throws UnknownHostException {
         setUpTable();
         configureListeners();
         Label libraryLabel = new Label("Available Songs:");
         Label queueLabel = new Label("Songs in Queue:");
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        Label ipAddress = new Label("IP Address: " + inetAddress.getHostAddress());
         libraryLabel.setFont(new Font("Arial", 17));
         queueLabel.setFont(new Font("Arial", 17));
 
@@ -93,6 +96,10 @@ public class GUIView
         songName.setFont(new Font("Arial", 20));
         albumName.setFont(new Font("Arial", 14));
         artistName.setFont(new Font("Arial", 17));
+
+        songName.setWrapText(true);
+        albumName.setWrapText(true);
+        artistName.setWrapText(true);
 
         scene = new BorderPane();
         VBox leftSide = new VBox(searchField, libraryLabel, libraryTable, removeSongButton);
@@ -109,7 +116,7 @@ public class GUIView
         HBox buttons = new HBox(settingsButton, authorButton);
         buttons.setSpacing(10);
         buttons.setAlignment(Pos.BASELINE_RIGHT);
-        VBox rightSide = new VBox(buttons, queueLabel, queueTable);
+        VBox rightSide = new VBox(buttons, queueLabel, queueTable, ipAddress);
         rightSide.setSpacing(20);
         rightSide.setPadding(new Insets(10));
         rightSide.setMinWidth(400);
@@ -123,7 +130,7 @@ public class GUIView
 
     /**
      * Sets up the table with the songs from the database
-     * Executed once, when the panes is being set up
+     * Executed once, when the pane is being set up
      */
     public void setUpTable()
     {
