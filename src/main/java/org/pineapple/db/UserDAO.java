@@ -30,7 +30,7 @@ public class UserDAO implements DAO<User>
                 this.c = DBConnection.getConnection(DBConnection.Database.AUTHENTICATION);
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
@@ -42,10 +42,9 @@ public class UserDAO implements DAO<User>
                 this.c.close();
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
-
 
     @Override
     public Optional<User> get(long id)
@@ -53,6 +52,12 @@ public class UserDAO implements DAO<User>
         return Optional.empty();
     }
 
+    /**
+     * Extracts the user that corresponds to the token passed.
+     * Returns null if data could not be extracted.
+     * @param token
+     * @return User
+     */
     public Optional<User> getByToken(String token){
         User u = null;
 
@@ -80,12 +85,18 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
 
         return Optional.ofNullable(u);
     }
 
+    /**
+     * Extracts the user that corresponds to the email passed.
+     * Returns null if data could not be extracted.
+     * @param email
+     * @return User
+     */
     public Optional<User> get(String email)
     {
         User u = null;
@@ -121,12 +132,16 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
        {
-
+           e.printStackTrace();
        }
 
        return Optional.ofNullable(u);
     }
 
+    /**
+     * Extracts the list of users stored in the DB.
+     * Returns empty list if data could not be extracted.
+     */
     @Override
     public List<User> getAll()
     {
@@ -159,15 +174,21 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
+            e.printStackTrace();
         }
 
         return userList;
     }
 
+    /**
+     * Saves the passed user into the DB.
+     * @param user
+     */
     @Override
     public void save(User user)
     {
 
+        //NOTE: save method doesn't save the token
         openConnection();
 
         try
@@ -176,7 +197,7 @@ public class UserDAO implements DAO<User>
                     "INSERT INTO user (email, role_id, password)" +
                     "VALUES (?,2,?);");
             ps.setString(1, user.getUserName());
-            ps.setString(3, user.getPasswordHash());
+            ps.setString(2, user.getPasswordHash());
 
             ps.execute();
 
@@ -184,10 +205,14 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Updates the user in the DB.
+     * @param user
+     */
     @Override
     public void update(User user)
     {
@@ -209,11 +234,14 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-            System.out.println("Failed executing query!");
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Removes the user entry in the DB
+     * @param user
+     */
     @Override
     public void delete(User user)
     {
@@ -233,7 +261,7 @@ public class UserDAO implements DAO<User>
 
         } catch(SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 }
