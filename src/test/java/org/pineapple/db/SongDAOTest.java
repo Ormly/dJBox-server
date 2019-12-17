@@ -47,7 +47,7 @@ public class SongDAOTest
         Assertions.assertTrue(rs2.next());
         Assertions.assertTrue(rs3.next());
 
-        //this.cleanUp.addAll(this.findSongsWithName("jb_test_title"));
+        this.cleanUp.addAll(this.findSongsWithName("jb_test_title"));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class SongDAOTest
         System.out.println(song.getGenre());
     }
 
-    /*@Test
+    @Test
     void duplicateSongs()
     {
 
@@ -123,6 +123,4 @@ public class SongDAOTest
         c.close();
 
     }
-
-     */
 }
