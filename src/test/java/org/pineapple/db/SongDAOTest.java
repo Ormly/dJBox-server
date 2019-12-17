@@ -51,15 +51,6 @@ public class SongDAOTest
     }
 
     @Test
-    void getSongGenre()
-    throws SQLException
-    {
-        Song song = s.get(12).get();
-
-        System.out.println(song.getGenre());
-    }
-
-    @Test
     void duplicateSongs()
     {
 
