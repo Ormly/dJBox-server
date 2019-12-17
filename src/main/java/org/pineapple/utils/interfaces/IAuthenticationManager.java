@@ -1,6 +1,7 @@
 package org.pineapple.utils.interfaces;
 
 import org.pineapple.core.exceptions.AuthenticationFailedException;
+import org.pineapple.core.exceptions.RegistrationFailedException;
 import org.pineapple.core.exceptions.UserNotAuthenticatedException;
 
 public interface IAuthenticationManager
@@ -33,7 +34,7 @@ public interface IAuthenticationManager
      * @throws AuthenticationFailedException
      */
     public void createUser(String userName, String password)
-    throws AuthenticationFailedException;
+    throws RegistrationFailedException;
 
     /**
      * Throws an exception if the given does not belong to a logged in user.
