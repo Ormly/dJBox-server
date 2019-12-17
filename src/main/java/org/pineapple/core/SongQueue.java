@@ -5,6 +5,7 @@ import org.pineapple.core.interfaces.MediaQueue;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * This class inherits from MediaQueue abstract class, and implements is using a LinkedList.
@@ -24,7 +25,7 @@ public class SongQueue extends MediaQueue<Song>
     }
 
     @Override
-    public Song popNextMedia()
+    public Song popNextMedia() throws NoSuchElementException
     {
         Song s = this.queue.remove();
         this.invokeCallbacks();

@@ -2,6 +2,7 @@ package org.pineapple.core.interfaces;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public abstract class MediaQueue<T>
@@ -19,7 +20,7 @@ public abstract class MediaQueue<T>
      * Removes the next media file from the queue and returns it
      * @return
      */
-    public abstract T popNextMedia();
+    public abstract T popNextMedia() throws NoSuchElementException;
 
     /**
      * Get a list of all objects currently in the queue

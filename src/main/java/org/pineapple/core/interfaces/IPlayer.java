@@ -13,6 +13,8 @@ public interface IPlayer
      */
     public void pause();
 
+    public void unPause();
+
     /**
      * Returns true is there is currently a song playing, or flase otherwise.
      * @return
@@ -25,5 +27,9 @@ public interface IPlayer
      */
     public boolean isStopped();
 
+    public boolean isPaused();
+
     public void setOnSongEnd(Runnable callback);
+
+    public void stop();
 }

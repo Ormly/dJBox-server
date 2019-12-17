@@ -58,18 +58,37 @@ public class JavaFXPlayer implements IPlayer
     @Override
     public void pause()
     {
+        if(this.isPlaying())
+            this.player.pause();
+    }
 
+    public void unPause()
+    {
+        if(this.isPaused())
+            this.player.play();
     }
 
     @Override
     public boolean isPlaying()
     {
+        if(this.player != null)
+            return this.player.getStatus() == MediaPlayer.Status.PLAYING;
+
         return false;
     }
 
     @Override
     public boolean isStopped()
     {
+        return !this.isPlaying();
+    }
+
+    @Override
+    public boolean isPaused()
+    {
+        if(this.player != null)
+            return this.player.getStatus() == MediaPlayer.Status.PAUSED;
+
         return false;
     }
 
@@ -77,5 +96,14 @@ public class JavaFXPlayer implements IPlayer
     public void setOnSongEnd(Runnable callback)
     {
         this.onSongEndCallbacks.add(callback);
+    }
+
+    @Override
+    public void stop()
+    {
+        if(this.player != null)
+            this.player.stop();
+
+        this.player = null;
     }
 }
