@@ -1,6 +1,7 @@
 package org.pineapple.core;
 
 import org.pineapple.core.exceptions.AuthenticationFailedException;
+import org.pineapple.core.exceptions.RegistrationFailedException;
 import org.pineapple.core.exceptions.UserNotAuthenticatedException;
 import org.pineapple.db.UserDAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
@@ -93,18 +94,18 @@ public class AuthenticationManager implements IAuthenticationManager
      * @return
      */
     @Override
-    public boolean createUser(String userName, String password)
+    public void createUser(String userName, String password)
+    throws RegistrationFailedException
     {
         User user = new User(userName, password);
 
         Optional<User> u = this.persistenceManager.get(userName);
         //if user already exists
         if(u.isPresent())
-            return false;
+          throw new RegistrationFailedException("Registration failed for user: " + userName);
 
         //save the new user
         persistenceManager.save(user);
-        return true;
     }
 
     /**

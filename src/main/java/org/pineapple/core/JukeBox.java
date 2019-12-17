@@ -85,6 +85,18 @@ public class JukeBox
     }
 
     /**
+     * Register a user
+     *
+     * @param userEmail
+     * @param password
+     * @return
+     */
+    public void doRegistration(String userEmail, String password)
+    {
+        this.authenticationManager.createUser(userEmail, password);
+    }
+
+    /**
      * log out user with the give token
      * @param token
      */
@@ -101,4 +113,6 @@ public class JukeBox
     {
         this.authenticationManager.validateToke(token);
     }
+
+
 }
