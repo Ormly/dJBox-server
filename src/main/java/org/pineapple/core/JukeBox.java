@@ -13,14 +13,14 @@ public class JukeBox
 {
     private static JukeBox instance;
 
-    private IMediaLibrary libraryProvider;
+    private MediaLibrary libraryProvider;
     private IPlayer player;
     private MediaQueue playlist;
     private IAuthenticationManager authenticationManager;
 
     private JukeBox()
     {
-        this.libraryProvider = new MediaLibrary("media");
+        this.libraryProvider = new MediaLibrary("C:\\Users\\Public\\Music");
         this.player = new JavaFXPlayer();
         this.authenticationManager = new AuthenticationManager();
         this.playlist = new SongQueue();
@@ -36,6 +36,15 @@ public class JukeBox
         }
 
         return instance;
+    }
+    public void addSong(String path)
+    {
+        this.libraryProvider.addSongToLibrary(path);
+    }
+
+    public void deleteSong(Song song)
+    {
+        this.libraryProvider.deleteSongFromLibrary(song);
     }
 
     public void setOnQueueChanged(Runnable callback){
