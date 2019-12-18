@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.pineapple.core.Song;
 
-import java.awt.image.RescaleOp;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Random;
 
 public class SongDAOTest
 {
@@ -102,6 +101,60 @@ public class SongDAOTest
         // make sure nothing comes back
         Assertions.assertFalse(s.get(toDelete.getId()).isPresent());
 
+    }
+
+    @Test
+    void differentGenreValuesTest()
+    {
+        //check string
+        Song song1 = new Song("jb_test_genre1",
+                              "jb_test_1",
+                              "jb_test_1",
+                              2019,
+                              "Jazz",
+                              "here/to/there");
+        //check upper boundary
+        Song song2 = new Song("jb_test_genre2",
+                              "jb_test_2",
+                              "jb_test_2",
+                              2019,
+                              "79",
+                              "here/to/there");
+        //check lower boundary
+        Song song3 = new Song("jb_test_genre3",
+                              "jb_test_3",
+                              "jb_test_3",
+                              2019,
+                              "-1",
+                              "here/to/there");
+        //check out of bounds
+        Song song4 = new Song("jb_test_genre3",
+                              "jb_test_4",
+                              "jb_test_4",
+                              2019,
+                              "85",
+                              "here/to/there");
+
+        //check newly created songs
+        Assertions.assertEquals("Jazz", song1.getGenre());
+        Assertions.assertNotEquals("71", song2.getGenre());
+        Assertions.assertNotEquals("-1", song3.getGenre());
+        Assertions.assertEquals("None", song4.getGenre());
+
+        //check song gotten from DB
+        List<Song> songs = s.getAll();
+        Random rnd = new Random();
+        int rndSong = rnd.nextInt(songs.size());
+
+        song1 = songs.get(rndSong);
+        Song s1 = new Song(song1.getTitle(),
+                           song1.getArtist(),
+                           song1.getAlbum(),
+                           song1.getYear(),
+                           song1.getGenre(),
+                           song1.getPathToFile());
+
+        Assertions.assertEquals(song1.getGenre(), s1.getGenre());
     }
 
     @AfterAll
