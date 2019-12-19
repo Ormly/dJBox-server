@@ -94,7 +94,7 @@ public class Song
     public boolean equals(Object obj)
     {
         Song s = (Song) obj;
-        return this.artist.equals(s.artist) && this.album.equals(s.album);
+        return this.artist.equals(s.artist) && this.album.equals(s.album) && this.title.equals(s.title);
     }
 
     /**
