@@ -97,7 +97,7 @@ public class AuthenticationManager implements IAuthenticationManager
     public void createUser(String userName, String password)
     throws RegistrationFailedException
     {
-        User user = new User(userName, password);
+        User user = new User(userName, getHash256(password));
 
         Optional<User> u = this.persistenceManager.get(userName);
         //if user already exists
