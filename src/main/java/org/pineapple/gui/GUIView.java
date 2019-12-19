@@ -20,10 +20,10 @@ import org.pineapple.core.Song;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Enumeration;
 
 
 /**
@@ -58,10 +58,11 @@ public class GUIView
      * @param model attaches a model to get required functionality
      * @param stage required by the file chooser
      */
-    public GUIView(GUIModel model, Stage stage) throws UnknownHostException {
+    public GUIView(GUIModel model, Stage stage) throws UnknownHostException, SocketException {
         this.model = model;
         this.stage = stage;
         configurePane();
+
     }
 
     /**
@@ -76,13 +77,13 @@ public class GUIView
     /**
      * Configures the pane, by specifying all the nodes and borders
      */
-    public void configurePane() throws UnknownHostException {
+    public void configurePane() throws UnknownHostException, SocketException {
         setUpTable();
         configureListeners();
         Label libraryLabel = new Label("Available Songs:");
         Label queueLabel = new Label("Songs in Queue:");
         InetAddress inetAddress = InetAddress.getLocalHost();
-        Label ipAddress = new Label("IP Address: " + inetAddress.getHostAddress());
+        Label ipAddress = new Label("IP Address: " + model.getIP());
         libraryLabel.setFont(new Font("Arial", 17));
         queueLabel.setFont(new Font("Arial", 17));
 
@@ -162,6 +163,7 @@ public class GUIView
 
 
     }
+
 
     /**
      * Attaches eventhandlers and listeners to buttons and the table

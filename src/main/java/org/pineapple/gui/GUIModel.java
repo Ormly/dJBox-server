@@ -9,8 +9,13 @@ import org.pineapple.core.Song;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Enumeration;
 
 /**
  * LibraryModel contains all the functionality that is somehow connected to the outside world
@@ -124,5 +129,40 @@ public class GUIModel
             System.out.println("No song selected");
         }
 
+    }
+
+    /**
+     * Get all IPs that are available on the system and selects one that corresponds to the wireless device
+     * @return returns the wireless ip, otherwise shows that there is no ip found
+     * @throws SocketException
+     */
+    public String getIP() throws SocketException {
+
+
+        Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
+
+        while (e.hasMoreElements()) {
+            NetworkInterface ni = e.nextElement();
+
+            if (ni.isLoopback() || !ni.isUp())
+                continue;
+
+            Enumeration<InetAddress> e2 = ni.getInetAddresses();
+
+            while (e2.hasMoreElements()) {
+                InetAddress address = e2.nextElement();
+
+                if (address instanceof Inet6Address)
+                    continue;
+
+                String ip = address.getHostAddress();
+
+                if (ni.getDisplayName().contains("Wi"))
+                    return ip;
+            }
+
+
+        }
+        return "No wireless network found";
     }
 }
