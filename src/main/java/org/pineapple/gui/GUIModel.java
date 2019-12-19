@@ -81,10 +81,10 @@ public class GUIModel
         try
         {
             //Copy the selected song to the directory where all the songs are stored
-            Files.copy(selectedFile.toPath(), Paths.get("C:\\Users\\Public\\Music\\" + selectedFile.getName()));
+            Files.copy(selectedFile.toPath(), Paths.get("media\\" + selectedFile.getName()));
 
             //add the song to the db
-            jukeBox.addSong("C:\\Users\\Public\\Music\\" + selectedFile.getName());
+            jukeBox.addSong("media\\" + selectedFile.getName());
 
             //Update the library table with new contents
             libray.clear();
