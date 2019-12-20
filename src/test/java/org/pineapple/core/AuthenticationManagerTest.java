@@ -144,10 +144,4 @@ public class AuthenticationManagerTest
         System.out.println("User " + user.getUserName() + " has token: " + user.getToken());
     }
 
-    @Test
-    void saveNewAdmin()
-    {
-
-    }
-
 }
