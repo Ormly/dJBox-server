@@ -189,6 +189,7 @@ public class UserDAO implements DAO<User>
     {
 
         //NOTE: save method doesn't save the token
+        //NOTE: save method will always just save user entities
         openConnection();
 
         try
@@ -221,12 +222,11 @@ public class UserDAO implements DAO<User>
         try
         {
             PreparedStatement ps = this.c.prepareStatement(
-                    "UPDATE user SET role_id=?, password=?, token=? " +
+                    "UPDATE user SET password=?, token=? " +
                          "WHERE email=?");
-            ps.setInt(1,2);
-            ps.setString(2, user.getPasswordHash());
-            ps.setString(3, user.getToken());
-            ps.setString(4, user.getUserName());
+            ps.setString(1, user.getPasswordHash());
+            ps.setString(2, user.getToken());
+            ps.setString(3, user.getUserName());
 
             ps.executeUpdate();
 

@@ -1,9 +1,13 @@
 package org.pineapple.core;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.pineapple.db.DBConnection;
+import org.pineapple.db.UserDAO;
 
+import java.sql.Connection;
 import java.util.Optional;
 
 /**
@@ -12,6 +16,16 @@ import java.util.Optional;
 @DisplayName("AuthenticationManager Tests")
 public class AuthenticationManagerTest
 {
+    static private Connection c;
+    static private User user;
+    static private String token;
+    static private UserDAO dao = new UserDAO();
+
+    @BeforeAll
+    static void buildUP()
+    {
+        c = DBConnection.getConnection(DBConnection.Database.AUTHENTICATION);
+    }
 
     @Test
     @DisplayName("SHA256 Empty string test")
@@ -128,6 +142,12 @@ public class AuthenticationManagerTest
         Assertions.assertNull(user.getToken());
 
         System.out.println("User " + user.getUserName() + " has token: " + user.getToken());
+    }
+
+    @Test
+    void saveNewAdmin()
+    {
+
     }
 
 }
