@@ -18,12 +18,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.pineapple.core.Song;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Enumeration;
+
 
 
 /**
@@ -58,7 +56,7 @@ public class GUIView
      * @param model attaches a model to get required functionality
      * @param stage required by the file chooser
      */
-    public GUIView(GUIModel model, Stage stage) throws UnknownHostException, SocketException {
+    public GUIView(GUIModel model, Stage stage) {
         this.model = model;
         this.stage = stage;
         configurePane();
@@ -77,13 +75,22 @@ public class GUIView
     /**
      * Configures the pane, by specifying all the nodes and borders
      */
-    public void configurePane() throws UnknownHostException, SocketException {
+    public void configurePane() {
         setUpTable();
         configureListeners();
         Label libraryLabel = new Label("Available Songs:");
         Label queueLabel = new Label("Songs in Queue:");
-        InetAddress inetAddress = InetAddress.getLocalHost();
-        Label ipAddress = new Label("IP Address: " + model.getIP());
+        String ipAddressString = "";
+
+        try
+        {
+           ipAddressString = "IP Address: " + model.getIP();
+        } catch (SocketException ex)
+        {
+            showException(ex);
+        }
+
+        Label ipAddress = new Label(ipAddressString);
         libraryLabel.setFont(new Font("Arial", 17));
         queueLabel.setFont(new Font("Arial", 17));
 
@@ -145,7 +152,7 @@ public class GUIView
         TableColumn albumCol = new TableColumn("Album");
         albumCol.setCellValueFactory(
                 new PropertyValueFactory<Song, String>("album"));
-        libraryTable.setItems(model.getLibray());
+        libraryTable.setItems(model.getLibrary());
         libraryTable.getColumns().addAll(songCol, artistCol, albumCol);
 
         queueTable = new TableView();
@@ -185,10 +192,47 @@ public class GUIView
                     albumName.setText(selectedSong.getAlbum());
                 } catch (IndexOutOfBoundsException e)
                 {
-
+                    //Occurs only when an empty field is clicked in the table
                 }
 
             }
         });
+    }
+
+    public void showException(Exception ex)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Exception Dialog");
+        alert.setHeaderText("Exception Dialog");
+        alert.setContentText("An exception has occured");
+
+
+
+        // Create expandable Exception.
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+        String exceptionText = sw.toString();
+
+        Label label = new Label("The exception stacktrace was:");
+
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+
+        // Set expandable Exception into the dialog pane.
+        alert.getDialogPane().setExpandableContent(expContent);
+
+        alert.showAndWait();
     }
 }

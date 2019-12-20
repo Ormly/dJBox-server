@@ -2,6 +2,7 @@ package org.pineapple.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.pineapple.core.JukeBox;
@@ -26,7 +27,7 @@ public class GUIModel
     /**
      * List, which contains data from the database of the library
      */
-    private ObservableList<Song> libray;
+    private ObservableList<Song> library;
     private ObservableList<Song> queue;
 
     /**
@@ -41,7 +42,7 @@ public class GUIModel
     public GUIModel()
     {
 
-        this.libray = FXCollections.observableArrayList(jukeBox.getAllSongs());
+        this.library = FXCollections.observableArrayList(jukeBox.getAllSongs());
         this.queue = FXCollections.observableArrayList(jukeBox.getSongsFromQueue());
         this.jukeBox.setOnQueueChanged(() -> this.updateQueue());
     }
@@ -51,7 +52,7 @@ public class GUIModel
      */
     public void updateLibrary()
     {
-        libray = FXCollections.observableArrayList(jukeBox.getAllSongs());
+        library = FXCollections.observableArrayList(jukeBox.getAllSongs());
     }
 
     public void updateQueue()
@@ -66,9 +67,9 @@ public class GUIModel
      * Simple getter for the List of Media
      * @return List of Media
      */
-    public ObservableList<Song> getLibray()
+    public ObservableList<Song> getLibrary()
     {
-        return libray;
+        return library;
     }
 
     public ObservableList<Song> getQueue() {
@@ -92,13 +93,13 @@ public class GUIModel
             jukeBox.addSong("media\\" + selectedFile.getName());
 
             //Update the library table with new contents
-            libray.clear();
-            libray.addAll(jukeBox.getAllSongs());
+            library.clear();
+            library.addAll(jukeBox.getAllSongs());
 
         }
         catch (IOException ex)
         {
-            //ex.printStackTrace();
+            ex.printStackTrace();
         }
         catch (NullPointerException ex)
         {
@@ -121,12 +122,19 @@ public class GUIModel
             jukeBox.deleteSong(songToRemove);
 
             //update the library table
-            libray.clear();
-            libray.addAll(jukeBox.getAllSongs());
+            library.clear();
+            library.addAll(jukeBox.getAllSongs());
 
-        } catch (NullPointerException | IOException e)
+        }
+        catch (NullPointerException | IOException e)
         {
-            System.out.println("No song selected");
+            //if no song selected, show an alert
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a song to remove");
+
+            alert.showAndWait();
         }
 
     }

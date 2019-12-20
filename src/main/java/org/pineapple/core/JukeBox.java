@@ -13,7 +13,7 @@ public class JukeBox
 {
     private static JukeBox instance;
 
-    private MediaLibrary libraryProvider;
+    private IMediaLibrary libraryProvider;
     private IPlayer player;
     private MediaQueue playlist;
     private IAuthenticationManager authenticationManager;
