@@ -14,6 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+
 @SpringBootApplication
 public class Main extends Application
 {
@@ -53,9 +54,9 @@ public class Main extends Application
         Scene scene1;
 
         GUIModel guiModel = new GUIModel();
-        GUIView guiView = new GUIView(guiModel);
+        GUIView guiView = new GUIView(guiModel, primaryStage);
 
-        scene1 = new Scene(guiView.getScene(), 800, 600);
+        scene1 = new Scene(guiView.getScene(), 1200, 600);
 
 
         primaryStage.setScene(scene1);

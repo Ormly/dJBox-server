@@ -18,4 +18,8 @@ public interface IMediaLibrary
      * @return
      */
     public Song getMedia(int id);
+
+    public void addSongToLibrary(String path);
+
+    public void deleteSongFromLibrary(Song songToDelete);
 }

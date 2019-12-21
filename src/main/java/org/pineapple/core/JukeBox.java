@@ -37,6 +37,15 @@ public class JukeBox
 
         return instance;
     }
+    public void addSong(String path)
+    {
+        this.libraryProvider.addSongToLibrary(path);
+    }
+
+    public void deleteSong(Song song)
+    {
+        this.libraryProvider.deleteSongFromLibrary(song);
+    }
 
     public void setOnQueueChanged(Runnable callback){
         this.playlist.setOnQueueChanged(callback);
