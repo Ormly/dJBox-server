@@ -134,7 +134,7 @@ public class JukeBox
      */
     public void enableJukeBox()
     {
-        this.setState(new WaitingState());
+        this.state.enable();
     }
 
     /**
@@ -142,8 +142,7 @@ public class JukeBox
      */
     public void disableJukeBox()
     {
-        this.player.stop();
-        this.currentlyPlaying = null;
+        this.state.disable();
     }
 
     /**
@@ -151,7 +150,8 @@ public class JukeBox
      */
     public void pauseCurrentSong()
     {
-        this.player.pause();
+        if(this.player != null)
+            this.player.pause();
     }
 
     /**
@@ -159,7 +159,8 @@ public class JukeBox
      */
     public void unpauseCurrentSong()
     {
-        this.player.unPause();
+        if(this.player != null)
+            this.player.unPause();
     }
 
     /**
