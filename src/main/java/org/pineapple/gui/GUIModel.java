@@ -29,6 +29,7 @@ public class GUIModel
      */
     private ObservableList<Song> library;
     private ObservableList<Song> queue;
+    private SceneController sceneController;
 
     /**
      * Actual JukeBox, through which we connect the design to the logic
@@ -39,12 +40,13 @@ public class GUIModel
     /**
      * Constructor for the model
      */
-    public GUIModel()
+    public GUIModel(SceneController sceneController)
     {
 
         this.library = FXCollections.observableArrayList(jukeBox.getAllSongs());
         this.queue = FXCollections.observableArrayList(jukeBox.getSongsFromQueue());
         this.jukeBox.setOnQueueChanged(() -> this.updateQueue());
+        this.sceneController = sceneController;
     }
 
     /**
@@ -172,5 +174,10 @@ public class GUIModel
 
         }
         return "No wireless network found";
+    }
+
+    public void changeScene()
+    {
+        sceneController.changeMainToLogIn();
     }
 }

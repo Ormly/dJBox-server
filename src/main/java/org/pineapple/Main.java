@@ -8,8 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import org.pineapple.core.JukeBox;
-import org.pineapple.gui.GUIModel;
-import org.pineapple.gui.GUIView;
+import org.pineapple.gui.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -52,14 +51,17 @@ public class Main extends Application
     throws Exception
     {
         Scene scene1;
+        SceneController sceneController = new SceneController(primaryStage);
 
-        GUIModel guiModel = new GUIModel();
+        LogInModel logInModel = new LogInModel(sceneController);
+        LogInView logInView = new LogInView(logInModel);
+
+        GUIModel guiModel = new GUIModel(sceneController);
         GUIView guiView = new GUIView(guiModel, primaryStage);
+        sceneController.setScenes(new Scene(guiView.getScene(), 1200, 600), new Scene(logInView.getScene(), 1200, 600));
 
-        scene1 = new Scene(guiView.getScene(), 1200, 600);
 
-
-        primaryStage.setScene(scene1);
+        primaryStage.setScene(sceneController.getLogInGUI());
         primaryStage.centerOnScreen();
         primaryStage.show();
     }
