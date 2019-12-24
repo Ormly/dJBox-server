@@ -44,7 +44,7 @@ public class GUIView
     private Label albumName = new Label("");
 
     private Button addSongButton = new Button("Add Song");
-    private Button authorButton = new Button("Authors");
+    private Button logOutButton = new Button("Log Out");
     private Button settingsButton = new Button("Settings");
     private Button removeSongButton = new Button("Remove Song");
     private Song selectedSong;
@@ -121,7 +121,7 @@ public class GUIView
         center.setPadding(new Insets(10));
         center.setMinWidth(400);
 
-        HBox buttons = new HBox(settingsButton, authorButton);
+        HBox buttons = new HBox(settingsButton, logOutButton);
         buttons.setSpacing(10);
         buttons.setAlignment(Pos.BASELINE_RIGHT);
         VBox rightSide = new VBox(buttons, queueLabel, queueTable, ipAddress);
@@ -179,6 +179,7 @@ public class GUIView
     {
         addSongButton.setOnAction(e -> model.chooseFile(stage, fileChooser));
         removeSongButton.setOnAction(e -> model.removeSong(selectedSong));
+        logOutButton.setOnAction(e -> model.changeScene());
 
         libraryTable.setOnMouseClicked((MouseEvent event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
