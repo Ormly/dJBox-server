@@ -176,8 +176,12 @@ public class GUIModel
         return "No wireless network found";
     }
 
+    /**
+     * Calls the Scene Controller to change the scene back to the log in screen
+     */
     public void changeScene()
     {
+        //TODO: actual log out functionality
         sceneController.changeMainToLogIn();
     }
 }

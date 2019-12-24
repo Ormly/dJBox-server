@@ -50,7 +50,6 @@ public class Main extends Application
     public void start(Stage primaryStage)
     throws Exception
     {
-        Scene scene1;
         SceneController sceneController = new SceneController(primaryStage);
 
         LogInModel logInModel = new LogInModel(sceneController);
@@ -58,7 +57,7 @@ public class Main extends Application
 
         GUIModel guiModel = new GUIModel(sceneController);
         GUIView guiView = new GUIView(guiModel, primaryStage);
-        sceneController.setScenes(new Scene(guiView.getScene(), 1200, 600), new Scene(logInView.getScene(), 1200, 600));
+        sceneController.setScenes(new Scene(guiView.getScene(), 1200, 600), new Scene(logInView.getScene(), 800, 400));
 
 
         primaryStage.setScene(sceneController.getLogInGUI());
