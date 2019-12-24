@@ -3,6 +3,7 @@ package org.pineapple.gui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -29,11 +30,15 @@ public class LogInView
         usernameField = new TextField();
         passwordField = new PasswordField();
         logInButton = new Button("Log In");
-        VBox center = new VBox(usernameField, passwordField, logInButton);
+        usernameField.setMaxWidth(400);
+        passwordField.setMaxWidth(400);
+        VBox center = new VBox(new Label("Username"), usernameField, new Label("Password"), passwordField, logInButton);
         center.setAlignment(Pos.CENTER);
-        center.setSpacing(20);
+        center.setSpacing(10);
         center.setPadding(new Insets(10));
+
         scene.setCenter(center);
+
     }
 
     public void configureListeners()

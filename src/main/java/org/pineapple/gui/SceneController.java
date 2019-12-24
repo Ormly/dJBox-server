@@ -25,6 +25,11 @@ public class SceneController
         stage.setScene(logInGUI);
     }
 
+    /**
+     * Attaches the required scened to the controller (has to be called when all the Views are constructed)
+     * @param mainGUI
+     * @param logInGUI
+     */
     public void setScenes(Scene mainGUI, Scene logInGUI)
     {
         this.mainGUI = mainGUI;
