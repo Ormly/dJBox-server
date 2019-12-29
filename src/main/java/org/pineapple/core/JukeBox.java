@@ -254,16 +254,21 @@ public class JukeBox
         this.authenticationManager.validateToke(token);
     }
 
+
     /**
      * Fetch the currently playing song object.
      * Throws an exception if no song is currently playing
      * @return
      */
-    public Song getCurrentlyPlayingSong()
-    {
-        if(this.currentlyPlaying == null)
+    public Song getCurrentlyPlayingSong() {
+        if (this.currentlyPlaying == null)
             throw new NoSongCurrentlyPlayingException();
         return currentlyPlaying;
+    }
+    public void logOutAdmin()
+    {
+
+
     }
 
     /**

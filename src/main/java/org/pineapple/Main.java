@@ -50,13 +50,15 @@ public class Main extends Application
     public void start(Stage primaryStage)
     throws Exception
     {
+        //Scene controller is responsible for switching between different scenes
         SceneController sceneController = new SceneController(primaryStage);
 
         LogInModel logInModel = new LogInModel(sceneController);
-        LogInView logInView = new LogInView(logInModel);
-
         GUIModel guiModel = new GUIModel(sceneController);
+
+        LogInView logInView = new LogInView(logInModel);
         GUIView guiView = new GUIView(guiModel, primaryStage);
+
         sceneController.setScenes(new Scene(guiView.getScene(), 1200, 600), new Scene(logInView.getScene(), 800, 400));
 
 

@@ -177,11 +177,11 @@ public class GUIModel
     }
 
     /**
-     * Calls the Scene Controller to change the scene back to the log in screen
+     * Log the user out and calls the Scene Controller to change the scene back to the log in screen
      */
-    public void changeScene()
+    public void logOut()
     {
-        //TODO: actual log out functionality
+        jukeBox.logOutAdmin(); // needs an implementation
         sceneController.changeMainToLogIn();
     }
 }

@@ -173,13 +173,13 @@ public class GUIView
 
 
     /**
-     * Attaches eventhandlers and listeners to buttons and the table
+     * Attaches event handlers and listeners to buttons and the table
      */
     public void configureListeners()
     {
         addSongButton.setOnAction(e -> model.chooseFile(stage, fileChooser));
         removeSongButton.setOnAction(e -> model.removeSong(selectedSong));
-        logOutButton.setOnAction(e -> model.changeScene());
+        logOutButton.setOnAction(e -> model.logOut());
 
         libraryTable.setOnMouseClicked((MouseEvent event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {

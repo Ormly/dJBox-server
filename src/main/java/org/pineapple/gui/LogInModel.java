@@ -13,22 +13,22 @@ public class LogInModel
     {
         this.sceneController = sceneController;
     }
+
+    /**
+     * Logs the user in and changes the scene to the main UI
+     * @param userName
+     * @param password
+     */
     public void logIn(String userName, String password)
     {
         try
         {
             jukeBox.doAuthentication(userName, password);
-            changeScene();
+            sceneController.changelogIntoMain();
         }
         catch (AuthenticationFailedException aex)
         {
             aex.printStackTrace();
         }
     }
-
-    public void changeScene()
-    {
-        sceneController.changelogIntoMain();
-    }
-
 }
