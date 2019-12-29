@@ -123,5 +123,9 @@ public class JukeBox
         this.authenticationManager.validateToke(token);
     }
 
+    public void logOutAdmin()
+    {
+
+    }
 
 }
