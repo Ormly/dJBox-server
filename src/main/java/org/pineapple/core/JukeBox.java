@@ -128,4 +128,9 @@ public class JukeBox
 
     }
 
+    public void logInAdmin(String userName, String password)
+    {
+        doAuthentication(userName, password);
+    }
+
 }
