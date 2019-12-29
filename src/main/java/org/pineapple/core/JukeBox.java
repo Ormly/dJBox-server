@@ -271,6 +271,7 @@ public class JukeBox
 
     }
 
+
     /**
      * Get the elapsed time in seconds from the beginning of the currently playing song.
      * Throws an exception if no song is currently playing
@@ -282,4 +283,11 @@ public class JukeBox
             throw new NoSongCurrentlyPlayingException();
         return player.getElapsed();
     }
+
+    public void logInAdmin(String userName, String password)
+    {
+        doAuthentication(userName, password);
+    }
+
+
 }
