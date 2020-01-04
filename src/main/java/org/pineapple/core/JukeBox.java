@@ -4,10 +4,14 @@ import org.pineapple.core.exceptions.SongNotFoundException;
 import org.pineapple.core.interfaces.IMediaLibrary;
 import org.pineapple.core.interfaces.MediaQueue;
 import org.pineapple.core.interfaces.IPlayer;
+import org.pineapple.core.states.DisabledState;
+import org.pineapple.core.states.JukeBoxState;
+import org.pineapple.core.states.WaitingState;
 import org.pineapple.db.UserDAO;
 import org.pineapple.utils.interfaces.IAuthenticationManager;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class JukeBox
 {
@@ -17,6 +21,8 @@ public class JukeBox
     private IPlayer player;
     private MediaQueue playlist;
     private IAuthenticationManager authenticationManager;
+    private JukeBoxState state;
+    private Song currentlyPlaying;
 
     private JukeBox()
     {
@@ -24,6 +30,32 @@ public class JukeBox
         this.player = new JavaFXPlayer();
         this.authenticationManager = new AuthenticationManager();
         this.playlist = new SongQueue();
+
+        // bad things happen without this
+        JukeBoxState.setJukeBox(this);
+
+        // initial state
+        this.state = new WaitingState();
+
+        // register to events
+        this.setOnQueueChanged(() -> this.onQueueChanged());
+        this.player.setOnSongEnd(() -> this.onSongFinished());
+    }
+
+    /**
+     * lets the current state know when the queue has been changed
+     */
+    private void onQueueChanged()
+    {
+        this.state.handleQueueChanged();
+    }
+
+    /**
+     * lets the current state know when the current song has finished
+     */
+    private void onSongFinished()
+    {
+        this.state.handleSongFinished();
     }
 
     /**
@@ -31,9 +63,8 @@ public class JukeBox
      * @return
      */
     public static JukeBox getInstance(){
-        if(instance == null){
+        if(instance == null)
             instance = new JukeBox();
-        }
 
         return instance;
     }
@@ -47,8 +78,107 @@ public class JukeBox
         this.libraryProvider.deleteSongFromLibrary(song);
     }
 
+    /**
+     * Sets the current state of the JukeBox
+     * @param newState an implementation of the JukeBoxState class
+     */
+    public void setState(JukeBoxState newState)
+    {
+        System.out.println(this.state.toString() + "->" + newState.toString());
+        this.state = newState;
+    }
+
+    /**
+     * Gets the current state of the JukeBox
+     * @return an implementation of JukeBoxState
+     */
+    public JukeBoxState getState()
+    {
+        return this.state;
+    }
+
+    /**
+     * Registers a callback method with the onQueueChanged event
+     * @param callback the function to be invoked in the event of queue change.
+     */
     public void setOnQueueChanged(Runnable callback){
         this.playlist.setOnQueueChanged(callback);
+    }
+
+    /**
+     * Sets the currently playing song to null
+     */
+    public void clearCurrentlyPlaying()
+    {
+        this.currentlyPlaying = null;
+    }
+
+    public void playSong(Song s)
+    {
+        this.currentlyPlaying = s;
+        this.player.play(s.getPathToFile());
+    }
+
+    /**
+     *  Pops the song at top of the queue and returns a reference to it.
+     *  Throws a NoSuchElementException if the queue is empty
+     * @return a reference to the song that was at the top of the queue or null if the
+     */
+    public Song popNextSong() throws NoSuchElementException
+    {
+        return (Song)this.playlist.popNextMedia();
+    }
+
+    /**
+     * Call to make JukeBox available for clients
+     */
+    public void enableJukeBox()
+    {
+        this.state.enable();
+    }
+
+    /**
+     * Call to make JukeBox unavailable to clients
+     */
+    public void disableJukeBox()
+    {
+        this.state.disable();
+    }
+
+    /**
+     * Pauses current song
+     */
+    public void pauseCurrentSong()
+    {
+        if(this.player != null)
+            this.player.pause();
+    }
+
+    /**
+     * Un-pauses currently playing song
+     */
+    public void unpauseCurrentSong()
+    {
+        if(this.player != null)
+            this.player.unPause();
+    }
+
+    /**
+     * Returns true if a song is currently playing
+     * @return false if no song is playing
+     */
+    public boolean isPlaying()
+    {
+        return this.player.isPlaying();
+    }
+
+    /**
+     * Returns true if a song is currently paused
+     * @return false if no song is paused
+     */
+    public boolean isPaused()
+    {
+        return this.player.isPaused();
     }
 
     /**
