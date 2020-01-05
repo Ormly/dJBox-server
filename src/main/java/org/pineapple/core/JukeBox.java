@@ -22,7 +22,7 @@ public class JukeBox
     private MediaQueue playlist;
     private IAuthenticationManager authenticationManager;
     private JukeBoxState state;
-    private Song currentlyPlaying;
+    private CurrentSong currentlyPlaying;
 
     private JukeBox()
     {
@@ -113,10 +113,12 @@ public class JukeBox
         this.currentlyPlaying = null;
     }
 
-    public void playSong(Song s)
+    public void playSong(Song song)
     {
-        this.currentlyPlaying = s;
-        this.player.play(s.getPathToFile());
+        double songDuration;
+        this.player.play(song.getPathToFile());
+        songDuration = player.getDuration();
+        this.currentlyPlaying = new CurrentSong(song,songDuration);
     }
 
     /**
@@ -253,5 +255,20 @@ public class JukeBox
         this.authenticationManager.validateToke(token);
     }
 
+    /**
+     * Fetch the currently playing song object.
+     * @return
+     */
+    public CurrentSong getCurrentlyPlayingSong()
+    {
+        if(currentlyPlaying != null)
+            setCurrentlyPlayingElapsed();
+        return currentlyPlaying;
+    }
 
+    private void setCurrentlyPlayingElapsed()
+    {
+        double elapsedTime = player.getElapsed();
+        currentlyPlaying.setElapsedTime(elapsedTime);
+    }
 }
