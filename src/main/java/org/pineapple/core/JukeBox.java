@@ -271,9 +271,4 @@ public class JukeBox
         double elapsedTime = player.getElapsed();
         currentlyPlaying.setElapsedTime(elapsedTime);
     }
-
-    public void clearCurrentSong()
-    {
-        currentlyPlaying = null;
-    }
 }
