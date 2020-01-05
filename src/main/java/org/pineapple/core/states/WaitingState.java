@@ -9,7 +9,7 @@ public class WaitingState extends JukeBoxState
 {
     public WaitingState()
     {
-        this.playIfQueueNotEmpty();
+
     }
 
     @Override

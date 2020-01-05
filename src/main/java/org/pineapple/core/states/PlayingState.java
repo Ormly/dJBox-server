@@ -1,5 +1,7 @@
 package org.pineapple.core.states;
 
+import org.pineapple.core.Song;
+
 import java.util.NoSuchElementException;
 
 public class PlayingState extends JukeBoxState
@@ -20,7 +22,7 @@ public class PlayingState extends JukeBoxState
     @Override
     public void handleSongFinished()
     {
-        jb.setState(new WaitingState());
+        this.play();
     }
 
     @Override
