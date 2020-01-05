@@ -55,9 +55,11 @@ public class QueueController
     public CurrentSong currentSong(@RequestHeader("token") String token)
     {
         JukeBox jukeBox = JukeBox.getInstance();
+
         // throws an exception if the token is invalid
         jukeBox.validateToke(token);
 
+        //null, if queue is empty
         CurrentSong currentSong = jukeBox.getCurrentlyPlayingSong();
 
         return currentSong;
