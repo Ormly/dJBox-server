@@ -33,7 +33,5 @@ public interface IPlayer
 
     public void stop();
 
-    public double getDuration();
-
     public double getElapsed();
 }

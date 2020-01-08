@@ -1,10 +1,8 @@
 package org.pineapple.api;
 
-import org.pineapple.core.CurrentSong;
 import org.pineapple.core.JukeBox;
 import org.pineapple.core.Song;
 import org.pineapple.core.SongResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -47,21 +45,21 @@ public class QueueController
         JukeBox.getInstance().addSongToQueue(songID);
     }
 
-    /**
-     * Attempts to fetch the currently playing song from the queue
-     * @param token
-     */
-    @GetMapping("queue/current")
-    public CurrentSong currentSong(@RequestHeader("token") String token)
-    {
-        JukeBox jukeBox = JukeBox.getInstance();
-
-        // throws an exception if the token is invalid
-        jukeBox.validateToke(token);
-
-        //null, if queue is empty
-        CurrentSong currentSong = jukeBox.getCurrentlyPlayingSong();
-
-        return currentSong;
-    }
+//    /**
+//     * Attempts to fetch the currently playing song from the queue
+//     * @param token
+//     */
+//    @GetMapping("queue/current")
+//    public CurrentSong currentSong(@RequestHeader("token") String token)
+//    {
+//        JukeBox jukeBox = JukeBox.getInstance();
+//
+//        // throws an exception if the token is invalid
+//        jukeBox.validateToke(token);
+//
+//        //null, if queue is empty
+//        CurrentSong currentSong = jukeBox.getCurrentlyPlayingSong();
+//
+//        return currentSong;
+//    }
 }

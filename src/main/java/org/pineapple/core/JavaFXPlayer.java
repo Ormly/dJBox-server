@@ -109,21 +109,6 @@ public class JavaFXPlayer implements IPlayer
         this.player = null;
     }
 
-    public double getDuration()
-    {
-        while(player.getMedia().getDuration().toString().equalsIgnoreCase("UNKNOWN"))
-        {
-            try
-            {
-                Thread.sleep(10);
-            } catch(InterruptedException ex)
-            {
-                Logger.getLogger(JavaFXPlayer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return player.getMedia().getDuration().toSeconds();
-    }
-
     public double getElapsed()
     {
         return player.getCurrentTime().toSeconds();

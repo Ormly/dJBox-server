@@ -1,9 +1,11 @@
 package org.pineapple.core;
 
+import org.pineapple.core.interfaces.IMediaFileMetadata;
+
 /**
  * This class represents a song. Duh.
  */
-public class Song
+public class Song implements IMediaFileMetadata
 {
     private int id;
     private String title;
@@ -12,6 +14,7 @@ public class Song
     private int year;
     private String genre;
     private String pathToFile;
+    private double durationSec;
 
     private final String[] genres =
             {
@@ -27,7 +30,7 @@ public class Song
                     "Acid Jazz", "Polka", "Retro", "Musical", "Rock n Roll", "Hard Rock"
             };
 
-    public Song(int id, String title, String artist, String album, int year, String genre, String pathToFile)
+    public Song(int id, String title, String artist, String album, int year, String genre, String pathToFile, double durationSec)
     {
         this.id = id;
         this.title = title;
@@ -36,10 +39,11 @@ public class Song
         this.year = year;
         this.genre = genre;
         this.pathToFile = pathToFile;
+        this.durationSec = durationSec;
     }
 
     //We assume every new song is not constructed with an ID value
-    public Song(String title, String artist, String album, int year, String genre, String pathToFile)
+    public Song(String title, String artist, String album, int year, String genre, String pathToFile, double durationSec)
     {
         this.id = 0;
         this.title = title;
@@ -48,6 +52,7 @@ public class Song
         this.year = year;
         this.genre = getActualGenre(genre);
         this.pathToFile = pathToFile;
+        this.durationSec = durationSec;
     }
 
     public String getTitle()
@@ -84,6 +89,10 @@ public class Song
     {
         return year;
     }
+
+    public double getDuration() { return this.durationSec; }
+
+//    public void setDuration(double duration) { this.durationSec = duration; }
 
     /**
      * Compare two Song objects by comparing artist and album names
