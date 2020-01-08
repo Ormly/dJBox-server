@@ -256,6 +256,7 @@ public class JukeBox
 
     /**
      * Fetch the currently playing song object.
+     * Throws an exception if no song is currently playing
      * @return
      */
     public Song getCurrentlyPlayingSong()
@@ -265,6 +266,11 @@ public class JukeBox
         return currentlyPlaying;
     }
 
+    /**
+     * Get the elapsed time in seconds from the beginning of the currently playing song.
+     * Throws an exception if no song is currently playing
+     * @return the elapsed time in seconds
+     */
     public double getCurrentPlayerElapsed()
     {
         if(this.currentlyPlaying == null)

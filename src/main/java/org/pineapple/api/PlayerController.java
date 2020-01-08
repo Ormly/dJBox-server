@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlayerController
 {
     /**
-     * Returns a json formatted list of songs currently available in the library.
+     * Returns a json object representing the currently playing song
      * @return
      */
     @GetMapping("/player/current")
@@ -23,7 +23,7 @@ public class PlayerController
     }
 
     /**
-     * Returns a json formatted list of songs currently available in the library.
+     * Returns the elapsed time in seconds from the beginning of the current song
      * @return
      */
     @GetMapping("/player/elapsed")
