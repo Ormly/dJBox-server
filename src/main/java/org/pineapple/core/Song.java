@@ -12,6 +12,7 @@ public class Song
     private int year;
     private String genre;
     private String pathToFile;
+    private String coverArtURL;
 
     private final String[] genres =
             {
@@ -27,7 +28,7 @@ public class Song
                     "Acid Jazz", "Polka", "Retro", "Musical", "Rock n Roll", "Hard Rock"
             };
 
-    public Song(int id, String title, String artist, String album, int year, String genre, String pathToFile)
+    public Song(int id, String title, String artist, String album, int year, String genre, String pathToFile,String coverArtURL)
     {
         this.id = id;
         this.title = title;
@@ -36,10 +37,11 @@ public class Song
         this.year = year;
         this.genre = genre;
         this.pathToFile = pathToFile;
+        this.coverArtURL = coverArtURL;
     }
 
     //We assume every new song is not constructed with an ID value
-    public Song(String title, String artist, String album, int year, String genre, String pathToFile)
+    public Song(String title, String artist, String album, int year, String genre, String pathToFile, String coverArtURL)
     {
         this.id = 0;
         this.title = title;
@@ -48,6 +50,7 @@ public class Song
         this.year = year;
         this.genre = getActualGenre(genre);
         this.pathToFile = pathToFile;
+        this.coverArtURL = coverArtURL;
     }
 
     public String getTitle()
@@ -84,6 +87,8 @@ public class Song
     {
         return year;
     }
+
+    public String getCoverArtURL() { return coverArtURL; }
 
     /**
      * Compare two Song objects by comparing artist and album names

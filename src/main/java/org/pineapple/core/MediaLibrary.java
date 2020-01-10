@@ -6,6 +6,7 @@ import org.pineapple.core.exceptions.SongNotFoundException;
 import org.pineapple.core.interfaces.IMediaLibrary;
 import org.pineapple.db.interfaces.DAO;
 import org.pineapple.db.SongDAO;
+import org.pineapple.core.HTTPAlbumInfo;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -99,7 +100,8 @@ public class MediaLibrary implements IMediaLibrary
                               tag.getAlbum(),
                               Integer.valueOf(tag.getYear()),
                               tag.getSongGenre(),
-                              path);
+                              path,
+                         HTTPAlbumInfo.GetMediumCoverArt(tag.getArtist(),tag.getAlbum()));
 
         } catch(Exception e)
         {

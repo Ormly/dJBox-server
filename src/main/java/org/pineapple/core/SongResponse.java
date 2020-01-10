@@ -42,5 +42,7 @@ public class SongResponse
         return this.song.getYear();
     }
 
+    public String getCoverArtURL() { return this.song.getCoverArtURL(); }
+
 }
 
