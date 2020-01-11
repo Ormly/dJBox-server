@@ -255,6 +255,7 @@ public class JukeBox
     }
 
 
+
     /**
      * Fetch the currently playing song object.
      * Throws an exception if no song is currently playing
@@ -265,13 +266,16 @@ public class JukeBox
             throw new NoSongCurrentlyPlayingException();
         return currentlyPlaying;
     }
+
+    /*
+
     public void logOutAdmin()
     {
 
 
     }
 
-
+*/
     /**
      * Get the elapsed time in seconds from the beginning of the currently playing song.
      * Throws an exception if no song is currently playing
