@@ -42,5 +42,6 @@ public class SongResponse
         return this.song.getYear();
     }
 
+    public double getDuration() { return this.song.getDuration(); }
 }
 
