@@ -122,12 +122,12 @@ public class JukeBox
     {
         this.authenticationManager.validateToke(token);
     }
-
+    /*
     public void logOutAdmin()
     {
 
     }
-
+    */
     public void logInAdmin(String userName, String password)
     {
         doAuthentication(userName, password);

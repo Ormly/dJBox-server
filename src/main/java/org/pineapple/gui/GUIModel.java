@@ -187,7 +187,7 @@ public class GUIModel
      */
     public void logOut()
     {
-        jukeBox.logOutAdmin(); // needs an implementation
+        //jukeBox.logOutAdmin(); // needs an implementation
         sceneController.changeMainToLogIn();
     }
 
