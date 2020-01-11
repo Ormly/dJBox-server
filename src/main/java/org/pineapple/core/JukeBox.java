@@ -267,7 +267,7 @@ public class JukeBox
         return currentlyPlaying;
     }
 
-    /*
+
 
     public void logOutAdmin()
     {
@@ -275,7 +275,7 @@ public class JukeBox
 
     }
 
-*/
+
     /**
      * Get the elapsed time in seconds from the beginning of the currently playing song.
      * Throws an exception if no song is currently playing
