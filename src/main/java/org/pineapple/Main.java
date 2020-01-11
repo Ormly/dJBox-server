@@ -8,8 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import org.pineapple.core.JukeBox;
-import org.pineapple.gui.GUIModel;
-import org.pineapple.gui.GUIView;
+import org.pineapple.gui.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -51,15 +50,19 @@ public class Main extends Application
     public void start(Stage primaryStage)
     throws Exception
     {
-        Scene scene1;
+        //Scene controller is responsible for switching between different scenes
+        SceneController sceneController = new SceneController(primaryStage);
 
-        GUIModel guiModel = new GUIModel();
+        LogInModel logInModel = new LogInModel(sceneController);
+        GUIModel guiModel = new GUIModel(sceneController);
+
+        LogInView logInView = new LogInView(logInModel);
         GUIView guiView = new GUIView(guiModel, primaryStage);
 
-        scene1 = new Scene(guiView.getScene(), 1200, 600);
+        sceneController.setScenes(new Scene(guiView.getScene(), 1200, 600), new Scene(logInView.getScene(), 800, 400));
 
 
-        primaryStage.setScene(scene1);
+        primaryStage.setScene(sceneController.getLogInGUI());
         primaryStage.centerOnScreen();
         primaryStage.show();
     }

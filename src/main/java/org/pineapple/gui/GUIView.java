@@ -44,7 +44,7 @@ public class GUIView
     private Label albumName = new Label("");
 
     private Button addSongButton = new Button("Add Song");
-    private Button authorButton = new Button("Authors");
+    private Button logOutButton = new Button("Log Out");
     private Button settingsButton = new Button("Settings");
     private Button removeSongButton = new Button("Remove Song");
     private Song selectedSong;
@@ -87,7 +87,7 @@ public class GUIView
            ipAddressString = "IP Address: " + model.getIP();
         } catch (SocketException ex)
         {
-            showException(ex);
+            model.showException(ex);
         }
 
         Label ipAddress = new Label(ipAddressString);
@@ -121,7 +121,7 @@ public class GUIView
         center.setPadding(new Insets(10));
         center.setMinWidth(400);
 
-        HBox buttons = new HBox(settingsButton, authorButton);
+        HBox buttons = new HBox(settingsButton, logOutButton);
         buttons.setSpacing(10);
         buttons.setAlignment(Pos.BASELINE_RIGHT);
         VBox rightSide = new VBox(buttons, queueLabel, queueTable, ipAddress);
@@ -173,12 +173,13 @@ public class GUIView
 
 
     /**
-     * Attaches eventhandlers and listeners to buttons and the table
+     * Attaches event handlers and listeners to buttons and the table
      */
     public void configureListeners()
     {
         addSongButton.setOnAction(e -> model.chooseFile(stage, fileChooser));
         removeSongButton.setOnAction(e -> model.removeSong(selectedSong));
+        logOutButton.setOnAction(e -> model.logOut());
 
         libraryTable.setOnMouseClicked((MouseEvent event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
@@ -199,40 +200,5 @@ public class GUIView
         });
     }
 
-    public void showException(Exception ex)
-    {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Exception Dialog");
-        alert.setHeaderText("Exception Dialog");
-        alert.setContentText("An exception has occured");
 
-
-
-        // Create expandable Exception.
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        ex.printStackTrace(pw);
-        String exceptionText = sw.toString();
-
-        Label label = new Label("The exception stacktrace was:");
-
-        TextArea textArea = new TextArea(exceptionText);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
-
-        // Set expandable Exception into the dialog pane.
-        alert.getDialogPane().setExpandableContent(expContent);
-
-        alert.showAndWait();
-    }
 }

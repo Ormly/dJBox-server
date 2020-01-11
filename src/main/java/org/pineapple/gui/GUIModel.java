@@ -3,6 +3,10 @@ package org.pineapple.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.pineapple.core.JukeBox;
@@ -10,6 +14,8 @@ import org.pineapple.core.Song;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -29,6 +35,7 @@ public class GUIModel
      */
     private ObservableList<Song> library;
     private ObservableList<Song> queue;
+    private SceneController sceneController;
 
     /**
      * Actual JukeBox, through which we connect the design to the logic
@@ -39,12 +46,13 @@ public class GUIModel
     /**
      * Constructor for the model
      */
-    public GUIModel()
+    public GUIModel(SceneController sceneController)
     {
 
         this.library = FXCollections.observableArrayList(jukeBox.getAllSongs());
         this.queue = FXCollections.observableArrayList(jukeBox.getSongsFromQueue());
         this.jukeBox.setOnQueueChanged(() -> this.updateQueue());
+        this.sceneController = sceneController;
     }
 
     /**
@@ -172,5 +180,51 @@ public class GUIModel
 
         }
         return "No wireless network found";
+    }
+
+    /**
+     * Log the user out and calls the Scene Controller to change the scene back to the log in screen
+     */
+    public void logOut()
+    {
+        jukeBox.logOutAdmin(); // needs an implementation
+        sceneController.changeMainToLogIn();
+    }
+
+    public void showException(Exception ex)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Exception Dialog");
+        alert.setHeaderText("Exception Dialog");
+        alert.setContentText("An exception has occured");
+
+
+
+        // Create expandable Exception.
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+        String exceptionText = sw.toString();
+
+        Label label = new Label("The exception stacktrace was:");
+
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+
+        // Set expandable Exception into the dialog pane.
+        alert.getDialogPane().setExpandableContent(expContent);
+
+        alert.showAndWait();
     }
 }
