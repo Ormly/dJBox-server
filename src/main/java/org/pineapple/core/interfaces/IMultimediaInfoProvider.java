@@ -8,5 +8,5 @@ import java.io.IOException;
 
 public interface IMultimediaInfoProvider
 {
-    IMediaFileMetadata getMediaFileMetadata(File file) throws TagException, IOException, EncoderException;
+    IMediaFileMetadata getMediaFileMetadata(File file) throws TagException, IOException, EncoderException, InterruptedException;
 }
