@@ -1,5 +1,6 @@
 package org.pineapple.core;
 
+import org.pineapple.core.exceptions.NoSongCurrentlyPlayingException;
 import org.pineapple.core.exceptions.SongNotFoundException;
 import org.pineapple.core.interfaces.IMediaLibrary;
 import org.pineapple.core.interfaces.MediaQueue;
@@ -113,10 +114,10 @@ public class JukeBox
         this.currentlyPlaying = null;
     }
 
-    public void playSong(Song s)
+    public void playSong(Song song)
     {
-        this.currentlyPlaying = s;
-        this.player.play(s.getPathToFile());
+        this.player.play(song.getPathToFile());
+        this.currentlyPlaying = song;
     }
 
     /**
@@ -253,5 +254,27 @@ public class JukeBox
         this.authenticationManager.validateToke(token);
     }
 
+    /**
+     * Fetch the currently playing song object.
+     * Throws an exception if no song is currently playing
+     * @return
+     */
+    public Song getCurrentlyPlayingSong()
+    {
+        if(this.currentlyPlaying == null)
+            throw new NoSongCurrentlyPlayingException();
+        return currentlyPlaying;
+    }
 
+    /**
+     * Get the elapsed time in seconds from the beginning of the currently playing song.
+     * Throws an exception if no song is currently playing
+     * @return the elapsed time in seconds
+     */
+    public double getCurrentPlayerElapsed()
+    {
+        if(this.currentlyPlaying == null)
+            throw new NoSongCurrentlyPlayingException();
+        return player.getElapsed();
+    }
 }

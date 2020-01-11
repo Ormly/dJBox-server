@@ -10,6 +10,8 @@ import org.pineapple.core.interfaces.IPlayer;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class implements the interface IPlayer using the JavaFX Media library.
@@ -21,7 +23,7 @@ public class JavaFXPlayer implements IPlayer
     private MediaPlayer player;
 
     public JavaFXPlayer(){
-        this.onSongEndCallback = () -> onSongEng();
+        this.onSongEndCallback = () -> onSongEnd();
     }
 
     /**
@@ -37,7 +39,7 @@ public class JavaFXPlayer implements IPlayer
     /**
      * Gets called when song end and invokes all callbacks currently registered with JavaFXPlayer
      */
-    private void onSongEng()
+    private void onSongEnd()
     {
         for(Runnable r: this.onSongEndCallbacks){
             r.run();
@@ -105,5 +107,10 @@ public class JavaFXPlayer implements IPlayer
             this.player.stop();
 
         this.player = null;
+    }
+
+    public double getElapsed()
+    {
+        return player.getCurrentTime().toSeconds();
     }
 }

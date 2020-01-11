@@ -1,18 +1,26 @@
 package org.pineapple.core;
 
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.MultimediaInfo;
+import javafx.scene.media.Media;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.id3.ID3v1;
 import org.pineapple.core.exceptions.SongNotFoundException;
 import org.pineapple.core.interfaces.IMediaLibrary;
+import org.pineapple.core.interfaces.IMultimediaInfoProvider;
 import org.pineapple.db.interfaces.DAO;
 import org.pineapple.db.SongDAO;
 import org.pineapple.core.HTTPAlbumInfo;
 
+
+import javax.sound.sampled.*;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -23,6 +31,7 @@ public class MediaLibrary implements IMediaLibrary
     private static boolean isInstantiated = false;
     private DAO<Song> persistence;
     private String pathToMediaDir;
+    private IMultimediaInfoProvider infoProvider;
 
 
     public MediaLibrary(String pathToMediaDir)
@@ -33,6 +42,7 @@ public class MediaLibrary implements IMediaLibrary
 
         this.persistence = new SongDAO();
         this.pathToMediaDir = pathToMediaDir;
+        this.infoProvider = new MP3MetadataProvider();
 
         this.init();
 
@@ -87,22 +97,10 @@ public class MediaLibrary implements IMediaLibrary
      */
     private Song createSongFromPath(String path)
     {
-        MP3File music = null;
         Song s = null;
         try
         {
-            music = new MP3File(path);
-
-            ID3v1 tag = music.getID3v1Tag();
-
-            s = new Song(tag.getTitle(),
-                              tag.getArtist(),
-                              tag.getAlbum(),
-                              Integer.valueOf(tag.getYear()),
-                              tag.getSongGenre(),
-                              path,
-                         HTTPAlbumInfo.GetMediumCoverArt(tag.getArtist(),tag.getAlbum()));
-
+           s =  (Song) this.infoProvider.getMediaFileMetadata(new File(path));
         } catch(Exception e)
         {
             System.out.println("Error reading mp3 file" + path);

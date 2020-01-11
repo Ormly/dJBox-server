@@ -29,7 +29,7 @@ public class SongDAOTest
     void saveNewSong()
     throws SQLException
     {
-        s.save(new Song("jb_test_title", "jb_test_artist", "jb_test_album", 2019, "yes", "here/to/there",""));
+        s.save(new Song("jb_test_title", "jb_test_artist", "jb_test_album", 2019, "yes", "here/to/there", 60.0, "testurl"));
 
         Statement s1 = c.createStatement();
         Statement s2 = c.createStatement();
@@ -76,7 +76,8 @@ public class SongDAOTest
                               2019,
                               "yes",
                               "here/to/there",
-                              "");
+                              60.0,
+                              "testurl");
 
         s.save(songy);
 
@@ -114,7 +115,8 @@ public class SongDAOTest
                               2019,
                               "Jazz",
                               "here/to/there",
-                              "");
+                              60.0,
+                              "testurl");
         //check upper boundary
         Song song2 = new Song("jb_test_genre2",
                               "jb_test_2",
@@ -122,7 +124,8 @@ public class SongDAOTest
                               2019,
                               "79",
                               "here/to/there",
-                              "");
+                              60.0,
+                              "testurl");
         //check lower boundary
         Song song3 = new Song("jb_test_genre3",
                               "jb_test_3",
@@ -130,14 +133,17 @@ public class SongDAOTest
                               2019,
                               "-1",
                               "here/to/there",
-                              "");
+                              60.0,
+                              "testurl");
         //check out of bounds
         Song song4 = new Song("jb_test_genre3",
                               "jb_test_4",
                               "jb_test_4",
                               2019,
                               "85",
-                              "here/to/there","");
+                              "here/to/there",
+                              60.0,
+                              "testurl");
 
         //check newly created songs
         Assertions.assertEquals("Jazz", song1.getGenre());
@@ -157,6 +163,7 @@ public class SongDAOTest
                            song1.getYear(),
                            song1.getGenre(),
                            song1.getPathToFile(),
+                           song1.getDuration(),
                            song1.getCoverArtURL());
 
         Assertions.assertEquals(song1.getGenre(), s1.getGenre());
