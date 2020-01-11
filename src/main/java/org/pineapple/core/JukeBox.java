@@ -297,10 +297,5 @@ public class JukeBox
         return player.getElapsed();
     }
 
-    public void logInAdmin(String userName, String password)
-    {
-        doAuthentication(userName, password);
-    }
-
 
 }
