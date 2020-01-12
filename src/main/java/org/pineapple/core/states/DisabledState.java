@@ -4,7 +4,7 @@ public class DisabledState extends JukeBoxState
 {
     public DisabledState()
     {
-        jb.disableJukeBox();
+        jb.clearCurrentlyPlaying();
     }
 
     @Override
