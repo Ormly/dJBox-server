@@ -73,7 +73,7 @@ public class PlayerStatesTest
         afterEach();
     }
 
-    //TODO
+    //TODO: jb doesn't go to paused state, instead to waiting state
     @Test
     void pausedTransitionState()
     {
@@ -99,7 +99,6 @@ public class PlayerStatesTest
         afterEach();
     }
 
-    //TODO
     @Test
     void disabledTransitionState()
     {
