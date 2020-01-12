@@ -1,9 +1,5 @@
 package org.pineapple.core.states;
 
-import org.pineapple.core.JukeBox;
-
-import java.util.NoSuchElementException;
-
 public class PausedState extends JukeBoxState
 {
     public PausedState()
@@ -11,6 +7,17 @@ public class PausedState extends JukeBoxState
         this.pause();
     }
 
+    /**
+     * Pauses the player
+     */
+    @Override
+    public void pause()
+    {
+    }
+
+    /**
+     * Sets the player to disabled state
+     */
     @Override
     public void disable()
     {

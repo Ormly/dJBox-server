@@ -7,6 +7,9 @@ public class DisabledState extends JukeBoxState
         jb.clearCurrentlyPlaying();
     }
 
+    /**
+     * Sets the player to the initial state
+     */
     @Override
     public void enable()
     {
