@@ -8,7 +8,7 @@ public class PausedState extends JukeBoxState
 {
     public PausedState()
     {
-        jb.clearCurrentlyPlaying();
+        this.pause();
     }
 
     @Override
