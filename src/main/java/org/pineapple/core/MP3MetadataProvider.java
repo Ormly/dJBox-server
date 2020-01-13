@@ -15,7 +15,8 @@ import java.io.IOException;
 public class MP3MetadataProvider implements IMultimediaInfoProvider
 {
     @Override
-    public IMediaFileMetadata getMediaFileMetadata(File file) throws TagException, IOException, EncoderException
+    public IMediaFileMetadata getMediaFileMetadata(File file)
+    throws TagException, IOException, EncoderException, InterruptedException
     {
         MP3File music = null;
         Song s = null;
@@ -31,7 +32,8 @@ public class MP3MetadataProvider implements IMultimediaInfoProvider
                      Integer.valueOf(tag.getYear()),
                      tag.getSongGenre(),
                      file.getPath(),
-                     duration);
+                     duration,
+                     HTTPAlbumInfo.GetMediumCoverArt(tag.getArtist(), tag.getAlbum()));
         return s;
     }
 

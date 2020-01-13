@@ -59,7 +59,7 @@ public class SongDAO implements DAO<Song>
         {
             //changed to a prepared statement since we're passing a parameter
             PreparedStatement p = this.connection.prepareStatement(
-                    "SELECT s.song_id, s.title, art.name, alb.name, s.year, s.genre, s.location, s.duration\n" +
+                    "SELECT s.song_id, s.title, art.name, alb.name, s.year, s.genre, s.location, s.duration, alb.imageurl\n" +
                     "FROM song s, artist art, album alb\n" +
                     "WHERE s.artist_id = art.artist_id\n" +
                     "AND alb.album_id = s.album_id\n" +
@@ -77,7 +77,8 @@ public class SongDAO implements DAO<Song>
                              result.getInt("s.year"),
                              result.getString("s.genre"),
                              result.getString("s.location"),
-                             result.getDouble("s.duration"));
+                             result.getDouble("s.duration"),
+                             result.getString("alb.imageurl"));
             }
         } catch(SQLException e)
         {
@@ -104,7 +105,7 @@ public class SongDAO implements DAO<Song>
         {
             Statement s = this.connection.createStatement();
             ResultSet result = s.executeQuery(
-                    "SELECT s.song_id, s.title, art.name, alb.name, s.year, s.genre, s.location, s.duration\n" +
+                    "SELECT s.song_id, s.title, art.name, alb.name, s.year, s.genre, s.location, s.duration, alb.imageurl\n" +
                     "FROM song s, artist art, album alb\n" +
                     "WHERE s.artist_id = art.artist_id\n" +
                     "AND alb.album_id = s.album_id;");
@@ -118,7 +119,8 @@ public class SongDAO implements DAO<Song>
                                   result.getInt("s.year"),
                                   result.getString("s.genre"),
                                   result.getString("s.location"),
-                                  result.getDouble("s.duration"));
+                                  result.getDouble("s.duration"),
+                                  result.getString("alb.imageurl"));
                 list.add(m);
             }
         } catch(SQLException e)
@@ -169,9 +171,10 @@ public class SongDAO implements DAO<Song>
             if(!albID.executeQuery().next())
             {
                 ps = this.connection.prepareStatement(
-                        "INSERT INTO album (name) VALUES (?);"
+                        "INSERT INTO album (name,imageurl) VALUES (?,?);"
                 );
                 ps.setString(1,song.getAlbum());
+                ps.setString(2,song.getCoverArtURL());
                 ps.executeUpdate();
                 System.out.println("Album inserted");
             }

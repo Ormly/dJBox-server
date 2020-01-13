@@ -15,6 +15,7 @@ public class Song implements IMediaFileMetadata
     private String genre;
     private String pathToFile;
     private double durationSec;
+    private String coverArtURL;
 
     private final String[] genres =
             {
@@ -30,7 +31,7 @@ public class Song implements IMediaFileMetadata
                     "Acid Jazz", "Polka", "Retro", "Musical", "Rock n Roll", "Hard Rock"
             };
 
-    public Song(int id, String title, String artist, String album, int year, String genre, String pathToFile, double durationSec)
+    public Song(int id, String title, String artist, String album, int year, String genre, String pathToFile, double durationSec, String coverArtURL)
     {
         this.id = id;
         this.title = title;
@@ -40,10 +41,11 @@ public class Song implements IMediaFileMetadata
         this.genre = genre;
         this.pathToFile = pathToFile;
         this.durationSec = durationSec;
+        this.coverArtURL = coverArtURL;
     }
 
     //We assume every new song is not constructed with an ID value
-    public Song(String title, String artist, String album, int year, String genre, String pathToFile, double durationSec)
+    public Song(String title, String artist, String album, int year, String genre, String pathToFile, double durationSec, String coverArtURL)
     {
         this.id = 0;
         this.title = title;
@@ -53,6 +55,7 @@ public class Song implements IMediaFileMetadata
         this.genre = getActualGenre(genre);
         this.pathToFile = pathToFile;
         this.durationSec = durationSec;
+        this.coverArtURL = coverArtURL;
     }
 
     public String getTitle()
@@ -93,6 +96,8 @@ public class Song implements IMediaFileMetadata
     public double getDuration() { return this.durationSec; }
 
 //    public void setDuration(double duration) { this.durationSec = duration; }
+
+    public String getCoverArtURL() { return coverArtURL; }
 
     /**
      * Compare two Song objects by comparing artist and album names

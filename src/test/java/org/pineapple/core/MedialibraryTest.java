@@ -56,7 +56,8 @@ public class MedialibraryTest
                                 1990,
                                 "Country",
                                 "/dev/null",
-                                 60.0);
+                                60.0,
+                                 "testurl");
 
         Song newSong2 = new Song("dj_test_title2",
                                 "dj_test_artist",
@@ -64,7 +65,8 @@ public class MedialibraryTest
                                 1990,
                                 "Country",
                                 "/dev/null",
-                                 60.0);
+                                60.0,
+                                 "testurl");
 
         dao.save(newSong1);
         dao.save(newSong2);
@@ -90,7 +92,8 @@ public class MedialibraryTest
                                 1990,
                                 "Country",
                                 "/dev/null",
-                                60.0);
+                                60.0,
+                                "testurl");
 
         Song hopefullyNewSong = null;
 

@@ -10,6 +10,7 @@ import org.pineapple.core.interfaces.IMediaLibrary;
 import org.pineapple.core.interfaces.IMultimediaInfoProvider;
 import org.pineapple.db.interfaces.DAO;
 import org.pineapple.db.SongDAO;
+import org.pineapple.core.HTTPAlbumInfo;
 
 
 import javax.sound.sampled.*;
