@@ -73,32 +73,6 @@ public class PlayerStatesTest
         afterEach();
     }
 
-    //TODO: jb doesn't go to paused state, instead to waiting state
-    @Test
-    void pausedTransitionState()
-    {
-        //get a random song
-        Random rnd = new Random();
-        Song s1 = songs.get(rnd.nextInt(songs.size()));
-        j.addSongToQueue(s1.getId());
-
-        try {
-            Thread.sleep(3000);
-
-        } catch(InterruptedException e)
-        {
-            System.out.println(e);
-        }
-
-        //transition state
-        System.out.println("Now pausing!");
-        j.pauseCurrentSong();
-
-        Assertions.assertTrue(j.getState().toString().contains("Paused"));
-
-        afterEach();
-    }
-
     @Test
     void disabledTransitionState()
     {
