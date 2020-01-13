@@ -3,7 +3,7 @@ package org.pineapple.core;
 import org.pineapple.core.interfaces.IMediaFileMetadata;
 
 /**
- * This class represents a song. Duh.
+ * This class represents a song.
  */
 public class Song implements IMediaFileMetadata
 {
@@ -17,6 +17,7 @@ public class Song implements IMediaFileMetadata
     private double durationSec;
     private String coverArtURL;
 
+    //genres as encoded in the IDv1 tags
     private final String[] genres =
             {
                     "Blues", "Classic Rock", "Country", "Dance", "Disco", "Funk", "Grunge", "Hip-Hop", "Jazz",
@@ -31,6 +32,19 @@ public class Song implements IMediaFileMetadata
                     "Acid Jazz", "Polka", "Retro", "Musical", "Rock n Roll", "Hard Rock"
             };
 
+    /**
+     * Generates a new Song object. Used only when creating a new Song object from a song already contained in the DB.
+     *
+     * @param id
+     * @param title
+     * @param artist
+     * @param album
+     * @param year
+     * @param genre
+     * @param pathToFile
+     * @param durationSec
+     * @param coverArtURL
+     */
     public Song(int id, String title, String artist, String album, int year, String genre, String pathToFile, double durationSec, String coverArtURL)
     {
         this.id = id;
@@ -44,7 +58,18 @@ public class Song implements IMediaFileMetadata
         this.coverArtURL = coverArtURL;
     }
 
-    //We assume every new song is not constructed with an ID value
+    /**
+     * Generates a new Song object. Used when we are creating a completely new Song object.
+     *
+     * @param title
+     * @param artist
+     * @param album
+     * @param year
+     * @param genre
+     * @param pathToFile
+     * @param durationSec
+     * @param coverArtURL
+     */
     public Song(String title, String artist, String album, int year, String genre, String pathToFile, double durationSec, String coverArtURL)
     {
         this.id = 0;
@@ -58,51 +83,86 @@ public class Song implements IMediaFileMetadata
         this.coverArtURL = coverArtURL;
     }
 
+    /**
+     * Returns the title of the song.
+     * @return String title
+     */
     public String getTitle()
     {
         return title;
     }
 
+    /**
+     * Returns the genre of the song.
+     * @return String genre
+     */
     public String getGenre()
     {
         return genre;
     }
 
+    /**
+     * Returns the location of the song.
+     * @return String pathToFile
+     */
     public String getPathToFile()
     {
         return pathToFile;
     }
 
+    /**
+     * Returns the id of the song.
+     * @return int id
+     */
     public int getId()
     {
         return id;
     }
 
+    /**
+     * Returns the artist of the song.
+     * @return String artist
+     */
     public String getArtist()
     {
         return artist;
     }
 
+    /**
+     * Returns the album of the song.
+     * @return String album
+     */
     public String getAlbum()
     {
         return album;
     }
 
+    /**
+     * Returns the year the song was created.
+     * @return int year
+     */
     public int getYear()
     {
         return year;
     }
 
+    /**
+     * Returns the duration of the song.
+     * @return double duration
+     */
     public double getDuration() { return this.durationSec; }
 
-//    public void setDuration(double duration) { this.durationSec = duration; }
-
+    /**
+     * Returns the cover art URL of the song.
+     * @return String coverArtURL
+     */
     public String getCoverArtURL() { return coverArtURL; }
 
     /**
-     * Compare two Song objects by comparing artist and album names
+     * Compare two Song objects by comparing artist and album names. Return true if
+     * they are equal.
      * @param obj
-     * @return
+     * @return boolean
      */
     @Override
     public boolean equals(Object obj)
@@ -112,9 +172,9 @@ public class Song implements IMediaFileMetadata
     }
 
     /**
-     * Return the actual genre that is represented by the ID3v1 genre tag
+     * Return the actual genre that is represented by the ID3v1 genre tag.
      * @param pos
-     * @return String
+     * @return String actualGenre
      * @throws NumberFormatException
      */
     public String getActualGenre(String pos)

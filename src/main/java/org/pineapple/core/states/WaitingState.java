@@ -3,17 +3,14 @@ package org.pineapple.core.states;
 import org.pineapple.core.JukeBox;
 
 /**
- * Otherwise known as the StoppedState
+ * Represents the enabled or waiting state. Otherwise known as the StoppedState
  */
 public class WaitingState extends JukeBoxState
 {
-    public WaitingState()
-    {
-        
-    }
+    public WaitingState() {    }
 
     /**
-     * Sets the player to disabled state
+     * Sets the player to disabled state.
      */
     @Override
     public void disable()
@@ -22,7 +19,7 @@ public class WaitingState extends JukeBoxState
     }
 
     /**
-     * Even handler if queue is changed
+     * Event handler in case of a change in the queue.
      */
     @Override
     public void handleQueueChanged()
@@ -31,7 +28,7 @@ public class WaitingState extends JukeBoxState
     }
 
     /**
-     * Plays the next song in the queue if it's not empty
+     * If the queue is not empty, transition to a playing state.
      */
     private void playIfQueueNotEmpty()
     {

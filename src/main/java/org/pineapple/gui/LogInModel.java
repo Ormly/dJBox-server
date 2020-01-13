@@ -11,19 +11,24 @@ import org.pineapple.core.exceptions.AuthenticationFailedException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * LogInModel contains all the functionality needed for an admin user to log in.
+ */
 public class LogInModel
 {
-
     private SceneController sceneController;
     private JukeBox jukeBox = JukeBox.getInstance();
 
+    /**
+     * Constructor for the model.
+     */
     public LogInModel(SceneController sceneController)
     {
         this.sceneController = sceneController;
     }
 
     /**
-     * Logs the user in and changes the scene to the main UI
+     * Logs the user in and changes the scene to the main UI.
      * @param userName
      * @param password
      */
@@ -39,15 +44,16 @@ public class LogInModel
             showException(aex);
         }
     }
-
+    /**
+     * Generates a new alert and displays the error passed for better error understanding.
+     * @param ex
+     */
     public void showException(Exception ex)
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Exception Dialog");
         alert.setHeaderText("Exception Dialog");
         alert.setContentText("An exception has occured");
-
-
 
         // Create expandable Exception.
         StringWriter sw = new StringWriter();

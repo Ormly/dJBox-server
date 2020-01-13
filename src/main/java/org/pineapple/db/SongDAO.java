@@ -92,7 +92,7 @@ public class SongDAO implements DAO<Song>
     }
 
     /**
-     * Extracts all song entries in the DB
+     * Extracts all song entries in the DB.
      * Returns empty list if data could not be extracted.
      */
     @Override
@@ -135,7 +135,7 @@ public class SongDAO implements DAO<Song>
 
     /**
      * Saves a song into the DB, if no artist or album entries exist yet,
-     * it generates those too
+     * it generates those too.
      * @param song
      */
     @Override
@@ -208,7 +208,7 @@ public class SongDAO implements DAO<Song>
     }
 
     /**
-     * Updates a song entry in the DB
+     * Updates a song entry in the DB.
      * @param song
      */
     @Override
@@ -239,7 +239,7 @@ public class SongDAO implements DAO<Song>
     }
 
     /**
-     * Deletes a song in the DB
+     * Deletes a song in the DB.
      * @param song
      */
     @Override

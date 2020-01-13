@@ -14,6 +14,9 @@ import org.pineapple.utils.interfaces.IAuthenticationManager;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Central class controlling server-side logic, wraps functionality provided, exposes it to the GUI and client.
+ */
 public class JukeBox
 {
     private static JukeBox instance;
@@ -25,6 +28,9 @@ public class JukeBox
     private JukeBoxState state;
     private Song currentlyPlaying;
 
+    /**
+     * Generates a new JukeBox and registers the even handlers.
+     */
     private JukeBox()
     {
         this.libraryProvider = new MediaLibrary("media");
@@ -44,7 +50,7 @@ public class JukeBox
     }
 
     /**
-     * lets the current state know when the queue has been changed
+     * lets the current state know when the queue has been changed.
      */
     private void onQueueChanged()
     {
@@ -52,7 +58,7 @@ public class JukeBox
     }
 
     /**
-     * lets the current state know when the current song has finished
+     * lets the current state know when the current song has finished.
      */
     private void onSongFinished()
     {
@@ -69,18 +75,27 @@ public class JukeBox
 
         return instance;
     }
+
+    /**
+     * Adds a song to the library from its path name.
+     * @param path
+     */
     public void addSong(String path)
     {
         this.libraryProvider.addSongToLibrary(path);
     }
 
+    /**
+     * Deletes a song from the library.
+     * @param song
+     */
     public void deleteSong(Song song)
     {
         this.libraryProvider.deleteSongFromLibrary(song);
     }
 
     /**
-     * Sets the current state of the JukeBox
+     * Sets the current state of the JukeBox.
      * @param newState an implementation of the JukeBoxState class
      */
     public void setState(JukeBoxState newState)
@@ -90,7 +105,7 @@ public class JukeBox
     }
 
     /**
-     * Gets the current state of the JukeBox
+     * Gets the current state of the JukeBox.
      * @return an implementation of JukeBoxState
      */
     public JukeBoxState getState()
@@ -99,21 +114,25 @@ public class JukeBox
     }
 
     /**
-     * Registers a callback method with the onQueueChanged event
-     * @param callback the function to be invoked in the event of queue change.
+     * Registers a callback method with the onQueueChanged event.
+     * @param callback the function to be invoked in the event of queue change
      */
     public void setOnQueueChanged(Runnable callback){
         this.playlist.setOnQueueChanged(callback);
     }
 
     /**
-     * Sets the currently playing song to null
+     * Sets the currently playing song to null.
      */
     public void clearCurrentlyPlaying()
     {
         this.currentlyPlaying = null;
     }
 
+    /**
+     * Sets the currently playing song to the song passed, and plays it.
+     * @param song
+     */
     public void playSong(Song song)
     {
         this.player.play(song.getPathToFile());
@@ -122,7 +141,7 @@ public class JukeBox
 
     /**
      *  Pops the song at top of the queue and returns a reference to it.
-     *  Throws a NoSuchElementException if the queue is empty
+     *  Throws a NoSuchElementException if the queue is empty.
      * @return a reference to the song that was at the top of the queue or null if the
      */
     public Song popNextSong() throws NoSuchElementException
@@ -131,7 +150,7 @@ public class JukeBox
     }
 
     /**
-     * Call to make JukeBox available for clients
+     * Call to make JukeBox available for clients.
      */
     public void enableJukeBox()
     {
@@ -139,7 +158,7 @@ public class JukeBox
     }
 
     /**
-     * Call to make JukeBox unavailable to clients
+     * Call to make JukeBox unavailable to clients.
      */
     public void disableJukeBox()
     {
@@ -147,7 +166,7 @@ public class JukeBox
     }
 
     /**
-     * Pauses current song
+     * Pauses current song.
      */
     public void pauseCurrentSong()
     {
@@ -156,7 +175,7 @@ public class JukeBox
     }
 
     /**
-     * Un-pauses currently playing song
+     * Un-pauses currently playing song.
      */
     public void unpauseCurrentSong()
     {
@@ -165,7 +184,7 @@ public class JukeBox
     }
 
     /**
-     * Returns true if a song is currently playing
+     * Returns true if a song is currently playing.
      * @return false if no song is playing
      */
     public boolean isPlaying()
@@ -174,7 +193,7 @@ public class JukeBox
     }
 
     /**
-     * Returns true if a song is currently paused
+     * Returns true if a song is currently paused.
      * @return false if no song is paused
      */
     public boolean isPaused()
@@ -184,8 +203,7 @@ public class JukeBox
 
     /**
      * Returns a list of Song objects that are currently available in the library.
-     *
-     * @return
+     * @return List of songs in library
      */
     public List<Song> getAllSongs()
     {
@@ -193,17 +211,16 @@ public class JukeBox
     }
 
     /**
-     * Returns a list of Song objects currently available in the queue
-     *
-     * @return
+     * Returns a list of Song objects currently available in the queue.
+     * @return List of songs in queue
      */
     public List<Song> getSongsFromQueue() { return this.playlist.getMedia(); }
 
     /**
      * Adds the song with id from the media library to the song queue.
-     * A SongNotFoundException is thrown if song is not found
+     * A SongNotFoundException is thrown if song is not found.
      * @param id
-     * @return
+     * @throws SongNotFoundException
      */
     public void addSongToQueue(int id) throws SongNotFoundException
     {
@@ -217,7 +234,7 @@ public class JukeBox
      *
      * @param userName
      * @param password
-     * @return
+     * @return String token
      */
     public String doAuthentication(String userName, String password)
     {
@@ -225,11 +242,10 @@ public class JukeBox
     }
 
     /**
-     * Register a user
+     * Register a user.
      *
      * @param userEmail
      * @param password
-     * @return
      */
     public void doRegistration(String userEmail, String password)
     {
@@ -237,7 +253,7 @@ public class JukeBox
     }
 
     /**
-     * log out user with the give token
+     * log out user with the give token.
      * @param token
      */
     public void logOutToken(String token)
@@ -246,7 +262,7 @@ public class JukeBox
     }
 
     /**
-     * check if token valid
+     * check if token valid.
      * @param token
      */
     public void validateToke(String token)
@@ -254,28 +270,33 @@ public class JukeBox
         this.authenticationManager.validateToke(token);
     }
 
-
     /**
      * Fetch the currently playing song object.
-     * Throws an exception if no song is currently playing
-     * @return
+     * Throws an exception if no song is currently playing.
+     * @return Song
+     * @throws NoSongCurrentlyPlayingException
      */
     public Song getCurrentlyPlayingSong() {
         if (this.currentlyPlaying == null)
             throw new NoSongCurrentlyPlayingException();
         return currentlyPlaying;
     }
+
+    /**
+     * Logs out the admin.
+     */
+    //TODO
     public void logOutAdmin()
     {
 
 
     }
 
-
     /**
      * Get the elapsed time in seconds from the beginning of the currently playing song.
-     * Throws an exception if no song is currently playing
+     * Throws an exception if no song is currently playing.
      * @return the elapsed time in seconds
+     * @throws NoSongCurrentlyPlayingException
      */
     public double getCurrentPlayerElapsed()
     {
@@ -284,10 +305,15 @@ public class JukeBox
         return player.getElapsed();
     }
 
+    /**
+     * Authenticates an admin user.
+     *
+     * @param userName
+     * @param password
+     */
     public void logInAdmin(String userName, String password)
     {
         doAuthentication(userName, password);
     }
-
 
 }

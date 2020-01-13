@@ -22,6 +22,9 @@ public class JavaFXPlayer implements IPlayer
     private Runnable onSongEndCallback;
     private MediaPlayer player;
 
+    /**
+     * Registers an event handler for when a song is finished.
+     */
     public JavaFXPlayer(){
         this.onSongEndCallback = () -> onSongEnd();
     }
@@ -37,7 +40,7 @@ public class JavaFXPlayer implements IPlayer
     }
 
     /**
-     * Gets called when song end and invokes all callbacks currently registered with JavaFXPlayer
+     * Gets called when song end and invokes all callbacks currently registered with JavaFXPlayer.
      */
     private void onSongEnd()
     {
@@ -47,7 +50,7 @@ public class JavaFXPlayer implements IPlayer
     }
 
     /**
-     * Plays the media file with given path
+     * Plays the media file with given path.
      * @param pathToFile
      */
     @Override
@@ -58,7 +61,7 @@ public class JavaFXPlayer implements IPlayer
     }
 
     /**
-     * Pauses the song if the player is currently playing
+     * Pauses the song if the player is currently playing.
      */
     @Override
     public void pause()
@@ -68,7 +71,7 @@ public class JavaFXPlayer implements IPlayer
     }
 
     /**
-     * Plays the song if the player is currently not playing
+     * Un-pauses the media if it is currently paused.
      */
     public void unPause()
     {
@@ -76,7 +79,7 @@ public class JavaFXPlayer implements IPlayer
             this.player.play();
     }
 
-    /**
+    /*
      * Checks if the song is currently playing
      * @return boolean
      */
@@ -122,7 +125,7 @@ public class JavaFXPlayer implements IPlayer
         this.onSongEndCallbacks.add(callback);
     }
 
-    /**
+    /*
      * Stops the player
      */
     @Override
@@ -135,8 +138,8 @@ public class JavaFXPlayer implements IPlayer
     }
 
     /**
-     * Returns elapsed time of song
-     * @return double
+     * Returns the elapsed time of the currently playing song.
+     * @return double elapsedTime
      */
     public double getElapsed()
     {

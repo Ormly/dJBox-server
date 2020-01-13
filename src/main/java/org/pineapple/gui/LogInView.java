@@ -9,6 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * The LogInView is responsible for creating and filling the actual scene that will be displayed when logging in.
+ * It also binds even handlers for to buttons.
+ */
 public class LogInView
 {
     private BorderPane scene;
@@ -17,6 +21,10 @@ public class LogInView
     private Button logInButton;
     private LogInModel model;
 
+    /**
+     * Constructor for the LogInView.
+     * @param model
+     */
     public LogInView(LogInModel model)
     {
         this.model = model;
@@ -24,6 +32,9 @@ public class LogInView
         configureListeners();
     }
 
+    /**
+     * Configures the pane, by specifying all the nodes and borders.
+     */
     public void configurePane()
     {
         scene = new BorderPane();
@@ -38,14 +49,20 @@ public class LogInView
         center.setPadding(new Insets(10));
 
         scene.setCenter(center);
-
     }
 
+    /**
+     * Attaches event handlers and listeners to the button.
+     */
     public void configureListeners()
     {
         logInButton.setOnAction(e -> model.logIn(usernameField.getText(), passwordField.getText()));
     }
 
+    /**
+     * Returns the scene.
+     * @return BorderPane scene
+     */
     public BorderPane getScene() {
         return scene;
     }

@@ -16,7 +16,7 @@ public class DBConnection
     private static final String PASS = "1234";
 
     /**
-     * Get a connection to database
+     * Get a connection to database.
      *
      * @return Connection object
      */

@@ -4,15 +4,21 @@ import org.pineapple.core.Song;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Represents a playing state of the jukeBox states.
+ */
 public class PlayingState extends JukeBoxState
 {
+    /**
+     * Sets the jukeBox to playing.
+     */
     public PlayingState()
     {
         this.play();
     }
 
     /**
-     * Sets the player to disabled state
+     * Sets the player to disabled state.
      */
     @Override
     public void disable()
@@ -21,6 +27,7 @@ public class PlayingState extends JukeBoxState
     }
 
     /**
+     * Handles the event of a song finished playing.
      * If song is finished, play the next if it's in the queue
      */
     @Override
@@ -39,7 +46,8 @@ public class PlayingState extends JukeBoxState
     }
 
     /**
-     * Plays the next song in the queue if it exists, else goes to initial waiting state
+     * Plays the next song from the queue if it is not empty. If the queue is empty, a new waiting state is generated.
+     * @throws NoSuchElementException
      */
     private void play()
     {
