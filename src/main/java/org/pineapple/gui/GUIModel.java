@@ -25,26 +25,26 @@ import java.nio.file.Paths;
 import java.util.Enumeration;
 
 /**
- * LibraryModel contains all the functionality that is somehow connected to the outside world
- * All the calls to the jukebox should be done using this model
+ * LibraryModel contains all the functionality that is somehow connected to the outside world.
+ * All the calls to the jukebox should be done using this model.
  */
 public class GUIModel
 {
     /**
-     * List, which contains data from the database of the library
+     * List, which contains data from the database of the library.
      */
     private ObservableList<Song> library;
     private ObservableList<Song> queue;
     private SceneController sceneController;
 
     /**
-     * Actual JukeBox, through which we connect the design to the logic
+     * Actual JukeBox, through which we connect the design to the logic.
      */
     //private JukeBox jukeBox;
     private JukeBox jukeBox = JukeBox.getInstance();
 
     /**
-     * Constructor for the model
+     * Constructor for the model.
      */
     public GUIModel(SceneController sceneController)
     {
@@ -56,13 +56,16 @@ public class GUIModel
     }
 
     /**
-     * Call to update the library with actual songs
+     * Call to update the library with actual songs.
      */
     public void updateLibrary()
     {
         library = FXCollections.observableArrayList(jukeBox.getAllSongs());
     }
 
+    /**
+     * Updates the queue on the scene.
+     */
     public void updateQueue()
     {
         System.out.println("updateQueue called!");
@@ -72,7 +75,7 @@ public class GUIModel
     }
 
     /**
-     * Simple getter for the List of Media
+     * Simple getter for the List of Media.
      * @return List of Media
      */
     public ObservableList<Song> getLibrary()
@@ -80,12 +83,16 @@ public class GUIModel
         return library;
     }
 
+    /**
+     * Simple getter for the songs in the queue.
+     * @return List of songs in queue
+     */
     public ObservableList<Song> getQueue() {
         return queue;
     }
 
     /**
-     * Opens the file chooser, where a song (.mp3) will be selected, added to the local directory and to the database
+     * Opens the file chooser, where a song (.mp3) will be selected, added to the local directory and to the database.
      * @param stage needs to be passed to use the file chooser
      * @param fileChooser Chooses the which will be added to the library
      */
@@ -116,7 +123,7 @@ public class GUIModel
     }
 
     /**
-     * Selected song from the library is deleted from the db and directory
+     * Selected song from the library is deleted from the db and directory.
      * @param songToRemove specifies which song to delete
      */
     public void removeSong(Song songToRemove)
@@ -148,7 +155,7 @@ public class GUIModel
     }
 
     /**
-     * Get all IPs that are available on the system and selects one that corresponds to the wireless device
+     * Get all IPs that are available on the system and selects one that corresponds to the wireless device.
      * @return returns the wireless ip, otherwise shows that there is no ip found
      * @throws SocketException
      */
@@ -183,7 +190,7 @@ public class GUIModel
     }
 
     /**
-     * Log the user out and calls the Scene Controller to change the scene back to the log in screen
+     * Log the user out and calls the Scene Controller to change the scene back to the log in screen.
      */
     public void logOut()
     {
@@ -191,14 +198,16 @@ public class GUIModel
         sceneController.changeMainToLogIn();
     }
 
+    /**
+     * Generates a new alert and displays the error passed for better error understanding.
+     * @param ex
+     */
     public void showException(Exception ex)
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Exception Dialog");
         alert.setHeaderText("Exception Dialog");
         alert.setContentText("An exception has occured");
-
-
 
         // Create expandable Exception.
         StringWriter sw = new StringWriter();

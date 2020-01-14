@@ -12,8 +12,20 @@ import org.pineapple.core.interfaces.IMultimediaInfoProvider;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class extracts metadata from mp3 files.
+ */
 public class MP3MetadataProvider implements IMultimediaInfoProvider
 {
+    /**
+     * Extracts the metadata an .mp3 sound file provides.
+     *
+     * @param file
+     * @throws TagException
+     * @throws IOException
+     * @throws EncoderException
+     * @throws InterruptedException
+     */
     @Override
     public IMediaFileMetadata getMediaFileMetadata(File file)
     throws TagException, IOException, EncoderException, InterruptedException
@@ -37,6 +49,13 @@ public class MP3MetadataProvider implements IMultimediaInfoProvider
         return s;
     }
 
+    /**
+     * Returns the duration of an .mp3 file. Throws and EncoderException if encoding is
+     * not correct.
+     * @param file
+     * @return double duration
+     * @throws EncoderException
+     */
     private double getDuration(File file) throws EncoderException
     {
         Encoder encoder = new Encoder();
@@ -44,7 +63,6 @@ public class MP3MetadataProvider implements IMultimediaInfoProvider
 
         MultimediaInfo mi = encoder.getInfo(file);
         d = (double) mi.getDuration();
-//        System.out.println("duration(sec) = "+  d / 1000.0);
         return d;
     }
 

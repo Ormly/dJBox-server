@@ -1,6 +1,5 @@
 package org.pineapple.gui;
 
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -22,11 +21,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.*;
 
-
-
 /**
- * The LibraryView is responsible for creating and filling the actual scene that will be displayed in the windows
- * It also binds even handlers for to buttons
+ * The LibraryView is responsible for creating and filling the actual scene that will be displayed in the windows.
+ * It also binds even handlers for to buttons.
  */
 public class GUIView
 {
@@ -52,7 +49,7 @@ public class GUIView
     private TextField searchField;
 
     /**
-     * Constructor for the LibraryView
+     * Constructor for the LibraryView.
      * @param model attaches a model to get required functionality
      * @param stage required by the file chooser
      */
@@ -60,12 +57,11 @@ public class GUIView
         this.model = model;
         this.stage = stage;
         configurePane();
-
     }
 
     /**
-     *
-     * @return the scene
+     * Returns the scene.
+     * @return BorderPane scene
      */
     public BorderPane getScene()
     {
@@ -73,7 +69,7 @@ public class GUIView
     }
 
     /**
-     * Configures the pane, by specifying all the nodes and borders
+     * Configures the pane, by specifying all the nodes and borders.
      */
     public void configurePane() {
         setUpTable();
@@ -132,13 +128,11 @@ public class GUIView
         scene.setRight(rightSide);
         scene.setLeft(leftSide);
         scene.setCenter(center);
-
-
       }
 
     /**
-     * Sets up the table with the songs from the database
-     * Executed once, when the pane is being set up
+     * Sets up the table with the songs from the database.
+     * Executed once, when the pane is being set up.
      */
     public void setUpTable()
     {
@@ -167,13 +161,10 @@ public class GUIView
                 new PropertyValueFactory<Song, String>("album"));
         queueTable.setItems(model.getQueue());
         queueTable.getColumns().addAll(songColQueue, artistColQueue, albumColQueue);
-
-
     }
 
-
     /**
-     * Attaches event handlers and listeners to buttons and the table
+     * Attaches event handlers and listeners to buttons and the table.
      */
     public void configureListeners()
     {

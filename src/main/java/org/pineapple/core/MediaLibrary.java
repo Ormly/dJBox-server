@@ -33,7 +33,11 @@ public class MediaLibrary implements IMediaLibrary
     private String pathToMediaDir;
     private IMultimediaInfoProvider infoProvider;
 
-
+    /**
+     * Generates a new Media library.
+     * @param pathToMediaDir
+     * @throws UnsupportedOperationException
+     */
     public MediaLibrary(String pathToMediaDir)
     {
         // don't allow multiple instances of MediaLibrary
@@ -50,7 +54,7 @@ public class MediaLibrary implements IMediaLibrary
     }
 
     /**
-     * Initializes the library with the media files found in "pathToMediaDir"
+     * Initializes the library with the media files found in "pathToMediaDir".
      */
     private void init()
     {
@@ -59,6 +63,12 @@ public class MediaLibrary implements IMediaLibrary
         this.addAllSongsToLibrary(pathsToMediaFiles);
     }
 
+    /**
+     * Searches for all songs in the path provided when generated.
+     * Checks all .mp3 files in the hierarchically lower directories and adds them to the list.
+     * @return List of path strings
+     * @throws IOException
+     */
     private List<String> findAllSongsInMediaDir()
     {
         List<String> pathsToMediaFiles = new ArrayList<>();
@@ -79,6 +89,10 @@ public class MediaLibrary implements IMediaLibrary
         return pathsToMediaFiles;
     }
 
+    /**
+     * Clears out the stale entries in the DB which are not in the media library folder.
+     * @param paths
+     */
     private void clearStaleSongsFromPersistence(List<String> paths){
         List<Song> songsInPersistence = this.persistence.getAll();
 
@@ -120,13 +134,17 @@ public class MediaLibrary implements IMediaLibrary
         this.addAllSongsToLibrary(new ArrayList<>(List.of(path)));
     }
 
+    /**
+     * Deletes the passed song in the DB.
+     * @param songToDelete
+     */
     public void deleteSongFromLibrary(Song songToDelete)
     {
         persistence.delete(songToDelete);
     }
 
     /**
-     * Can be used to add a list of media files to the media library
+     * Can be used to add a list of media files to the media library.
      * @param paths = a list of media file paths
      */
     public void addAllSongsToLibrary(List<String> paths)
@@ -146,7 +164,7 @@ public class MediaLibrary implements IMediaLibrary
     }
 
     /**
-     * Gets a list of all songs in currenly in the library.
+     * Gets a list of all songs in currently in the library.
      * @return List<Song>
      */
     public List<Song> getAllMedia()
@@ -155,9 +173,10 @@ public class MediaLibrary implements IMediaLibrary
     }
 
     /**
-     * Gets a song with id from the media library
+     * Gets a song with id from the media library.
      * @param id
-     * @return
+     * @return Song
+     * @throws SongNotFoundException
      */
     @Override
     public Song getMedia(int id) throws SongNotFoundException

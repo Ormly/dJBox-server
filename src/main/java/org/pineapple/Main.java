@@ -20,7 +20,7 @@ public class Main extends Application
     private ConfigurableApplicationContext context;
 
     /**
-     * Starts all Spring stuff (REST)
+     * Starts all Spring stuff (REST).
      * @throws Exception
      */
     @Override
@@ -32,7 +32,7 @@ public class Main extends Application
     }
 
     /**
-     *     Starts all JavaFX stuff
+     *     Starts all JavaFX stuff.
      * @param args
      */
     public static void main(String[] args)
@@ -42,7 +42,7 @@ public class Main extends Application
     }
 
     /**
-     * Starts all JavaFX stuff
+     * Starts all JavaFX stuff.
      * @param primaryStage
      * @throws Exception
      */

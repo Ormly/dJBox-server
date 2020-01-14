@@ -239,7 +239,7 @@ public class UserDAO implements DAO<User>
     }
 
     /**
-     * Removes the user entry in the DB
+     * Removes the user entry in the DB.
      * @param user
      */
     @Override

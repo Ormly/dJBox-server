@@ -8,10 +8,14 @@ import java.net.http.HttpResponse;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Defines the data structure required to preform a fetch of the album art cover from the web.
+ */
 public class HTTPAlbumInfo
 {
     /**
-     * Returns url for album art cover
+     * Returns url for album art cover.
+     *
      * @param artist of song
      * @param album of song
      * @return url for album art cover

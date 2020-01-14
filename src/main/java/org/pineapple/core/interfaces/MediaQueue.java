@@ -28,11 +28,18 @@ public abstract class MediaQueue<T>
      */
     public abstract List<T> getMedia();
 
+    /**
+     * Event handler for when the currently playing song ends.
+     * @param callback
+     */
     public void setOnQueueChanged(Runnable callback){
 
         this.onQueueChangedCallbacks.add(callback);
     }
 
+    /**
+     * Invokes and runs the added Runnable callbacks.
+     */
     protected void invokeCallbacks(){
         for(Runnable r:this.onQueueChangedCallbacks){
             r.run();

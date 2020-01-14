@@ -12,11 +12,18 @@ import java.util.NoSuchElementException;
  */
 public class SongQueue extends MediaQueue<Song>
 {
+    /**
+     * Generates a new Song queue.
+     */
     public SongQueue()
     {
         this.queue = new LinkedList<>();
     }
 
+    /**
+     * Pushes a Song object into the queue.
+     * @param obj
+     */
     @Override
     public void pushMedia(Song obj)
     {
@@ -24,6 +31,11 @@ public class SongQueue extends MediaQueue<Song>
         this.invokeCallbacks();
     }
 
+    /**
+     * Pops an object form the queue. Throws a NoSuchElementException if the queue is empty.
+     * @return Song
+     * @throws NoSuchElementException
+     */
     @Override
     public Song popNextMedia() throws NoSuchElementException
     {
@@ -33,6 +45,10 @@ public class SongQueue extends MediaQueue<Song>
         return s;
     }
 
+    /**
+     * Returns all songs contained in the queue.
+     * @return List of songs in the queue
+     */
     @Override
     public List<Song> getMedia()
     {
