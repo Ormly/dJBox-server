@@ -11,26 +11,36 @@ public class PlayingState extends JukeBoxState
         this.play();
     }
 
-
+    /**
+     * Sets the player to disabled state
+     */
     @Override
     public void disable()
     {
         jb.setState(new DisabledState());
     }
 
-
+    /**
+     * If song is finished, play the next if it's in the queue
+     */
     @Override
     public void handleSongFinished()
     {
         this.play();
     }
 
+    /**
+     * Sets the player to paused state
+     */
     @Override
     public void pause()
     {
         jb.setState(new PausedState());
     }
 
+    /**
+     * Plays the next song in the queue if it exists, else goes to initial waiting state
+     */
     private void play()
     {
         try{

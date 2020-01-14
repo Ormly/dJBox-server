@@ -1,7 +1,15 @@
 package org.pineapple.core.states;
 
-import org.pineapple.core.JukeBox;
-
 public class PausedState extends JukeBoxState
 {
+    PausedState() { }
+
+    /**
+     * Sets the player to disabled state
+     */
+    @Override
+    public void disable()
+    {
+        jb.setState(new DisabledState());
+    }
 }

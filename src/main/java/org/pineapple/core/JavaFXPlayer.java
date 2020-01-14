@@ -57,6 +57,9 @@ public class JavaFXPlayer implements IPlayer
         this.player.play();
     }
 
+    /**
+     * Pauses the song if the player is currently playing
+     */
     @Override
     public void pause()
     {
@@ -64,12 +67,19 @@ public class JavaFXPlayer implements IPlayer
             this.player.pause();
     }
 
+    /**
+     * Plays the song if the player is currently not playing
+     */
     public void unPause()
     {
         if(this.isPaused())
             this.player.play();
     }
 
+    /**
+     * Checks if the song is currently playing
+     * @return boolean
+     */
     @Override
     public boolean isPlaying()
     {
@@ -79,12 +89,20 @@ public class JavaFXPlayer implements IPlayer
         return false;
     }
 
+    /**
+     * Checks if the song is currently not playing
+     * @return boolean
+     */
     @Override
     public boolean isStopped()
     {
         return !this.isPlaying();
     }
 
+    /**
+     * Checks if the player is paused
+     * @return boolean
+     */
     @Override
     public boolean isPaused()
     {
@@ -94,12 +112,19 @@ public class JavaFXPlayer implements IPlayer
         return false;
     }
 
+    /**
+     * Event handler when song ends
+     * @param callback
+     */
     @Override
     public void setOnSongEnd(Runnable callback)
     {
         this.onSongEndCallbacks.add(callback);
     }
 
+    /**
+     * Stops the player
+     */
     @Override
     public void stop()
     {
@@ -109,6 +134,10 @@ public class JavaFXPlayer implements IPlayer
         this.player = null;
     }
 
+    /**
+     * Returns elapsed time of song
+     * @return double
+     */
     public double getElapsed()
     {
         return player.getCurrentTime().toSeconds();
